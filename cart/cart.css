@@ -1,0 +1,269 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+.container-title {
+  position: relative;
+}
+
+.container-title::after {
+  content: '';
+  width: 100px;
+  height: 5px;
+  background-color: #428035;
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+}
+
+footer {
+  margin-top: 200px;
+  background-color: black;
+  color: white;
+}
+
+footer .footer-container {
+  width: 65%;
+  margin: auto;
+  padding: 6rem 0rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+footer .footer-container .social-section {
+  width: 70%;
+}
+
+footer .footer-container .social-section img {
+  width: 100%;
+}
+
+footer .footer-container .newsletter-section {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+footer .footer-container .newsletter-section input,
+footer .footer-container .newsletter-section button {
+  width: 100%;
+}
+
+footer .footer-container .newsletter-section input {
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 7px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+footer .footer-container .newsletter-section button {
+  color: black;
+  background-color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 7px;
+}
+
+footer svg {
+  fill: white;
+  margin-right: 40px;
+}
+
+.cart-container {
+  width: 80%;
+  margin: auto;
+  margin-top: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+.cart-container .product-showcase {
+  -ms-flex-preferred-size: 60%;
+      flex-basis: 60%;
+  min-height: 20px;
+}
+
+.cart-container .product-showcase .products {
+  width: 100%;
+  padding: 1.5rem;
+  border-radius: 15px;
+  border: 0.5px solid #c9c9c5;
+  margin-bottom: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.cart-container .product-showcase .products .product-image {
+  width: 100px;
+  height: 100px;
+}
+
+.cart-container .product-showcase .products .product-image img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 7px;
+}
+
+.cart-container .product-showcase .products .product-description {
+  margin-left: 20px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  position: relative;
+}
+
+.cart-container .product-showcase .products .product-description .product-name {
+  margin-bottom: 20px;
+}
+
+.cart-container .product-showcase .products .product-description .quantity-label {
+  font-weight: bold;
+}
+
+.cart-container .product-showcase .products .product-description select {
+  width: 150px;
+  padding: 0.4rem 1rem;
+}
+
+.cart-container .product-showcase .products .product-description .product-price {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.cart-container .product-showcase .products .product-description .trash-icon {
+  display: none;
+  position: absolute;
+  top: -1rem;
+  right: 0;
+  fill: white;
+  background-color: #f7351b;
+  width: 25px;
+  height: 25px;
+  padding: 0.2rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.cart-container .product-showcase .products:hover .product-description .trash-icon {
+  display: block;
+}
+
+.cart-container .product-showcase .cart-functionality-btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.cart-container .product-showcase .cart-functionality-btn .update-cart-btn, .cart-container .product-showcase .cart-functionality-btn .delete-cart-btn {
+  padding: 0.5rem 3rem;
+  background-color: transparent;
+  border: 1px solid black;
+  font-weight: bold;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.cart-container .product-showcase .cart-functionality-btn .delete-cart-btn {
+  color: #f7351b;
+  border-color: #f7351b;
+  margin-left: auto;
+}
+
+.cart-container .checkout-showcase {
+  -ms-flex-preferred-size: 35%;
+      flex-basis: 35%;
+  min-height: 20px;
+}
+
+.cart-container .checkout-showcase .checkout-products {
+  padding: 1.5rem;
+  border-radius: 15px;
+  border: 0.5px solid #c9c9c5;
+}
+
+.cart-container .checkout-showcase .checkout-products .products {
+  position: relative;
+  border-bottom: 0.5px solid #c9c9c5;
+  padding: 2rem 0rem;
+}
+
+.cart-container .checkout-showcase .checkout-products .products .product-quantity {
+  color: #428035;
+  font-weight: 800;
+}
+
+.cart-container .checkout-showcase .checkout-products .products .product-price {
+  position: absolute;
+  top: 2rem;
+  right: 1rem;
+}
+
+.cart-container .checkout-showcase .checkout-products .products:first-child {
+  padding-top: 0;
+}
+
+.cart-container .checkout-showcase .checkout-products .products:first-child .product-price {
+  top: 1rem;
+}
+
+.cart-container .checkout-showcase .checkout-products .total-price {
+  width: 100%;
+  text-align: right;
+  margin-top: 20px;
+}
+
+.cart-container .checkout-showcase .checkout-btn {
+  width: 100%;
+  padding: 0.6rem 0rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-weight: bold;
+  border-radius: 7px;
+  margin-top: 30px;
+  border: none;
+  background-color: #f7b61b;
+  cursor: pointer;
+}
+
+.cart-container .checkout-showcase .checkout-btn svg {
+  margin-right: 15px;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+}
+/*# sourceMappingURL=cart.css.map */

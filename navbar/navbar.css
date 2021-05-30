@@ -1,0 +1,195 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+.container-title {
+  position: relative;
+}
+
+.container-title::after {
+  content: '';
+  width: 100px;
+  height: 5px;
+  background-color: #428035;
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+}
+
+footer {
+  margin-top: 200px;
+  background-color: black;
+  color: white;
+}
+
+footer .footer-container {
+  width: 65%;
+  margin: auto;
+  padding: 6rem 0rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+footer .footer-container .social-section {
+  width: 70%;
+}
+
+footer .footer-container .social-section img {
+  width: 100%;
+}
+
+footer .footer-container .newsletter-section {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+footer .footer-container .newsletter-section input,
+footer .footer-container .newsletter-section button {
+  width: 100%;
+}
+
+footer .footer-container .newsletter-section input {
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 7px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+footer .footer-container .newsletter-section button {
+  color: black;
+  background-color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 7px;
+}
+
+footer svg {
+  fill: white;
+  margin-right: 40px;
+}
+
+nav {
+  position: relative;
+  width: 100%;
+  z-index: 999;
+  background-color: white;
+}
+
+nav .nav-container {
+  width: 80%;
+  height: 6vh;
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+nav .nav-container .logo {
+  font-weight: 800;
+  -ms-flex-preferred-size: 30%;
+      flex-basis: 30%;
+}
+
+nav .nav-container ul {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  list-style: none;
+}
+
+nav .nav-container ul li {
+  margin-right: 35px;
+}
+
+nav .nav-container ul li a {
+  color: black;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+nav .nav-container ul li a sup {
+  background-color: #428035;
+  color: white;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  padding: 0 3px;
+  border-radius: 50%;
+}
+
+nav .nav-container ul li:last-child {
+  margin-right: 0px;
+}
+
+nav .nav-container .function-tray {
+  -ms-flex-preferred-size: 30%;
+      flex-basis: 30%;
+  justify-self: right;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+nav .nav-container .function-tray svg {
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  cursor: pointer;
+}
+
+nav .nav-container .function-tray .navbar-search-input {
+  padding: 0;
+  border: 1px solid black;
+  margin: 0px 1rem;
+  width: 0px;
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+  background-color: transparent;
+}
+
+nav .nav-container .function-tray .search-input-expanded {
+  border-radius: 5px;
+  padding: 0.5rem;
+  width: 200px;
+}
+
+nav .nav-container .function-tray .user-icon {
+  margin-right: 5px;
+}
+
+nav .nav-container .function-tray .user-name {
+  font-weight: bold;
+}
+/*# sourceMappingURL=navbar.css.map */

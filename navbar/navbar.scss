@@ -1,0 +1,90 @@
+@import '../index.scss';
+
+nav {
+    position: relative;
+    width: 100%;
+    z-index: 999;
+    background-color: white;
+
+    .nav-container {
+        width: 80%;
+        height: 6vh;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .logo {
+            font-weight: 800;
+            flex-basis: 30%;
+        }
+
+        ul {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            list-style: none;
+
+            li {
+                margin-right: 35px;
+
+                a {
+                    color: black;
+                    text-decoration: none;
+                    font-weight: 600;
+
+                    sup {
+                        background-color: $green-primary;
+                        color: white;
+                        display: inline-block;
+                        width: 15px;
+                        height: 15px;
+                        padding: 0 3px;
+                        border-radius: 50%;
+                    }
+                }
+
+                &:last-child {
+                    margin-right: 0px;
+                }
+            }
+        }
+
+        .function-tray {
+            flex-basis: 30%;
+            justify-self: right;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+
+            svg {
+                transform: scale(0.8);
+                cursor: pointer;
+            }
+
+            .navbar-search-input {
+                padding: 0;
+                border: 1px solid black;
+                margin: 0px 1rem;
+                width: 0px;
+                transition: 0.2s ease-in-out;
+                background-color: transparent;
+            }
+
+            .search-input-expanded {
+                border-radius: 5px;
+                padding: 0.5rem;
+                width: 200px;
+            }
+
+            .user-icon {
+                margin-right: 5px;
+            }
+
+            .user-name {
+                font-weight: bold;
+            }
+        }
+    }
+}

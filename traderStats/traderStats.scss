@@ -1,0 +1,74 @@
+@import '../index.scss';
+
+.container {
+    width: 65%;
+    margin: auto;
+    margin-top: 150px;
+
+    table {
+        margin-top: 60px;
+        width: 100%;
+        border: none;
+        border-collapse: collapse;
+
+        svg {
+            transform: scale(0.8);
+            cursor: pointer;
+        }
+
+        thead {
+            color: $gray-dark;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        tbody {
+            font-weight: bold;
+
+            tr {
+                td {
+                    padding: 0.7rem 0rem;
+                    border-bottom: 1px solid $gray-dark;
+
+                    &:first-child {
+                        color: $gray-dark;
+                    }
+                }
+
+                &:first-child {
+                    td {
+                        padding-top: 30px;
+                    }
+                }
+
+                &:last-child {
+                    td {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+    }
+
+    .shop-container {
+        position: relative;
+        margin-bottom: 100px;
+
+        .add-button {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    }
+
+    .product-container {
+        position: relative;
+
+        .add-button {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    }
+}

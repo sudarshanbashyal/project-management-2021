@@ -1,0 +1,151 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+.container-title {
+  position: relative;
+}
+
+.container-title::after {
+  content: '';
+  width: 100px;
+  height: 5px;
+  background-color: #428035;
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+}
+
+footer {
+  margin-top: 200px;
+  background-color: black;
+  color: white;
+}
+
+footer .footer-container {
+  width: 65%;
+  margin: auto;
+  padding: 6rem 0rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+footer .footer-container .social-section {
+  width: 70%;
+}
+
+footer .footer-container .social-section img {
+  width: 100%;
+}
+
+footer .footer-container .newsletter-section {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+footer .footer-container .newsletter-section input,
+footer .footer-container .newsletter-section button {
+  width: 100%;
+}
+
+footer .footer-container .newsletter-section input {
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 7px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+footer .footer-container .newsletter-section button {
+  color: black;
+  background-color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 7px;
+}
+
+footer svg {
+  fill: white;
+  margin-right: 40px;
+}
+
+.container {
+  width: 65%;
+  margin: auto;
+  margin-top: 150px;
+}
+
+.container table {
+  margin-top: 60px;
+  width: 100%;
+  border: none;
+  border-collapse: collapse;
+}
+
+.container table svg {
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  cursor: pointer;
+}
+
+.container table thead {
+  color: #c9c9c5;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.container table tbody {
+  font-weight: bold;
+}
+
+.container table tbody tr td {
+  padding: 0.7rem 0rem;
+  border-bottom: 1px solid #c9c9c5;
+}
+
+.container table tbody tr td:first-child {
+  color: #c9c9c5;
+}
+
+.container table tbody tr:first-child td {
+  padding-top: 30px;
+}
+
+.container table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.container .shop-container {
+  position: relative;
+  margin-bottom: 100px;
+}
+
+.container .shop-container .add-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.container .product-container {
+  position: relative;
+}
+
+.container .product-container .add-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+/*# sourceMappingURL=traderStats.css.map */
