@@ -56,7 +56,7 @@
 
                 <div class="description-container">
 
-                    <p class="container-title">
+                    <p class="desc-container-title">
                         description
                     </p>
 
@@ -165,6 +165,12 @@
         </div>
 
     </div>
+
+    <?php
+    
+        include '../footer/footer.php';
+
+    ?>
 
     
 

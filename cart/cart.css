@@ -24,6 +24,7 @@ footer {
   margin-top: 200px;
   background-color: black;
   color: white;
+  width: 100%;
 }
 
 footer .footer-container {
@@ -45,8 +46,18 @@ footer .footer-container .social-section {
   width: 70%;
 }
 
-footer .footer-container .social-section img {
+footer .footer-container .social-section div {
+  width: 100px;
+  height: 100px;
+}
+
+footer .footer-container .social-section div img {
   width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: top;
+     object-position: top;
 }
 
 footer .footer-container .newsletter-section {
@@ -239,6 +250,15 @@ footer svg {
   width: 100%;
   text-align: right;
   margin-top: 20px;
+}
+
+.cart-container .checkout-showcase .discount-input,
+.cart-container .checkout-showcase .collection-input {
+  margin: 10px 0px;
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border-radius: 7px;
+  border: 1px solid black;
 }
 
 .cart-container .checkout-showcase .checkout-btn {

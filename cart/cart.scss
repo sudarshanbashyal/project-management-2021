@@ -144,6 +144,15 @@
             }
         }
 
+        .discount-input,
+        .collection-input {
+            margin: 10px 0px;
+            width: 100%;
+            padding: 0.6rem 1rem;
+            border-radius: 7px;
+            border: 1px solid black;
+        }
+
         .checkout-btn {
             width: 100%;
             padding: 0.6rem 0rem;

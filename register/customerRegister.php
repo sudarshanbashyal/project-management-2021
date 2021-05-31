@@ -32,14 +32,6 @@
                 <input type="password" name="" id="" placeholder="Password">
                 <input type="password" name="" id="" placeholder="Confirm Password">
                 <input type="number" name="" id="" placeholder="Phone Number">
-
-                <select name="" id="">
-                    <option selected disabled>Select Your Gender</option>
-                    <option value="">Male</option>
-                    <option value="">Female</option>
-                    <option value="">Other</option>
-                </select>
-
                 <input class="submit-btn" type="submit" value="Sign Up">
 
                 <a href="../login/customerLogin.php" class="login-link">Already have an account? <span>Log In Here</span></a>
@@ -49,6 +41,12 @@
         </div>
     
     </div>
+
+    <?php
+    
+        include '../footer/footer.php';
+    
+    ?>
 
     <script src="../navbar/navbar.js"></script>
 

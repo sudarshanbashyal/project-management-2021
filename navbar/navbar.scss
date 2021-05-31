@@ -2,6 +2,8 @@
 
 nav {
     position: relative;
+    margin-top: 0px;
+    padding-top: 0px;
     width: 100%;
     z-index: 999;
     background-color: white;
@@ -17,6 +19,21 @@ nav {
         .logo {
             font-weight: 800;
             flex-basis: 30%;
+
+            div {
+                width: 100px;
+                height: 100%;
+                background-color: $yellow-primary;
+                padding: 0.5rem 1rem;
+                cursor: pointer;
+                border-radius: 0px 0px 7px 7px;
+
+                img {
+                    height: 100%;
+                    width: 100%;
+                    object-fit: contain;
+                }
+            }
         }
 
         ul {

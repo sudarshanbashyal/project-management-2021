@@ -50,6 +50,12 @@
     
     </div>
 
+    <?php
+    
+        include '../footer/footer.php';
+    
+    ?>
+
     <script src="../navbar/navbar.js"></script>
 
     

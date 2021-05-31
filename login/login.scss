@@ -2,11 +2,12 @@
 
 .login-container {
     margin-top: 150px;
+    min-height: 40vh;
 
     .form-container {
-        height: 100px;
         width: 700px;
         margin: auto;
+        margin-bottom: 100px;
 
         .login-page-link {
             color: black;

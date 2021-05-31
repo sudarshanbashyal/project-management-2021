@@ -1,9 +1,11 @@
 <nav>
 
     <div class="nav-container">
-        <span class="logo">
-            HamroMart
-        </span>
+        <div class="logo">
+            <div>
+                <img src="https://i.imgur.com/JtyhTVa.png" alt="">
+            </div>
+        </div>
 
         <ul>
             <li><a href="#">Products</a></li>
