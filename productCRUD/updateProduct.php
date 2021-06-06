@@ -24,8 +24,8 @@
                 Details...
             </h2>
 
+            <!-- add method to this form and add 'name' and 'attribute' after retrieving from database -->
             <form action="">
-
 
                 <div class="product-image">
                     <img src="https://eatthegains.com/wp-content/uploads/2019/03/Grilled-Carrots-1.jpg" alt="">
@@ -50,7 +50,7 @@
                     </select>
 
                     <div class="product-buttons">
-                        <input class="delete-button" type="submit" value="Delete Button">
+                        <input class="delete-button" type="submit" value="Delete Product">
                         <input class="update-button" type="submit" value="Update Product Details">
                     </div>
                        
