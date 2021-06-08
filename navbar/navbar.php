@@ -1,3 +1,11 @@
+<?php
+    session_start();
+    $cartSize=array();
+    if(isset($_SESSION['currentCart'])){
+        $cartSize = $_SESSION['currentCart'];
+    }
+?>
+
 <nav>
 
     <div class="nav-container">
@@ -10,7 +18,14 @@
         <ul>
             <li><a href="#">Products</a></li>
             <li><a href="#">Traders</a></li>
-            <li><a href="#">My Cart<sup>3</sup></a></li>
+            <li>
+                <a href="../cart/cart.php">
+                    My Cart
+                    <sup>
+                        <?php echo (sizeof($cartSize)); ?>
+                    </sup>
+                </a>
+            </li>
             <li><a href="#">Log Out</a></li>
         </ul>
 

@@ -96,6 +96,8 @@
 
             .delete-cart-btn {
                 @extend .update-cart-btn;
+                font-size: 0.9rem;
+                text-decoration: none;
                 color: $red-primary;
                 border-color: $red-primary;
                 margin-left: auto;

@@ -55,6 +55,24 @@
                 font-size: 0.9rem;
             }
 
+            .out-of-stock {
+                color: rgb(221, 30, 30);
+            }
+
+            .already-in-cart {
+                display: inline-block;
+                background-color: $yellow-primary;
+                border: 1px solid $yellow-primary;
+                font-weight: bold;
+                cursor: pointer;
+                color: black;
+                padding: 0.5rem 1rem;
+                font-weight: bold;
+                border-radius: 7px;
+                margin-top: 20px;
+                text-decoration: none;
+            }
+
             .product-rating {
                 margin-top: 10px;
 
@@ -75,27 +93,30 @@
 
             .cart-functionalities {
                 margin-top: 10px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
 
-                select,
-                input {
-                    flex-basis: 48%;
-                    padding: 0.7rem;
-                    border-radius: 7px;
-                }
+                form {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
 
-                select {
-                    border: 1px solid $gray-dark;
-                    font-weight: bold;
-                }
+                    select,
+                    input {
+                        flex-basis: 48%;
+                        padding: 0.7rem;
+                        border-radius: 7px;
+                    }
 
-                input {
-                    background-color: $yellow-primary;
-                    border: 1px solid $yellow-primary;
-                    font-weight: bold;
-                    cursor: pointer;
+                    select {
+                        border: 1px solid $gray-dark;
+                        font-weight: bold;
+                    }
+
+                    input {
+                        background-color: $yellow-primary;
+                        border: 1px solid $yellow-primary;
+                        font-weight: bold;
+                        cursor: pointer;
+                    }
                 }
             }
 
@@ -195,21 +216,24 @@
             flex-basis: 60%;
 
             .comment-box {
-                display: flex;
                 border: 1px solid $gray-dark;
                 border-radius: 7px;
                 padding: 1rem;
 
-                input[type='text'] {
-                    border: none;
-                    flex: 1;
-                    outline: none;
-                }
+                form {
+                    display: flex;
 
-                button {
-                    background: transparent;
-                    border: none;
-                    cursor: pointer;
+                    input[type='text'] {
+                        border: none;
+                        flex: 1;
+                        outline: none;
+                    }
+
+                    button {
+                        background: transparent;
+                        border: none;
+                        cursor: pointer;
+                    }
                 }
             }
 

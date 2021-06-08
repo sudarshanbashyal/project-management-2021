@@ -158,6 +158,24 @@ footer svg {
   font-size: 0.9rem;
 }
 
+.main-container .details-container .text-container .out-of-stock {
+  color: #dd1e1e;
+}
+
+.main-container .details-container .text-container .already-in-cart {
+  display: inline-block;
+  background-color: #f7b61b;
+  border: 1px solid #f7b61b;
+  font-weight: bold;
+  cursor: pointer;
+  color: black;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 7px;
+  margin-top: 20px;
+  text-decoration: none;
+}
+
 .main-container .details-container .text-container .product-rating {
   margin-top: 10px;
 }
@@ -179,6 +197,9 @@ footer svg {
 
 .main-container .details-container .text-container .cart-functionalities {
   margin-top: 10px;
+}
+
+.main-container .details-container .text-container .cart-functionalities form {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -190,20 +211,20 @@ footer svg {
           justify-content: space-between;
 }
 
-.main-container .details-container .text-container .cart-functionalities select,
-.main-container .details-container .text-container .cart-functionalities input {
+.main-container .details-container .text-container .cart-functionalities form select,
+.main-container .details-container .text-container .cart-functionalities form input {
   -ms-flex-preferred-size: 48%;
       flex-basis: 48%;
   padding: 0.7rem;
   border-radius: 7px;
 }
 
-.main-container .details-container .text-container .cart-functionalities select {
+.main-container .details-container .text-container .cart-functionalities form select {
   border: 1px solid #c9c9c5;
   font-weight: bold;
 }
 
-.main-container .details-container .text-container .cart-functionalities input {
+.main-container .details-container .text-container .cart-functionalities form input {
   background-color: #f7b61b;
   border: 1px solid #f7b61b;
   font-weight: bold;
@@ -316,15 +337,18 @@ footer svg {
 }
 
 .main-container .comments-container .comment-section .comment-box {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   border: 1px solid #c9c9c5;
   border-radius: 7px;
   padding: 1rem;
 }
 
-.main-container .comments-container .comment-section .comment-box input[type='text'] {
+.main-container .comments-container .comment-section .comment-box form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.main-container .comments-container .comment-section .comment-box form input[type='text'] {
   border: none;
   -webkit-box-flex: 1;
       -ms-flex: 1;
@@ -332,7 +356,7 @@ footer svg {
   outline: none;
 }
 
-.main-container .comments-container .comment-section .comment-box button {
+.main-container .comments-container .comment-section .comment-box form button {
   background: transparent;
   border: none;
   cursor: pointer;

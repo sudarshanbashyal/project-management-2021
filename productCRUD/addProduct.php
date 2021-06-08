@@ -26,25 +26,25 @@
             </h2>
 
             <!-- add method to this form and name attributes to the inputs -->
-            <form action="">
+            <form action="add.php" method="POST">
 
-                <input type="text" placeholder="Product Name">
-                <textarea name="" id="" cols="30" rows="5" placeholder="Product Description"></textarea>
+                <input type="text" placeholder="Product Name" name="product_name">
+                <textarea name="description" id="" cols="30" rows="5" placeholder="Product Description"></textarea>
                 
                 <div class="product-price">
-                    <input type="text" placeholder="Product Price">
-                    <input type="text" placeholder="Discount">
+                    <input type="text" placeholder="Product Price" name="price">
+                    <input type="text" placeholder="Discount" name="discount">
                 </div>
 
-                <textarea name="" id="" cols="30" rows="5" placeholder="Allergy Information"></textarea>
+                <textarea name="allergy_info" id="" cols="30" rows="5" placeholder="Allergy Information"></textarea>
 
-                <input type="text" placeholder="Image Link">
+                <input type="text" placeholder="Image Link" name="image">
 
-                <select name="" id="">
+                <select name="selection" id="">
                     <option value="">Select a shop to display the product</option>
                 </select>
 
-                <input class="add-button" type="submit" value="Add New Prouct">           
+                <input class="add-button" type="submit" value="Add New Prouct" name="product_submit">           
             
             </form>
 

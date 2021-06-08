@@ -204,6 +204,8 @@ footer svg {
 }
 
 .cart-container .product-showcase .cart-functionality-btn .delete-cart-btn {
+  font-size: 0.9rem;
+  text-decoration: none;
   color: #f7351b;
   border-color: #f7351b;
   margin-left: auto;

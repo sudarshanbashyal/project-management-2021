@@ -12,9 +12,24 @@
 <body>
 
     <?php
-    
+
         include '../navbar/navbar.php';
     
+    ?>
+
+    <?php
+        include '../init.php';
+
+        $productId = $_GET['productId'];
+        $productQuery = "SELECT * FROM product p INNER JOIN shop s ON s.shop_id=p.shop_id WHERE product_id=$productId;";
+        $products = mysqli_query($connection, $productQuery);
+        $currentProduct;
+        
+        if(!mysqli_num_rows($products)==0){
+            foreach($products as $product){
+                $currentProduct=$product;
+            }
+        }    
     ?>
 
     <div class="main-container">
@@ -22,13 +37,21 @@
         <div class="details-container">
 
             <div class="image-container">
-                <img src="https://snaped.fns.usda.gov/sites/default/files/styles/crop_ratio_7_5/public/seasonal-produce/2018-05/apples_2.jpg?h=65b39431&itok=MoJheg5x" alt="">
+                <img src="<?php echo($currentProduct['product_image']) ?>" alt="">
             </div>
 
             <div class="text-container">
 
-                <h2 class="product-name">Fresh Homegrown Apples</h2>
-                <p class="trader-name">Hamro-Mart Fruit Trader Co.</p>
+                <h2 class="product-name">
+                    <?php
+                        echo $currentProduct['product_name'];
+                    ?>
+                </h2>
+                <p class="trader-name">
+                    <?php
+                        echo $currentProduct['shop_name'];
+                    ?>
+                </p>
 
                 <div class="product-rating">
 
@@ -41,18 +64,57 @@
                 </div>
 
                 <h2 class="product-price">
-                    Rs. 200
+                    <?php
+                        echo "&pound ".$currentProduct['product_price'];
+                    ?>
                 </h2>
 
-                <div class="cart-functionalities">
-                    <select name="" id="">
-                        <option value="" selected disabled>Select Quatity</option>
-                        <option value="">1</option>
-                        <option value="">1</option>
-                    </select>
+                <!-- show product out of stock -->
+                <?php
+                
+                    if($currentProduct['stock']==0){
+                        echo "<h3 class='out-of-stock'>Product out of stock</h3>";
+                    }
+                    elseif(isset($_SESSION['currentCart'][$currentProduct['product_id']])){
+                        echo "<a class='already-in-cart' href='../cart/cart.php'>Product already in cart</a>";
+                    }
+                    else{
+                        echo "<div class='cart-functionalities'>";
+                        echo "<form action='./cartForm.php?productId=$productId' method='POST'>";
+                        echo "<select name='productQuantity'>";
+                        $maxCartQuantity = $currentProduct['stock']<$currentProduct['max_order']?$currentProduct['stock']:$currentProduct['max_order'];
 
-                    <input type="submit" value="Add to Cart">
-                </div>
+                        for($i=$currentProduct['min_order']; $i<$maxCartQuantity; $i++){
+                            $selectedQuantity = $i==$currentProduct['min_order']?'selected':'';
+                            echo "<option value='$i' $selectedQuantity>$i</option>";
+                        }
+                        echo "</select>";
+                        echo "<input type='submit' name='submit' value='Add to Cart'>";
+                        echo "</form>";
+                        echo "</div>";
+                    }
+                
+                ?>
+
+                <!-- <div class="cart-functionalities">
+                    <form action='<?php echo"./cartForm.php?productId=$productId"?>' method='POST'>
+
+                        <select name='productQuantity'>
+                            <?php
+                                // if the stock is less than max order, then max cart quantity should be the stock, else the max order amount
+                                $maxCartQuantity = $currentProduct['stock']<$currentProduct['max_order']?$currentProduct['stock']:$currentProduct['max_order'];
+
+                                for($i=$currentProduct['min_order']; $i<$maxCartQuantity; $i++){
+                                    $selectedQuantity = $i==$currentProduct['min_order']?'selected':'';
+                                    echo "<option value='$i' $selectedQuantity>$i</option>";
+                                }
+
+                            ?>
+                        </select>
+
+                        <input <?php echo ($currentProduct['stock']==0?'disabled':''); ?> type="submit" name="submit" value="Add to Cart">
+                    </form>
+                </div> -->
 
                 <div class="description-container">
 
@@ -61,7 +123,9 @@
                     </p>
 
                     <p class="product-description">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Pariatur libero impedit corrupti iure nisi. Accusamus facere distinctio dicta doloribus corporis.
+                        <?php
+                            echo $currentProduct['product_description'];
+                        ?>
                     </p>
 
                     <div class="allergy-info-container">
@@ -73,7 +137,9 @@
                         </p>
 
                         <p class="allergy-content">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat molestias tenetur fuga perspiciatis, magnam quae nisi suscipit delectus rerum nostrum provident! Eaque unde velit porro voluptatum accusantium perferendis voluptates veritatis?
+                            <?php
+                                echo $currentProduct['allergy_information'];
+                            ?>                        
                         </p>
                     </div>
 
@@ -100,64 +166,63 @@
                 What Others Think of this Product...
             </h2>
 
+            <?php
+
+                // retrieving all comments from database
+                $commentQuery = "
+                    SELECT c.comment_content, u.user_name
+                    FROM comments c
+                    INNER JOIN users u ON u.user_id=c.user_id
+                    INNER JOIN product p ON p.product_id=c.product_id
+                    WHERE p.product_id=$productId;
+                ";
+
+                $commentQueryResult = mysqli_query($connection, $commentQuery);
+            
+            ?>
+
             <div class="comment-section">
 
                 <div class="comment-box">
+                    <form method="POST">
+                        <input type="text" name="commentContent" placeholder="Leave a review...">
 
-                    <input type="text" placeholder="Leave a review...">
-
-                    <button type="submit">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M1.439 16.873l-1.439 7.127 7.128-1.437 16.873-16.872-5.69-5.69-16.872 16.872zm4.702 3.848l-3.582.724.721-3.584 2.861 2.86zm15.031-15.032l-13.617 13.618-2.86-2.861 10.825-10.826 2.846 2.846 1.414-1.414-2.846-2.846 1.377-1.377 2.861 2.86z"/></svg>
-                    </button>
-
+                        <button type="submit" formaction="<?php echo"submitComment.php?productId=$productId"?>">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M1.439 16.873l-1.439 7.127 7.128-1.437 16.873-16.872-5.69-5.69-16.872 16.872zm4.702 3.848l-3.582.724.721-3.584 2.861 2.86zm15.031-15.032l-13.617 13.618-2.86-2.861 10.825-10.826 2.846 2.846 1.414-1.414-2.846-2.846 1.377-1.377 2.861 2.86z"/></svg>
+                        </button>
+                    </form>
                 </div>
 
                 <div class="comments">
 
+                    <?php
+
+                        if(mysqli_num_rows($commentQueryResult)==0){
+                            echo "<h3 class='no-comments'>This product does not have any comments.</h3>";
+                        }
+                        else{
+
+                            foreach($commentQueryResult as $comment){
+                                echo "<div class='comment'>";
+                                echo "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7.753 18.305c-.261-.586-.789-.991-1.871-1.241-2.293-.529-4.428-.993-3.393-2.945 3.145-5.942.833-9.119-2.489-9.119-3.388 0-5.644 3.299-2.489 9.119 1.066 1.964-1.148 2.427-3.393 2.945-1.084.25-1.608.658-1.867 1.246-1.405-1.723-2.251-3.919-2.251-6.31 0-5.514 4.486-10 10-10s10 4.486 10 10c0 2.389-.845 4.583-2.247 6.305z'/></svg>";
+
+                                echo "
+                                    <div class='comment-info'>
+                                        <p class='user-name'>$comment[user_name]</p>
+            
+                                        <p class='comment-content'>
+                                            $comment[comment_content]
+                                        </p>
+                                    </div>
+                                ";
+
+                                echo "</div>";
+                                echo "<hr>";
+                            }
+
+                        }
                     
-                    <div class="comment">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7.753 18.305c-.261-.586-.789-.991-1.871-1.241-2.293-.529-4.428-.993-3.393-2.945 3.145-5.942.833-9.119-2.489-9.119-3.388 0-5.644 3.299-2.489 9.119 1.066 1.964-1.148 2.427-3.393 2.945-1.084.25-1.608.658-1.867 1.246-1.405-1.723-2.251-3.919-2.251-6.31 0-5.514 4.486-10 10-10s10 4.486 10 10c0 2.389-.845 4.583-2.247 6.305z"/></svg>
-
-                        <div class="comment-info">
-                            <p class="user-name">Carson Turner</p>
-
-                            <p class="comment-content">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem blanditiis molestias non obcaecati sunt incidunt officia unde itaque recusandae. Esse.
-                            </p>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="comment">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7.753 18.305c-.261-.586-.789-.991-1.871-1.241-2.293-.529-4.428-.993-3.393-2.945 3.145-5.942.833-9.119-2.489-9.119-3.388 0-5.644 3.299-2.489 9.119 1.066 1.964-1.148 2.427-3.393 2.945-1.084.25-1.608.658-1.867 1.246-1.405-1.723-2.251-3.919-2.251-6.31 0-5.514 4.486-10 10-10s10 4.486 10 10c0 2.389-.845 4.583-2.247 6.305z"/></svg>
-
-                        <div class="comment-info">
-                            <p class="user-name">Carson Turner</p>
-
-                            <p class="comment-content">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem blanditiis molestias non obcaecati sunt incidunt officia unde itaque recusandae. Esse.
-                            </p>
-                        </div>
-                    </div>
-
-                    <hr>
-
-
-                    <div class="comment">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7.753 18.305c-.261-.586-.789-.991-1.871-1.241-2.293-.529-4.428-.993-3.393-2.945 3.145-5.942.833-9.119-2.489-9.119-3.388 0-5.644 3.299-2.489 9.119 1.066 1.964-1.148 2.427-3.393 2.945-1.084.25-1.608.658-1.867 1.246-1.405-1.723-2.251-3.919-2.251-6.31 0-5.514 4.486-10 10-10s10 4.486 10 10c0 2.389-.845 4.583-2.247 6.305z"/></svg>
-
-                        <div class="comment-info">
-                            <p class="user-name">Carson Turner</p>
-
-                            <p class="comment-content">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem blanditiis molestias non obcaecati sunt incidunt officia unde itaque recusandae. Esse.
-                            </p>
-                        </div>
-                    </div>
-
-                    <hr>
-
+                    ?>
 
                 </div>
 

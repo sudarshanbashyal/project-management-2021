@@ -15,6 +15,17 @@
         include '../navbar/navbar.php';
     ?>
 
+    <?php
+
+        $productId = $_GET['productId'];
+        echo $productId;
+
+        $productQuery = "
+            SELECT * from product WHERE product_id = $productId;
+        "
+    
+    ?>
+
     <div class="update-container">
     
         <div class="form-container">
