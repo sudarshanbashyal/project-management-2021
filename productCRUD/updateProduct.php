@@ -14,17 +14,12 @@
     <?php
         include '../navbar/navbar.php';
     ?>
-
     <?php
+        $product_id=$_GET['product_id'];
 
-        $productId = $_GET['productId'];
-        echo $productId;
-
-        $productQuery = "
-            SELECT * from product WHERE product_id = $productId;
-        "
-    
     ?>
+
+    
 
     <div class="update-container">
     
@@ -36,7 +31,7 @@
             </h2>
 
             <!-- add method to this form and add 'name' and 'attribute' after retrieving from database -->
-            <form action="">
+            <form action='<?php echo "update.php?product_id=$product_id";?>' method="POST">
 
                 <div class="product-image">
                     <img src="https://eatthegains.com/wp-content/uploads/2019/03/Grilled-Carrots-1.jpg" alt="">
@@ -44,25 +39,39 @@
 
                 <div class="product-details">
 
-                    <input type="text" placeholder="Product Name">
-                    <textarea name="" id="" cols="30" rows="5" placeholder="Product Description"></textarea>
+                    <input type="text" placeholder="Product Name" name="product_name">
+                    <textarea  id="" cols="30" rows="5" placeholder="Product Description" name="Description"></textarea>
                     
                     <div class="product-price">
-                        <input type="text" placeholder="Product Price">
-                        <input type="text" placeholder="Discount">
+                        <input type="text" placeholder="Product Price" name="price">
+                        <input type="text" placeholder="Discount" name="discount">
                     </div>
 
-                    <textarea name="" id="" cols="30" rows="5" placeholder="Allergy Information"></textarea>
+                    <textarea id="" cols="30" rows="5" placeholder="Allergy Information" name="allergy_info"></textarea>
 
-                    <input type="text" placeholder="Image Link">
+                    <input type="text" placeholder="Image Link" name="image">
 
-                    <select name="" id="">
-                        <option value="">Select a shop to display the product</option>
+                    <select name="shop" id="">
+                
+                        <?php
+                            echo '<option>'.'Select a shop to display the product'.'</option>';
+                            include '../init.php';
+                            $user_id = $_SESSION['userId'];
+                            $sql="SELECT * FROM shop WHERE user_id = $user_id ;";
+                            $query=mysqli_query($connection,$sql);
+                        
+                        while($row=mysqli_fetch_assoc($query)){
+                            echo '<option value="'.$row['shop_id'].'">'.$row['shop_name'].'</option>';
+                        }
+                        ?>
                     </select>
+                    <input type="text" placeholder="stock quantity" name="stock">
+                    <input type="text" name="minOrder" placeholder="Minimum order">
+                    <input type="text" name="maxOrder" placeholder="Maximum order">
 
                     <div class="product-buttons">
-                        <input class="delete-button" type="submit" value="Delete Product">
-                        <input class="update-button" type="submit" value="Update Product Details">
+                        <input class="delete-button" type="submit" value="Delete Product" name="delete_submit">
+                        <input class="update-button" type="submit" value="Update Product Details" name="update_submit">
                     </div>
                        
                 </div>

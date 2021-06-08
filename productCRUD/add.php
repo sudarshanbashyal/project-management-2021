@@ -24,16 +24,23 @@ if($connection){
 		}else{
 			echo "please enter the price of the product";
 		}
+
             $discount =$_POST['discount'];
             $allergy_info =$_POST['allergy_info'];
             $image= $_POST['image'];
-            $shop=null;
+            $shop=$_POST['selection'];
+            $minOrder=$_POST['minOrder'];
+            $maxOrder=$_POST['maxOrder'];
+            $stock=$_POST['stock'];
 
-            $query= "INSERT INTO product(shop_id,product_name,product_description,allergy_information,product_image,discount,product_price) VALUES('$shop','$name','$description','$allergy_info','$image',$discount,$price);";
-            echo "$query";
+            $query= "INSERT INTO product(shop_id,product_name,product_description,min_order,max_order,allergy_information,stock,product_image,discount,product_price) VALUES('$shop','$name','$description',$minOrder,$maxOrder,'$allergy_info',$stock,'$image',$discount,$price);";
+            
             $productQuery=mysqli_query($connection,$query);
+		
 		if($productQuery){
-			echo "product added successfully.";
+			echo "product added successfully.</br>";
+			echo '<a href="'.'addProduct.php'.'">'.'go back'.'</a>';
+
 		}else{
 			echo "error adding product";
 		}

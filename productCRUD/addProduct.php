@@ -34,15 +34,40 @@
                 <div class="product-price">
                     <input type="text" placeholder="Product Price" name="price">
                     <input type="text" placeholder="Discount" name="discount">
+
+                    <input type="text" placeholder="stock quantity" name="stock">
+
                 </div>
 
                 <textarea name="allergy_info" id="" cols="30" rows="5" placeholder="Allergy Information"></textarea>
 
                 <input type="text" placeholder="Image Link" name="image">
 
+
+               
+
+
                 <select name="selection" id="">
-                    <option value="">Select a shop to display the product</option>
+                	<?php
+
+                	echo '<option>'.'Select a shop to display the product'.'</option>';
+                	include '../init.php';
+
+                	$id=$_SESSION['userId'];
+					$sql="SELECT * FROM shop WHERE user_id=$id";
+					$result=mysqli_query($connection,$sql);
+					while($row=mysqli_fetch_assoc($result)){
+					echo'<option value="'.$row['shop_id'].'">'.$row['shop_name'].'</option>';
+
+                    }
+                	?>
+                	
+
                 </select>
+                <div class="minMax">
+                	<input type="text" placeholder="minimum order" name="minOrder">
+                	<input type="text" placeholder="Maximum order" name="maxOrder">
+                </div>
 
                 <input class="add-button" type="submit" value="Add New Prouct" name="product_submit">           
             
