@@ -1,5 +1,5 @@
 <?php
-    error_reporting(0);
+    // error_reporting(0);
     $hostname = "localhost";
     $username = "root";
     $password = "";
@@ -14,6 +14,7 @@
     // $_SESSION['currentCart']=array();
 
     if(isset($_SESSION['userId'])&&(isset($_SESSION['userRole'])&&$_SESSION['userRole']=='customer')){
+        $_SESSION['currentCart']=array();
         $cartQuery = "
             SELECT p.product_id, cd.product_quantity FROM product p
             INNER JOIN cart_details cd ON cd.product_id = p.product_id

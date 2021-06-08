@@ -24,6 +24,7 @@
         // query to get all the cart products
         $productsQuery='';
         $productsQueryResult;
+        print_r($_SESSION['currentCart']);
 
         if(isset($_SESSION['userId'])){
             $productsQuery = "
@@ -39,22 +40,27 @@
         else{
             $productsQueryResult=array();
 
-            foreach($_SESSION['currentCart'] as $product){
-                $currentKey = current(array_keys($product));
-                $currentValue = current(array_values($product));
+            if(isset($_SESSION['currentCart'])){
 
-                $productsQuery="
-                SELECT p.product_id, p.product_name, p.product_image, p.product_price, p.stock, p.min_order, p.max_order FROM product p
-                WHERE p.product_id=$currentKey;
-                ";
-                
-                $queryResult= mysqli_query($connection, $productsQuery);
-                if($queryResult){
-                    foreach($queryResult as $currentProduct){
-                        $currentProduct['product_quantity']=$product[$currentKey];
-                        array_push($productsQueryResult,$currentProduct);
+                foreach($_SESSION['currentCart'] as $product){
+
+                    $currentKey = current(array_keys($product));
+                    $currentValue = current(array_values($product));
+    
+                    $productsQuery="
+                    SELECT p.product_id, p.product_name, p.product_image, p.product_price, p.stock, p.min_order, p.max_order FROM product p
+                    WHERE p.product_id=$currentKey;
+                    ";
+                    
+                    $queryResult= mysqli_query($connection, $productsQuery);
+                    if($queryResult){
+                        foreach($queryResult as $currentProduct){
+                            $currentProduct['product_quantity']=$product[$currentKey];
+                            array_push($productsQueryResult,$currentProduct);
+                        }
                     }
                 }
+
             }
 
         }
