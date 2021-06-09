@@ -21,9 +21,9 @@
             <li>
                 <a href="../cart/cart.php">
                     My Cart
-                    <sup>
+                    <!-- <sup>
                         <?php echo (sizeof($cartSize)); ?>
-                    </sup>
+                    </sup> -->
                 </a>
             </li>
             <li><a href="#">Log Out</a></li>

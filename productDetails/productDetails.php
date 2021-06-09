@@ -71,11 +71,19 @@
 
                 <!-- show product out of stock -->
                 <?php
+                    $productInCart=false;
+                    foreach($_SESSION['currentCart'] as $currCart){
+                        foreach($currCart as $cartProductId=>$cartProductQuantity){
+                            if($cartProductId==$productId){
+                                $productInCart=true;
+                            }
+                        }
+                    }
                 
                     if($currentProduct['stock']==0){
                         echo "<h3 class='out-of-stock'>Product out of stock</h3>";
                     }
-                    elseif(isset($_SESSION['currentCart'][$currentProduct['product_id']])){
+                    elseif($productInCart){
                         echo "<a class='already-in-cart' href='../cart/cart.php'>Product already in cart</a>";
                     }
                     else{
@@ -98,20 +106,16 @@
 
                 <!-- <div class="cart-functionalities">
                     <form action='<?php echo"./cartForm.php?productId=$productId"?>' method='POST'>
-
                         <select name='productQuantity'>
                             <?php
                                 // if the stock is less than max order, then max cart quantity should be the stock, else the max order amount
                                 $maxCartQuantity = $currentProduct['stock']<$currentProduct['max_order']?$currentProduct['stock']:$currentProduct['max_order'];
-
                                 for($i=$currentProduct['min_order']; $i<$maxCartQuantity; $i++){
                                     $selectedQuantity = $i==$currentProduct['min_order']?'selected':'';
                                     echo "<option value='$i' $selectedQuantity>$i</option>";
                                 }
-
                             ?>
                         </select>
-
                         <input <?php echo ($currentProduct['stock']==0?'disabled':''); ?> type="submit" name="submit" value="Add to Cart">
                     </form>
                 </div> -->

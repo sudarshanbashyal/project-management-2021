@@ -1,5 +1,5 @@
 <?php
-    error_reporting(0);
+    // error_reporting(0);
     $hostname = "localhost";
     $username = "root";
     $password = "";
@@ -8,12 +8,13 @@
     $connection = mysqli_connect($hostname, $username, $password, $dbname);
     
     session_start();
-    $_SESSION['userId']=1;
+    // $_SESSION['userId']=1;
     // $_SESSION['userRole']='customer';
     // $_SESSION['currentCart']=array();
     // $_SESSION['currentCart']=array();
 
     if(isset($_SESSION['userId'])&&(isset($_SESSION['userRole'])&&$_SESSION['userRole']=='customer')){
+        $_SESSION['currentCart']=array();
         $cartQuery = "
             SELECT p.product_id, cd.product_quantity FROM product p
             INNER JOIN cart_details cd ON cd.product_id = p.product_id
