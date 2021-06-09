@@ -1,3 +1,6 @@
+<?php
+    include "../init.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,35 +18,63 @@
     <?php
 
         include "../navbar/navbar.php";
-    
+        
     ?>
 
     <div class="products-container">
     
         <div class="search-container">
 
-            <form action="GET">
+            <form method= "GET" action="search.php" name="search">
             
                 <div class="input-search">
                     <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z"/></svg>
-                    <input type="text" placeholder="Search...">
+                    <input type="text" placeholder="Search..." value="<?php if(isset($_SESSION['searchData'])){echo $_SESSION['searchData']; unset($_SESSION['searchData']); } ?>" name="searchbar">
                 </div>
 
-                <select name="" id="product-dropdown">
+                <select name="product-type" id="product-dropdown">
                     <option selected disabled>Product Type</option>
-                    <option>Type 1</option>
-                    <option>Type 2</option>
-                    <option>Type 3</option>
+                    <option value = "Butcher" <?php if (isset($_SESSION['productData']) && $_SESSION['productData'] == 'Butcher') {
+                        echo "selected"; unset($_SESSION['productData']);
+                    } ?> >Butcher</option>
+
+                    <option value = "Greengrocer" <?php if (isset($_SESSION['productData']) && $_SESSION['productData'] == 'Greengrocer') {
+                        echo "selected"; unset($_SESSION['productData']);
+                    } ?> >Greengrocer</option>
+
+                    <option value = "Fishmonger" <?php if (isset($_SESSION['productData']) && $_SESSION['productData'] == 'Fishmonger') {
+                        echo "selected"; unset($_SESSION['productData']);
+                    } ?> >Fishmonger</option>
+
+                    <option value = "Bakery" <?php if (isset($_SESSION['productData']) && $_SESSION['productData'] == 'Bakery') {
+                        echo "selected"; unset($_SESSION['productData']);
+                    } ?> >Bakery</option>
+
+                    <option value = "Delicatessen" <?php if (isset($_SESSION['productData']) && $_SESSION['productData'] == 'Delicatessen') {
+                        echo "selected"; unset($_SESSION['productData']);
+                    } ?> >Delicatessen</option>
                 </select>
 
-                <select name="" id="shop-dropdown">
+                <select name="shop" id="shop-dropdown">
                     <option selected disabled>Shop Name</option>
-                    <option>Shop 1</option>
-                    <option>Shop 2</option>
-                    <option>Shop 3</option>
+                    <option value= "Sanjay Mart" <?php if (isset($_SESSION['shopData']) && $_SESSION['shopData'] == 'Sanjay Mart') {
+                        echo "selected"; unset($_SESSION['shopData']);
+                    } ?> >Sanjay Mart</option>
+
+                    <option value= "Green4U" <?php if (isset($_SESSION['shopData']) && $_SESSION['shopData'] == 'Green4U') {
+                        echo "selected"; unset($_SESSION['shopData']);
+                    } ?> >Green4U</option>
+
+                    <option value= "FishBeats" <?php if (isset($_SESSION['shopData']) && $_SESSION['shopData'] == 'FishBeats') {
+                        echo "selected"; unset($_SESSION['shopData']);
+                    } ?> >FishBeats</option> 
+                    
+                    <option value= "BunsHun" <?php if (isset($_SESSION['shopData']) && $_SESSION['shopData'] == 'BunsHun') {
+                        echo "selected"; unset($_SESSION['shopData']);
+                    } ?> >BunsHun</option> 
                 </select>
 
-                <input type="submit" value="Submit" class="submit-btn">
+                <input type="submit" value="Submit" class="submit-btn" name="submit">
 
             </form>
         
@@ -51,118 +82,47 @@
 
         <div class="products-showcase">
         
-            <div class="product">
-                <div class="product-image">
-                    <img src="https://www.farmersalmanac.com/wp-content/uploads/2020/11/cabbage-health-benefits-AdobeStock_173509538.jpeg" alt="">
-                </div>
+            <?php
+                if (isset($_SESSION['searchbar'])) {
+                    $result = mysqli_query($connection, $_SESSION['searchbar']);
+                    include 'productshowcase.php';
 
-                <div class="product-description">
-                    <p class="product-name">Fresh Cabbage</p>
-                    <p class="product-price">Rs. 200</p>
-                </div>
+                }elseif (isset($_SESSION['product-type'])) {
+                    $result = mysqli_query($connection, $_SESSION['product-type']);
+                    include 'productshowcase.php';
 
-                <div class="trader">
-                    <div class="trader-name">Fresh Veggies Trader</div>
-                </div>
-
-                <svg class="cart-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z"/></svg>
-
-
-            </div>
-
-            <div class="product">
-                <div class="product-image">
-                    <img src="https://www.farmersalmanac.com/wp-content/uploads/2020/11/cabbage-health-benefits-AdobeStock_173509538.jpeg" alt="">
-                </div>
-
-                <div class="product-description">
-                    <p class="product-name">Fresh Cabbage</p>
-                    <p class="product-price">Rs. 200</p>
-                </div>
-
-                <div class="trader">
-                    <div class="trader-name">Fresh Veggies Trader</div>
-                </div>
-
-                <svg class="cart-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z"/></svg>
-
-
-            </div>
-
-            <div class="product">
+                }elseif (isset($_SESSION['shop'])) {
+                    $result = mysqli_query($connection, $_SESSION['shop']);
+                    include 'productshowcase.php';
+                    
+                }elseif (isset($_SESSION['searchbar_product'])) {
+                    $result = mysqli_query($connection, $_SESSION['searchbar_product']);
+                    include 'productshowcase.php';
                 
-                <div class="product-image">
-                    <img src="https://www.farmersalmanac.com/wp-content/uploads/2020/11/cabbage-health-benefits-AdobeStock_173509538.jpeg" alt="">
-                </div>
+                }elseif (isset($_SESSION['searchbar_shop'])) {
+                    $result = mysqli_query($connection, $_SESSION['searchbar_shop']);
+                    include 'productshowcase.php';
 
-                <div class="product-description">
-                    <p class="product-name">Fresh Cabbage</p>
-                    <p class="product-price">Rs. 200</p>
-                </div>
+                }elseif (isset($_SESSION['product_shop'])) {
+                    $result = mysqli_query($connection, $_SESSION['product_shop']);
+                    include 'productshowcase.php';
 
-                <div class="trader">
-                    <div class="trader-name">Fresh Veggies Trader</div>
-                </div>
-
-                <svg class="cart-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z"/></svg>
-
-            </div>
-
-            <div class="product">
-                <div class="product-image">
-                    <img src="https://www.farmersalmanac.com/wp-content/uploads/2020/11/cabbage-health-benefits-AdobeStock_173509538.jpeg" alt="">
-                </div>
-
-                <div class="product-description">
-                    <p class="product-name">Fresh Cabbage</p>
-                    <p class="product-price">Rs. 200</p>
-                </div>
-
-                <div class="trader">
-                    <div class="trader-name">Fresh Veggies Trader</div>
-                </div>
-
-                <svg class="cart-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z"/></svg>
-
-
-            </div>
-
-            <div class="product">
-                <div class="product-image">
-                    <img src="https://www.farmersalmanac.com/wp-content/uploads/2020/11/cabbage-health-benefits-AdobeStock_173509538.jpeg" alt="">
-                </div>
-
-                <div class="product-description">
-                    <p class="product-name">Fresh Cabbage</p>
-                    <p class="product-price">Rs. 200</p>
-                </div>
-
-                <div class="trader">
-                    <div class="trader-name">Fresh Veggies Trader</div>
-                </div>
-
-                <svg class="cart-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z"/></svg>
-
-
-            </div>
-
-            <div class="product">
-                <div class="product-image">
-                    <img src="https://www.farmersalmanac.com/wp-content/uploads/2020/11/cabbage-health-benefits-AdobeStock_173509538.jpeg" alt="">
-                </div>
-
-                <div class="product-description">
-                    <p class="product-name">Fresh Cabbage</p>
-                    <p class="product-price">Rs. 200</p>
-                </div>
-
-                <div class="trader">
-                    <div class="trader-name">Fresh Veggies Trader</div>
-                </div>
-
-                <svg class="cart-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z"/></svg>
-
-            </div>
+                }elseif (isset($_SESSION['search_product_shop'])) {
+                    $result = mysqli_query($connection, $_SESSION['search_product_shop']);
+                    include 'productshowcase.php';
+                    
+                }elseif (isset($_SESSION['search_error'])) {
+                    echo $_SESSION['search_error'];
+                    unset($_SESSION['search_error']);
+                }elseif (isset($_SESSION['empty'])) {
+                    echo $_SESSION['empty'];
+                    unset($_SESSION['empty']);
+                    include 'defaultproductshowcase.php';
+                }
+                else{
+                    include 'defaultproductshowcase.php';
+                }   
+            ?>
         
         </div>
     
