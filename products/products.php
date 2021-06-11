@@ -74,6 +74,15 @@
                     } ?> >BunsHun</option> 
                 </select>
 
+                <div class="price-filter">
+                    <input type="number" placeholder="Min Price">
+                    <input type="number" placeholder="Max Price">
+                </div>
+
+                <select class="rating-filter" name="rating" id="">
+                    <option selected disabled>Rating</option>
+                </select>
+
                 <input type="submit" value="Submit" class="submit-btn" name="submit">
 
             </form>

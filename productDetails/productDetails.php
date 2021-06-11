@@ -55,11 +55,49 @@
 
                 <div class="product-rating">
 
-                    <svg class="filled-star" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
-                    <svg class="filled-star" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
-                    <svg class="filled-star" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
-                    <svg class="stroke-star" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 5.173l2.335 4.817 5.305.732-3.861 3.71.942 5.27-4.721-2.524-4.721 2.525.942-5.27-3.861-3.71 5.305-.733 2.335-4.817zm0-4.586l-3.668 7.568-8.332 1.151 6.064 5.828-1.48 8.279 7.416-3.967 7.416 3.966-1.48-8.279 6.064-5.827-8.332-1.15-3.668-7.569z"/></svg>
-                    <svg class="stroke-star" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 5.173l2.335 4.817 5.305.732-3.861 3.71.942 5.27-4.721-2.524-4.721 2.525.942-5.27-3.861-3.71 5.305-.733 2.335-4.817zm0-4.586l-3.668 7.568-8.332 1.151 6.064 5.828-1.48 8.279 7.416-3.967 7.416 3.966-1.48-8.279 6.064-5.827-8.332-1.15-3.668-7.569z"/></svg>
+                   <?php
+
+                        // getting all the ratings for the product
+                        $productRated = false;
+                        $averageRating=0;
+                        $numberOfUsers=0;
+
+                        $ratingQuery = "SELECT * FROM rating WHERE product_id=$productId;";
+                        $ratingQueryResult = mysqli_query($connection, $ratingQuery);
+
+                        if($ratingQueryResult){
+                            $numberOfUsers=mysqli_num_rows($ratingQueryResult);
+
+                            foreach($ratingQueryResult as $rating){
+                                if($rating['user_id']==$_SESSION['userId']){
+                                    $productRated=$rating['rating_star'];
+                                }
+
+                                // adding to rating
+                                $averageRating+=(int)$rating['rating_star'];
+                            }
+
+                            if($numberOfUsers>0){
+                                $averageRating=$averageRating/$numberOfUsers;                                
+                            }
+                        }
+
+                        for($i=1; $i<=5; $i++){
+                            if($i<=$averageRating){
+                                echo "
+                                    <svg class='filled-star' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z'/></svg>
+                                ";
+                            }else{
+                                echo "
+                                    <svg class='stroke-star' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M12 5.173l2.335 4.817 5.305.732-3.861 3.71.942 5.27-4.721-2.524-4.721 2.525.942-5.27-3.861-3.71 5.305-.733 2.335-4.817zm0-4.586l-3.668 7.568-8.332 1.151 6.064 5.828-1.48 8.279 7.416-3.967 7.416 3.966-1.48-8.279 6.064-5.827-8.332-1.15-3.668-7.569z'/></svg>
+                                ";
+                            }
+
+                        }
+                        echo "<span>($numberOfUsers)</span>";
+
+                   
+                   ?>
 
                 </div>
 
@@ -104,22 +142,6 @@
                 
                 ?>
 
-                <!-- <div class="cart-functionalities">
-                    <form action='<?php echo"./cartForm.php?productId=$productId"?>' method='POST'>
-                        <select name='productQuantity'>
-                            <?php
-                                // if the stock is less than max order, then max cart quantity should be the stock, else the max order amount
-                                $maxCartQuantity = $currentProduct['stock']<$currentProduct['max_order']?$currentProduct['stock']:$currentProduct['max_order'];
-                                for($i=$currentProduct['min_order']; $i<$maxCartQuantity; $i++){
-                                    $selectedQuantity = $i==$currentProduct['min_order']?'selected':'';
-                                    echo "<option value='$i' $selectedQuantity>$i</option>";
-                                }
-                            ?>
-                        </select>
-                        <input <?php echo ($currentProduct['stock']==0?'disabled':''); ?> type="submit" name="submit" value="Add to Cart">
-                    </form>
-                </div> -->
-
                 <div class="description-container">
 
                     <p class="desc-container-title">
@@ -146,16 +168,50 @@
                             ?>                        
                         </p>
                     </div>
+                    
+                    <?php
 
-                    <div class="rate-product">
-                        <span>Rate this product: </span>
+                        // if user has already rated the product, update the rating else insert a new rating.
+                        if(!$productRated){
 
-                        <svg class="stroke-star" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 5.173l2.335 4.817 5.305.732-3.861 3.71.942 5.27-4.721-2.524-4.721 2.525.942-5.27-3.861-3.71 5.305-.733 2.335-4.817zm0-4.586l-3.668 7.568-8.332 1.151 6.064 5.828-1.48 8.279 7.416-3.967 7.416 3.966-1.48-8.279 6.064-5.827-8.332-1.15-3.668-7.569z"/></svg>
-                        <svg class="stroke-star" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 5.173l2.335 4.817 5.305.732-3.861 3.71.942 5.27-4.721-2.524-4.721 2.525.942-5.27-3.861-3.71 5.305-.733 2.335-4.817zm0-4.586l-3.668 7.568-8.332 1.151 6.064 5.828-1.48 8.279 7.416-3.967 7.416 3.966-1.48-8.279 6.064-5.827-8.332-1.15-3.668-7.569z"/></svg>
-                        <svg class="stroke-star" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 5.173l2.335 4.817 5.305.732-3.861 3.71.942 5.27-4.721-2.524-4.721 2.525.942-5.27-3.861-3.71 5.305-.733 2.335-4.817zm0-4.586l-3.668 7.568-8.332 1.151 6.064 5.828-1.48 8.279 7.416-3.967 7.416 3.966-1.48-8.279 6.064-5.827-8.332-1.15-3.668-7.569z"/></svg>
-                        <svg class="stroke-star" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 5.173l2.335 4.817 5.305.732-3.861 3.71.942 5.27-4.721-2.524-4.721 2.525.942-5.27-3.861-3.71 5.305-.733 2.335-4.817zm0-4.586l-3.668 7.568-8.332 1.151 6.064 5.828-1.48 8.279 7.416-3.967 7.416 3.966-1.48-8.279 6.064-5.827-8.332-1.15-3.668-7.569z"/></svg>
-                        <svg class="stroke-star" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 5.173l2.335 4.817 5.305.732-3.861 3.71.942 5.27-4.721-2.524-4.721 2.525.942-5.27-3.861-3.71 5.305-.733 2.335-4.817zm0-4.586l-3.668 7.568-8.332 1.151 6.064 5.828-1.48 8.279 7.416-3.967 7.416 3.966-1.48-8.279 6.064-5.827-8.332-1.15-3.668-7.569z"/></svg>
-                    </div>
+                            echo "<div class='rate-product'><span>Rate this product: </span>";
+                            for($i=1;$i<=5;$i++){
+                                $productId=(int)$productId;
+                                echo "
+                                    <a href='./rateProduct.php?productId=$productId&ratingStar=$i'>
+                                        <svg class='stroke-star' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M12 5.173l2.335 4.817 5.305.732-3.861 3.71.942 5.27-4.721-2.524-4.721 2.525.942-5.27-3.861-3.71 5.305-.733 2.335-4.817zm0-4.586l-3.668 7.568-8.332 1.151 6.064 5.828-1.48 8.279 7.416-3.967 7.416 3.966-1.48-8.279 6.064-5.827-8.332-1.15-3.668-7.569z'/></svg>
+                                    </a>
+                                ";
+
+                            }
+
+                            echo "</div>";
+                        }
+                        else{
+                            echo "<div class='rate-product'><span>You rated this product: </span>";
+                            for($i=1;$i<=5;$i++){
+                                $productId=(int)$productId;
+                                if($i<=$productRated){
+                                    echo "
+                                    <a href='./rateProduct.php?productId=$productId&ratingStar=$i'>
+                                        <svg class='filled-star' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z'/></svg>
+                                    </a>
+                                ";
+                                }
+                                else{
+                                    echo "
+                                    <a href='./rateProduct.php?productId=$productId&ratingStar=$i'>
+                                        <svg class='stroke-star' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M12 5.173l2.335 4.817 5.305.732-3.861 3.71.942 5.27-4.721-2.524-4.721 2.525.942-5.27-3.861-3.71 5.305-.733 2.335-4.817zm0-4.586l-3.668 7.568-8.332 1.151 6.064 5.828-1.48 8.279 7.416-3.967 7.416 3.966-1.48-8.279 6.064-5.827-8.332-1.15-3.668-7.569z'/></svg>
+                                    </a>
+                                    ";
+                                }
+
+                            }
+
+                            echo "</div>";
+                        }
+
+                    ?>
 
                 </div>
 

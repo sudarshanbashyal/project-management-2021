@@ -192,9 +192,17 @@
                         margin-right: 10px;
                     }
 
-                    svg {
-                        transform: scale(0.8) translateY(5px);
-                        cursor: pointer;
+                    a {
+                        color: black;
+                        text-decoration: none !important;
+                        svg {
+                            transform: scale(0.8) translateY(5px);
+                            cursor: pointer;
+                        }
+
+                        .filled-star {
+                            fill: $yellow-primary;
+                        }
                     }
                 }
             }

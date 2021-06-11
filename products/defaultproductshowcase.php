@@ -7,12 +7,12 @@
 			if ($key['stock'] > 0 && $key['disabled'] == 'FALSE') {
 	    		echo "<div class='product'>";
 				echo "<div class='product-image'>";
-				echo '<a href="..\productDetails\productDetails.php?productId='.$key['product_id'].'"><img src="'.$key['product_image'].'" alt='.$key['product_name'].'>';
+				echo '<a href="..\productDetails\productDetails.php?productId='.$key['product_id'].'"><img src="'.$key['product_image'].'" alt='.$key['product_name'].'></a>';
 				echo "</div>";
 
 				echo "<div class='product-description'>";
-			    echo '<p class="product-name">'.$key['product_name'].'</p>';
-				echo '<p class="product-price">Rs. '.$key['product_price'].'</p></a>';
+			    echo '<a><p class="product-name" style="color:black; text-decoration:none;">'.$key['product_name'].'</p>';
+				echo '<p class="product-price">&pound; '.$key['product_price'].'</p></a>';
 				echo "</div>";
 
 				echo "<div class='trader'>";

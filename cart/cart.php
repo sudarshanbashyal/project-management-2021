@@ -24,7 +24,7 @@
         // query to get all the cart products
         $productsQuery='';
         $productsQueryResult;
-        print_r($_SESSION['currentCart']);
+        // print_r($_SESSION['currentCart']);
 
         if(isset($_SESSION['userId'])){
             $productsQuery = "

@@ -154,11 +154,25 @@ footer svg {
   color: #c9c9c5;
 }
 
-.products-container .search-container form #product-dropdown, .products-container .search-container form #shop-dropdown {
+.products-container .search-container form #product-dropdown, .products-container .search-container form #shop-dropdown, .products-container .search-container form .price-filter input, .products-container .search-container form .rating-filter {
   border-radius: 7px;
   margin-top: 20px;
   width: 100%;
   padding: 0.5rem 1rem;
+}
+
+.products-container .search-container form .price-filter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.products-container .search-container form .price-filter input {
+  width: 47%;
+  border: 1px solid #c9c9c5;
 }
 
 .products-container .search-container form .submit-btn {
@@ -212,11 +226,15 @@ footer svg {
 
 .products-container .products-showcase .product .product-description .product-name {
   font-weight: 600;
+  color: black !important;
+  text-decoration: none !important;
 }
 
 .products-container .products-showcase .product .product-description .product-price {
   font-size: 1.3rem;
   font-weight: 700;
+  color: black !important;
+  text-decoration: none !important;
 }
 
 .products-container .products-showcase .product .trader {

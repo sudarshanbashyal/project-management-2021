@@ -1,5 +1,5 @@
 <?php
-    // error_reporting(0);
+    error_reporting(0);
     $hostname = "localhost";
     $username = "root";
     $password = "";
@@ -8,8 +8,8 @@
     $connection = mysqli_connect($hostname, $username, $password, $dbname);
     
     session_start();
-    // $_SESSION['userId']=1;
-    // $_SESSION['userRole']='customer';
+    $_SESSION['userId']=5;
+    $_SESSION['userRole']='customer';
     // $_SESSION['currentCart']=array();
     // $_SESSION['currentCart']=array();
 

@@ -47,6 +47,21 @@
                 @extend #product-dropdown;
             }
 
+            .price-filter {
+                display: flex;
+                justify-content: space-between;
+
+                input {
+                    @extend #product-dropdown;
+                    width: 47%;
+                    border: 1px solid $gray-dark;
+                }
+            }
+
+            .rating-filter {
+                @extend #product-dropdown;
+            }
+
             .submit-btn {
                 width: 100%;
                 background-color: $yellow-primary;
@@ -93,11 +108,15 @@
 
                 .product-name {
                     font-weight: 600;
+                    color: black !important;
+                    text-decoration: none !important;
                 }
 
                 .product-price {
                     font-size: 1.3rem;
                     font-weight: 700;
+                    color: black !important;
+                    text-decoration: none !important;
                 }
             }
 

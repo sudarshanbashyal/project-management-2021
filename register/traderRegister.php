@@ -35,9 +35,6 @@
 
                 <select name="" id="">
                     <option selected disabled>Select Your Trader Type</option>
-                    <option value="">Greengrocer</option>
-                    <option value="">Butcher</option>
-                    <option value="">Other</option>
                 </select>
 
                 <input class="submit-btn" type="submit" value="Request a Trader Account">

@@ -311,10 +311,19 @@ footer svg {
   margin-right: 10px;
 }
 
-.main-container .details-container .text-container .description-container .rate-product svg {
+.main-container .details-container .text-container .description-container .rate-product a {
+  color: black;
+  text-decoration: none !important;
+}
+
+.main-container .details-container .text-container .description-container .rate-product a svg {
   -webkit-transform: scale(0.8) translateY(5px);
           transform: scale(0.8) translateY(5px);
   cursor: pointer;
+}
+
+.main-container .details-container .text-container .description-container .rate-product a .filled-star {
+  fill: #f7b61b;
 }
 
 .main-container .comments-container {
