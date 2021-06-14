@@ -9,7 +9,7 @@
     
     session_start();
     $_SESSION['userId']=1;
-    $_SESSION['userRole']='customer';
+    $_SESSION['userRole']='trader';
     // $_SESSION['currentCart']=array();
     // $_SESSION['currentCart']=array();
 

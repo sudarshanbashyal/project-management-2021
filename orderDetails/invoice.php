@@ -99,7 +99,7 @@
 
                             foreach($orderQueryResult as $orderDetail){
 
-                                $calculatedPrice = ($orderDetail['product_price']-(($orderDetail['discount']*100)/$orderDetail['product_price']))*$orderDetail['product_quantity'];
+                                $calculatedPrice = ($orderDetail['product_price']-(($orderDetail['discount']/100)*$orderDetail['product_price']))*$orderDetail['product_quantity'];
                                 $totalPrice+=$calculatedPrice;
 
                                 echo "<tr>";
