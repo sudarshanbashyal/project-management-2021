@@ -3,10 +3,10 @@
 .cart-container {
     width: 80%;
     margin: auto;
-    margin-top: 100px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    margin-top: 50px;
 
     .product-showcase {
         flex-basis: 60%;
@@ -147,12 +147,17 @@
         }
 
         .discount-input,
-        .collection-input {
+        .collection-day,
+        .collection-time {
             margin: 10px 0px;
             width: 100%;
             padding: 0.6rem 1rem;
             border-radius: 7px;
             border: 1px solid black;
+        }
+
+        .order-error {
+            color: $red-dark;
         }
 
         .checkout-btn {
@@ -174,4 +179,11 @@
             }
         }
     }
+}
+
+.empty-container {
+    width: 80%;
+    margin: auto;
+    margin-top: 100px;
+    min-height: 30vh;
 }

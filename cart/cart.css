@@ -95,7 +95,6 @@ footer svg {
 .cart-container {
   width: 80%;
   margin: auto;
-  margin-top: 100px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -105,6 +104,7 @@ footer svg {
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
+  margin-top: 50px;
 }
 
 .cart-container .product-showcase {
@@ -255,12 +255,17 @@ footer svg {
 }
 
 .cart-container .checkout-showcase .discount-input,
-.cart-container .checkout-showcase .collection-input {
+.cart-container .checkout-showcase .collection-day,
+.cart-container .checkout-showcase .collection-time {
   margin: 10px 0px;
   width: 100%;
   padding: 0.6rem 1rem;
   border-radius: 7px;
   border: 1px solid black;
+}
+
+.cart-container .checkout-showcase .order-error {
+  color: #f85149;
 }
 
 .cart-container .checkout-showcase .checkout-btn {
@@ -287,5 +292,12 @@ footer svg {
   margin-right: 15px;
   -webkit-transform: scale(0.8);
           transform: scale(0.8);
+}
+
+.empty-container {
+  width: 80%;
+  margin: auto;
+  margin-top: 100px;
+  min-height: 30vh;
 }
 /*# sourceMappingURL=cart.css.map */

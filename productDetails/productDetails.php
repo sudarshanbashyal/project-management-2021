@@ -118,7 +118,7 @@
                         }
                     }
                 
-                    if($currentProduct['stock']==0){
+                    if($currentProduct['stock']<1){
                         echo "<h3 class='out-of-stock'>Product out of stock</h3>";
                     }
                     elseif($productInCart){
@@ -130,7 +130,7 @@
                         echo "<select name='productQuantity'>";
                         $maxCartQuantity = $currentProduct['stock']<$currentProduct['max_order']?$currentProduct['stock']:$currentProduct['max_order'];
 
-                        for($i=$currentProduct['min_order']; $i<$maxCartQuantity; $i++){
+                        for($i=$currentProduct['min_order']; $i<=$maxCartQuantity; $i++){
                             $selectedQuantity = $i==$currentProduct['min_order']?'selected':'';
                             echo "<option value='$i' $selectedQuantity>$i</option>";
                         }

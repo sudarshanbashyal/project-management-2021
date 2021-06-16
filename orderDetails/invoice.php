@@ -23,15 +23,17 @@
         }
 
         $customerName= $orderDate= $collectionSlot= '';
+        $discountPercent=0;
         $totalPrice=0;
 
         $detailsQuery = "
             SELECT 
-            o.order_date, u.user_name, cs.collection_day, cs.collection_time
+            o.order_date, u.user_name, cs.collection_day, cs.collection_time, co.discount_percent
             FROM orders o
             INNER JOIN collection_slot cs ON o.slot_id=cs.slot_id
             INNER JOIN cart c ON c.cart_id = o.cart_id
             INNER JOIN users u ON u.user_id = c.user_id
+            LEFT OUTER JOIN coupon co ON co.coupon_id = o.coupon_id
             WHERE o.order_id = $orderId AND u.user_id=$_SESSION[userId];
         ";
         $detailsResult = mysqli_query($connection, $detailsQuery);
@@ -41,6 +43,7 @@
                 $customerName = $detail['user_name'];
                 $orderDate = $detail['order_date'];
                 $collectionSlot = $detail['collection_day']." ".$detail['collection_time'];
+                $discountPercent=$detail['discount_percent'];
 
             }
         }
@@ -126,6 +129,9 @@
 
                                 echo "</tr>";
                             }
+
+                            // discounted price
+                            $totalPrice = ($totalPrice-($discountPercent/100)*$totalPrice);
                         }
                     
                     ?>
@@ -136,7 +142,7 @@
         </div>
 
         <div class="order-summary">
-            <h3>Coupon Discount: 0</h3>
+            <h3>Coupon Discount: <?php echo $discountPercent; ?></h3>
             <h2>Total: &pound; <?php echo $totalPrice; ?></h2>
         </div>
 
