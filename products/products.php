@@ -34,53 +34,68 @@
 
                 <select name="product-type" id="product-dropdown">
                     <option selected disabled>Product Type</option>
-                    <option value = "Butcher" <?php if (isset($_SESSION['productData']) && $_SESSION['productData'] == 'Butcher') {
-                        echo "selected"; unset($_SESSION['productData']);
-                    } ?> >Butcher</option>
+                    <?php
+                        $traderQuery = "SELECT category_type FROM trader_category";
+                        $traderResult = mysqli_query($connection, $traderQuery);
 
-                    <option value = "Greengrocer" <?php if (isset($_SESSION['productData']) && $_SESSION['productData'] == 'Greengrocer') {
-                        echo "selected"; unset($_SESSION['productData']);
-                    } ?> >Greengrocer</option>
+                        foreach ($traderResult as $key) {
+                            $value = $key['category_type'];
+                            if (isset($_SESSION['productData']) && $_SESSION['productData'] == $value){
+                                echo "<option value = $value selected )>$value</option>";
+                            }else{
+                                echo "<option value = $value>$value</option>";
+                                }                            
+                        }
+                        unset($_SESSION['productData']);
+                    ?>
 
-                    <option value = "Fishmonger" <?php if (isset($_SESSION['productData']) && $_SESSION['productData'] == 'Fishmonger') {
-                        echo "selected"; unset($_SESSION['productData']);
-                    } ?> >Fishmonger</option>
-
-                    <option value = "Bakery" <?php if (isset($_SESSION['productData']) && $_SESSION['productData'] == 'Bakery') {
-                        echo "selected"; unset($_SESSION['productData']);
-                    } ?> >Bakery</option>
-
-                    <option value = "Delicatessen" <?php if (isset($_SESSION['productData']) && $_SESSION['productData'] == 'Delicatessen') {
-                        echo "selected"; unset($_SESSION['productData']);
-                    } ?> >Delicatessen</option>
                 </select>
 
                 <select name="shop" id="shop-dropdown">
                     <option selected disabled>Shop Name</option>
-                    <option value= "Sanjay Mart" <?php if (isset($_SESSION['shopData']) && $_SESSION['shopData'] == 'Sanjay Mart') {
-                        echo "selected"; unset($_SESSION['shopData']);
-                    } ?> >Sanjay Mart</option>
 
-                    <option value= "Green4U" <?php if (isset($_SESSION['shopData']) && $_SESSION['shopData'] == 'Green4U') {
-                        echo "selected"; unset($_SESSION['shopData']);
-                    } ?> >Green4U</option>
+                    <?php
+                        $shopQuery = "SELECT shop_name FROM shop";
+                        $shopResult = mysqli_query($connection, $shopQuery);
 
-                    <option value= "FishBeats" <?php if (isset($_SESSION['shopData']) && $_SESSION['shopData'] == 'FishBeats') {
-                        echo "selected"; unset($_SESSION['shopData']);
-                    } ?> >FishBeats</option> 
-                    
-                    <option value= "BunsHun" <?php if (isset($_SESSION['shopData']) && $_SESSION['shopData'] == 'BunsHun') {
-                        echo "selected"; unset($_SESSION['shopData']);
-                    } ?> >BunsHun</option> 
+                        foreach ($shopResult as $key) {
+                            $value = $key['shop_name'];
+                            if (isset($_SESSION['shopData']) && $_SESSION['shopData'] == $value ) {
+                                echo "<option value = $value selected>$value</option>";
+                            }else{
+                                echo "<option value = $value>$value</option>";
+                            }
+                            
+                        }
+                        unset($_SESSION['shopData']);
+                    ?>
                 </select>
 
                 <div class="price-filter">
-                    <input type="number" placeholder="Min Price">
-                    <input type="number" placeholder="Max Price">
+                     <input type="number" name="min_num" placeholder="Min Price" min="0" value="<?php 
+                        if(isset($_SESSION['minData'])){echo $_SESSION['minData']; unset($_SESSION['minData']);} ?>">
+                    <input type="number" name="max_num" placeholder="Max Price" min="0" value="<?php 
+                        if(isset($_SESSION['maxData'])){ echo $_SESSION['maxData']; unset($_SESSION['maxData']);} ?>">
                 </div>
 
                 <select class="rating-filter" name="rating" id="">
                     <option selected disabled>Rating</option>
+                    <option value="1" <?php if (isset($_SESSION['rateData']) && $_SESSION['rateData'] == '1') {
+                        echo "selected"; unset($_SESSION['rateData']);
+                    } ?> >1</option>
+                    <option value="2" <?php if (isset($_SESSION['rateData']) && $_SESSION['rateData'] == '2') {
+                        echo "selected"; unset($_SESSION['rateData']);
+                    } ?> >2</option>
+                    <option value="3" <?php if (isset($_SESSION['rateData']) && $_SESSION['rateData'] == '3') {
+                        echo "selected"; unset($_SESSION['rateData']);
+                    } ?> >3</option>
+                    <option value="4" <?php if (isset($_SESSION['rateData']) && $_SESSION['rateData'] == '4') {
+                        echo "selected"; unset($_SESSION['rateData']);
+                    } ?> >4</option>
+                    <option value="5" <?php if (isset($_SESSION['rateData']) && $_SESSION['rateData'] == '5') {
+                        echo "selected"; unset($_SESSION['rateData']);
+                    } ?> >5</option>
+
                 </select>
 
                 <input type="submit" value="Submit" class="submit-btn" name="submit">
@@ -104,6 +119,18 @@
                     $result = mysqli_query($connection, $_SESSION['shop']);
                     include 'productshowcase.php';
                     
+                }elseif (isset($_SESSION['min_num'])) {
+                    $result = mysqli_query($connection, $_SESSION['min_num']);
+                    include 'productshowcase.php';
+                    
+                }elseif (isset($_SESSION['max_num'])) {
+                    $result = mysqli_query($connection, $_SESSION['max_num']);
+                    include 'productshowcase.php';
+                    
+                }elseif (isset($_SESSION['rating'])) {
+                    $result = mysqli_query($connection, $_SESSION['rating']);
+                    include 'productshowcase.php';
+                    
                 }elseif (isset($_SESSION['searchbar_product'])) {
                     $result = mysqli_query($connection, $_SESSION['searchbar_product']);
                     include 'productshowcase.php';
@@ -112,12 +139,88 @@
                     $result = mysqli_query($connection, $_SESSION['searchbar_shop']);
                     include 'productshowcase.php';
 
+                }elseif (isset($_SESSION['searchbar_min'])) {
+                    $result = mysqli_query($connection, $_SESSION['searchbar_min']);
+                    include 'productshowcase.php';
+
+                }elseif (isset($_SESSION['searchbar_max'])) {
+                    $result = mysqli_query($connection, $_SESSION['searchbar_max']);
+                    include 'productshowcase.php';
+
+                }elseif (isset($_SESSION['searchbar_rate'])) {
+                    $result = mysqli_query($connection, $_SESSION['searchbar_rate']);
+                    include 'productshowcase.php';
+
                 }elseif (isset($_SESSION['product_shop'])) {
                     $result = mysqli_query($connection, $_SESSION['product_shop']);
                     include 'productshowcase.php';
 
+                }elseif (isset($_SESSION['product_min'])) {
+                    $result = mysqli_query($connection, $_SESSION['product_min']);
+                    include 'productshowcase.php';
+
+                }elseif (isset($_SESSION['product_max'])) {
+                    $result = mysqli_query($connection, $_SESSION['product_max']);
+                    include 'productshowcase.php';
+
+                }elseif (isset($_SESSION['product_rate'])) {
+                    $result = mysqli_query($connection, $_SESSION['product_rate']);
+                    include 'productshowcase.php';
+
+                }elseif (isset($_SESSION['shop_min'])) {
+                    $result = mysqli_query($connection, $_SESSION['shop_min']);
+                    include 'productshowcase.php';
+
+                }elseif (isset($_SESSION['shop_max'])) {
+                    $result = mysqli_query($connection, $_SESSION['shop_max']);
+                    include 'productshowcase.php';
+
+                }elseif (isset($_SESSION['shop_rate'])) {
+                    $result = mysqli_query($connection, $_SESSION['shop_rate']);
+                    include 'productshowcase.php';
+
+                }elseif (isset($_SESSION['min_max'])) {
+                    $result = mysqli_query($connection, $_SESSION['min_max']);
+                    include 'productshowcase.php';
+
+                }elseif (isset($_SESSION['min_rate'])) {
+                    $result = mysqli_query($connection, $_SESSION['min_rate']);
+                    include 'productshowcase.php';
+
+                }elseif (isset($_SESSION['max_rate'])) {
+                    $result = mysqli_query($connection, $_SESSION['max_rate']);
+                    include 'productshowcase.php';
+
                 }elseif (isset($_SESSION['search_product_shop'])) {
                     $result = mysqli_query($connection, $_SESSION['search_product_shop']);
+                    include 'productshowcase.php';
+                    
+                }elseif (isset($_SESSION['search_product_min'])) {
+                    $result = mysqli_query($connection, $_SESSION['search_product_min']);
+                    include 'productshowcase.php';
+                    
+                }elseif (isset($_SESSION['search_product_max'])) {
+                    $result = mysqli_query($connection, $_SESSION['search_product_max']);
+                    include 'productshowcase.php';
+                    
+                }elseif (isset($_SESSION['search_product_rate'])) {
+                    $result = mysqli_query($connection, $_SESSION['search_product_rate']);
+                    include 'productshowcase.php';
+                    
+                }elseif (isset($_SESSION['search_min_max'])) {
+                    $result = mysqli_query($connection, $_SESSION['search_min_max']);
+                    include 'productshowcase.php';
+                    
+                }elseif (isset($_SESSION['search_min_rate'])) {
+                    $result = mysqli_query($connection, $_SESSION['search_min_rate']);
+                    include 'productshowcase.php';
+                    
+                }elseif (isset($_SESSION['search_max_rate'])) {
+                    $result = mysqli_query($connection, $_SESSION['search_max_rate']);
+                    include 'productshowcase.php';
+                    
+                }elseif (isset($_SESSION['query'])) {
+                    $result = mysqli_query($connection, $_SESSION['query']);
                     include 'productshowcase.php';
                     
                 }elseif (isset($_SESSION['search_error'])) {
