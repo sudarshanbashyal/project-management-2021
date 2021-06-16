@@ -42,7 +42,7 @@
 
 		elseif(empty($_GET['searchbar']) && empty($_GET['product-type']) &&  !empty($_GET['shop']) && empty($_GET['min_num']) && empty($_GET['max_num']) && empty($_GET['rating'])){
 			$shop = $_GET['shop'];
-			$query = "SELECT product.product_id, product.product_name, product.product_price, product.product_image, product.stock, product.disabled, users.user_name, rating.rating_star FROM product, users, shop, trader_category, rating WHERE product.product_id = rating.product_id && product.shop_id = shop.shop_id && shop.shop_name = '$shop' && shop.user_id = users.user_id && users.user_id = rating.user_id && users.category_id = trader_category.category_id ";
+			$query = "SELECT product.product_id, product.product_name, product.product_price, product.product_image, product.stock, product.disabled, users.user_name, rating.rating_star FROM product, users, shop, trader_category, rating WHERE product.product_id = rating.product_id && product.shop_id = shop.shop_id && shop.shop_name like '%$shop%' && shop.user_id = users.user_id && users.user_id = rating.user_id && users.category_id = trader_category.category_id ";
 			$result = mysqli_query($connection, $query);
 			$_SESSION['shopData'] = $shop;
 
