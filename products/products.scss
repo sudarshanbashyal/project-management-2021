@@ -9,6 +9,7 @@
 
     .search-container {
         flex-basis: 20%;
+        order: 1;
 
         form {
             .input-search {
@@ -76,6 +77,7 @@
     }
 
     .products-showcase {
+        order: 2;
         margin-bottom: 100px;
         flex-basis: 75%;
         min-height: 100px;
@@ -117,6 +119,18 @@
                     font-weight: 700;
                     color: black !important;
                     text-decoration: none !important;
+                }
+
+                .rating {
+                    margin-top: 10px;
+
+                    svg {
+                        transform: scale(0.8);
+                    }
+
+                    .filled-star {
+                        fill: $yellow-primary;
+                    }
                 }
             }
 

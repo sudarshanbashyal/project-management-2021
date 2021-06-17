@@ -107,6 +107,9 @@ footer svg {
 .products-container .search-container {
   -ms-flex-preferred-size: 20%;
       flex-basis: 20%;
+  -webkit-box-ordinal-group: 2;
+      -ms-flex-order: 1;
+          order: 1;
 }
 
 .products-container .search-container form .input-search {
@@ -187,6 +190,9 @@ footer svg {
 }
 
 .products-container .products-showcase {
+  -webkit-box-ordinal-group: 3;
+      -ms-flex-order: 2;
+          order: 2;
   margin-bottom: 100px;
   -ms-flex-preferred-size: 75%;
       flex-basis: 75%;
@@ -235,6 +241,19 @@ footer svg {
   font-weight: 700;
   color: black !important;
   text-decoration: none !important;
+}
+
+.products-container .products-showcase .product .product-description .rating {
+  margin-top: 10px;
+}
+
+.products-container .products-showcase .product .product-description .rating svg {
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+}
+
+.products-container .products-showcase .product .product-description .rating .filled-star {
+  fill: #f7b61b;
 }
 
 .products-container .products-showcase .product .trader {

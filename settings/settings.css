@@ -108,7 +108,19 @@ footer svg {
   margin-bottom: 30px;
 }
 
-.container .profile-settings input, .container .account-settings input {
+.container .profile-settings .error-msg, .container .account-settings .error-msg, .container .profile-settings .success-msg, .container .account-settings .success-msg {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #f85149;
+}
+
+.container .profile-settings .success-msg, .container .account-settings .success-msg {
+  color: #428035;
+}
+
+.container .profile-settings input[type='text'], .container .account-settings input[type='text'],
+.container .profile-settings input[type='password'],
+.container .account-settings input[type='password'] {
   width: 100%;
   border: 1px solid black;
   border-radius: 7px;
@@ -133,6 +145,7 @@ footer svg {
   border: none;
   border-radius: 7px;
   margin-right: 10px;
+  cursor: pointer;
 }
 
 .container .account-settings {

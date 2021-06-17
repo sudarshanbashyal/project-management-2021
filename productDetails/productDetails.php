@@ -131,7 +131,7 @@
                         $maxCartQuantity = $currentProduct['stock']<$currentProduct['max_order']?$currentProduct['stock']:$currentProduct['max_order'];
 
                         for($i=$currentProduct['min_order']; $i<=$maxCartQuantity; $i++){
-                            $selectedQuantity = $i==$currentProduct['min_order']?'selected':'';
+                            $selectedQuantity = ($i==$currentProduct['min_order'])?'selected':'';
                             echo "<option value='$i' $selectedQuantity>$i</option>";
                         }
                         echo "</select>";
