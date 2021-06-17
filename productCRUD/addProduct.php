@@ -15,6 +15,11 @@
     <?php
         include '../navbar/navbar.php';
     ?>
+    <?php
+    include '../init.php';
+    $_SESSION['url']="http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+    ?>
 
     <div class="add-container">
     
@@ -29,10 +34,34 @@
             <form action="add.php" method="POST">
 
                 <input type="text" placeholder="Product Name" name="product_name">
+                <?php 
+                        if(isset($_SESSION['error'])){
+                            if($_SESSION['error']=="name"){
+                                echo "please fill in the product name";
+                                unset($_SESSION['error']);
+                             }
+                         }
+                    ?>
                 <textarea name="description" id="" cols="30" rows="5" placeholder="Product Description"></textarea>
+                <?php 
+                        if(isset($_SESSION['error'])){
+                            if($_SESSION['error']=="description"){
+                                echo "product description should not be empty.";
+                                unset($_SESSION['error']);
+                             }
+                         }
+                    ?>
                 
                 <div class="product-price">
                     <input type="text" placeholder="Product Price" name="price">
+                    <?php 
+                        if(isset($_SESSION['error'])){
+                            if($_SESSION['error']=="price"){
+                                echo "product price should not be empty.";
+                                unset($_SESSION['error']);
+                             }
+                         }
+                    ?>
                     <input type="text" placeholder="Discount" name="discount">
 
                     <input type="text" placeholder="stock quantity" name="stock">
@@ -72,6 +101,16 @@
                 <input class="add-button" type="submit" value="Add New Prouct" name="product_submit">           
             
             </form>
+            <?php
+           		if(isset($_SESSION['status'])){
+            		if($_SESSION['status']=="successfull"){
+
+                		echo "products added successfully.";
+                		unset($_SESSION['status']);
+
+            		}
+        		}
+           ?>
 
         </div>
 

@@ -8,7 +8,11 @@ if($connection){
 		if($_POST['product_name'] != null && $_POST['product_name'] != " "){
 			$name=$_POST['product_name'];
 		}else{
-			echo "please enter the name of the product";
+			$_SESSION['error']="name";
+			header('location:'.$_SESSION['url']);
+			unset($_SESSION['url']);
+			exit();
+
 		}
 
 		//storing product description
@@ -16,13 +20,21 @@ if($connection){
 			$description = $_POST['description'];
 		}else{
 
-			echo "please enter the product description";
+			$_SESSION['error']="description";
+			header('location:'.$_SESSION['url']);
+			unset($_SESSION['url']);
+			exit();
+
 		}
 		//storing product price
 		if($_POST['price']!= null && $_POST['price']!=" "){
 			$price = $_POST['price'];
 		}else{
-			echo "please enter the price of the product";
+			$_SESSION['error']="price";
+			header('location:'.$_SESSION['url']);
+			unset($_SESSION['url']);
+			exit();
+
 		}
 
             $discount =$_POST['discount'];
@@ -38,8 +50,11 @@ if($connection){
             $productQuery=mysqli_query($connection,$query);
 		
 		if($productQuery){
-			echo "product added successfully.</br>";
-			echo '<a href="'.'addProduct.php'.'">'.'go back'.'</a>';
+			$_SESSION['status']="successfull";
+			header('location:'.$_SESSION['url']);
+			unset($_SESSION['url']);
+			exit();
+			
 
 		}else{
 			echo "error adding product";

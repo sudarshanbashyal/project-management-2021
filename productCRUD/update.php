@@ -8,26 +8,39 @@ if($connection){
 			$name=$_POST['product_name'];
 		
 		}else{
-			echo "product name cannot be empty. please enter valid value";
-		}
+			$_SESSION['error']="name";
+			header('location:'.$_SESSION['url']);
+			unset($_SESSION['url']);
+			exit();
+
+				}
 		if($_POST['Description']!= null && $_POST['Description']!=" "){
 			
 			$description = $_POST['Description'];
 
 		}else{
-			echo "product description cannot be empty. please enter valid value";
+			$_SESSION['error']="description";
+			header('location:'.$_SESSION['url']);
+			unset($_SESSION['url']);
+			exit();
 		}
 		if($_POST['price']!=null && $_POST['price']!=" "){
 			
 			$price=$_POST['price'];
 			
 		}else{
-			echo "product price cannot be empty. please enter valid value";
+			$_SESSION['error']="price";
+			header('location:'.$_SESSION['url']);
+			unset($_SESSION['url']);
+			exit();
 		}
 		if($_POST['stock']!=null && $_POST['stock']!=" "){
 			$stock=$_POST['stock'];
 		}else{
-			echo " stock quantity cannot be empty. ";
+			$_SESSION['error']="stock";
+			header('location:'.$_SESSION['url']);
+			unset($_SESSION['url']);
+			exit();
 		}
 		
 		
@@ -45,7 +58,10 @@ if($connection){
 		
 		$query=mysqli_query($connection,$sql);
 		if($query){
-			echo 'update succesful';
+			$_SESSION['status']="successfull";
+			header('location:'.$_SESSION['url']);
+			unset($_SESSION['url']);
+			exit();
 		}else{
 			echo "error updating.";
 		}
