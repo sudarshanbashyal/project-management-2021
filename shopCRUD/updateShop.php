@@ -15,6 +15,16 @@
     <?php
         include '../navbar/navbar.php';
     ?>
+    <?php
+    include '../init.php';
+    $_SESSION['url']="http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $shop_id=$_GET['shop_id'];
+    $sql="SELECT * FROM shop WHERE shop_id=$shop_id;";
+    $query=mysqli_query($connection,$sql);
+    while($row=mysqli_fetch_assoc($query)){
+        $_SESSION['shop_name']=$row['shop_name'];
+    }
+    ?>
 
     
     <div class="add-container">
@@ -25,14 +35,40 @@
                 Update Shop
             </h2>
 
-            <form action="">
-                <input type="text" placeholder="Enter Shop Name">
+            <form action="<?php echo "update.php?shop_id=$shop_id";?>" method="POST">
+                <input type="text" placeholder="Enter Shop Name" name="shop_name"
+                value="<?php echo $_SESSION['shop_name'];?>">
+                <?php
+                    if(isset($_SESSION['error'])){
+                        if($_SESSION['error']=="name"){
+                            echo " shop name should not be empty.";
+                            unset($_SESSION['error']);
+                        }
+                    }
+                ?>
 
                 <div class="form-actions">
-                    <input class="delete-button" type="submit" value="Delete Shop">
-                    <input class="add-button" type="submit" value="Update Shop">           
+                    <input class="delete-button" type="submit" value="Delete Shop" >
+                    <input class="add-button" type="submit" value="Update Shop"name="submit">           
                 </div>
             </form>
+            <?php
+
+            if(isset($_SESSION['status'])){
+                if($_SESSION['status']=="success"){
+                    echo "shop updated successfully.";
+                    unset($_SESSION['status']);
+                }
+                elseif ($_SESSION['status']=="fail") {
+                    echo "shop update fail.please try again.";
+                    unset($_SESSION['status']);
+                }
+
+
+
+               
+            }
+            ?>
         
         </div>
 
