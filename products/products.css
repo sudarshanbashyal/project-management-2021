@@ -6,6 +6,10 @@
   font-family: 'Roboto', sans-serif;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 .container-title {
   position: relative;
 }
@@ -286,5 +290,27 @@ footer svg {
 
 .products-container .products-showcase .product:hover .cart-icon {
   opacity: 100%;
+}
+
+@media screen and (max-width: 1400px) {
+  .products-container {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  .products-container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .products-container .search-container,
+  .products-container .products-showcase {
+    width: 100%;
+  }
+  .products-container .search-container {
+    margin-bottom: 50px;
+  }
 }
 /*# sourceMappingURL=products.css.map */

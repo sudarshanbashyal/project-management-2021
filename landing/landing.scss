@@ -1,4 +1,4 @@
-@import './index.scss';
+@import '../index.scss';
 
 body {
     overflow-x: hidden;
@@ -24,10 +24,14 @@ body {
                 h1 {
                     font-size: 3rem;
                     font-weight: 900;
+                    position: relative;
+                    z-index: 999;
                 }
 
                 p {
                     font-weight: bold;
+                    position: relative;
+                    z-index: 999;
                 }
 
                 .shop-btn {
@@ -40,6 +44,10 @@ body {
                     padding: 0.8rem 0rem;
                     background-color: white;
                     border-radius: 7px;
+                }
+
+                @media screen and (max-width: $medium-large) {
+                    width: 90%;
                 }
             }
         }
@@ -90,16 +98,39 @@ body {
                         }
                     }
                 }
+
+                @media screen and (max-width: $small) {
+                    flex-direction: column;
+
+                    .step {
+                        width: 100%;
+                    }
+                }
+            }
+
+            @media screen and (max-width: $medium-large) {
+                width: 90%;
             }
         }
     }
 
     .landing-image {
-        width: 75%;
+        width: 1400px;
         position: absolute;
         top: -100px;
         right: -400px;
         z-index: 1;
+
+        @media screen and (max-width: $medium-large) {
+            width: 1000px;
+            top: 100px;
+        }
+
+        @media screen and (max-width: $small) {
+            width: 500px;
+            top: 200px;
+            right: -300px;
+        }
     }
 
     .traders-container {
@@ -123,6 +154,7 @@ body {
 
             .traders-showcase {
                 display: flex;
+                flex-wrap: wrap;
                 align-items: center;
                 justify-content: space-between;
 
@@ -131,6 +163,7 @@ body {
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
+                    margin-right: 20px;
 
                     svg {
                         fill: white;
@@ -148,6 +181,10 @@ body {
                     }
                 }
             }
+
+            @media screen and (max-width: $medium-large) {
+                width: 90%;
+            }
         }
     }
 
@@ -158,9 +195,10 @@ body {
         margin-top: 100px;
 
         .products {
-            display: flex;
-            margin-top: 60px;
-            justify-content: space-between;
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-gap: 40px;
 
             .product {
                 width: 285px;
@@ -175,6 +213,12 @@ body {
                         height: 100%;
                         object-fit: cover;
                         border-radius: 7px;
+                    }
+                }
+
+                .product-rating {
+                    .filled-star {
+                        fill: $yellow-primary;
                     }
                 }
 
@@ -200,6 +244,10 @@ body {
                     cursor: pointer;
                 }
             }
+        }
+
+        @media screen and (max-width: $medium-large) {
+            width: 90%;
         }
     }
 }

@@ -6,6 +6,10 @@
   font-family: 'Roboto', sans-serif;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 .container-title {
   position: relative;
 }
@@ -87,6 +91,38 @@ footer .footer-container .newsletter-section button {
   border-radius: 7px;
 }
 
+@media screen and (max-width: 1400px) {
+  footer .footer-container {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  footer .footer-container .social-section {
+    width: 40%;
+  }
+  footer .footer-container .newsletter-section {
+    -ms-flex-preferred-size: 50%;
+        flex-basis: 50%;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  footer .footer-container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  footer .footer-container .social-section {
+    margin-bottom: 50px;
+  }
+  footer .footer-container .social-section,
+  footer .footer-container .newsletter-section {
+    width: 100%;
+  }
+}
+
 footer svg {
   fill: white;
   margin-right: 40px;
@@ -97,7 +133,7 @@ nav {
   margin-top: 0px;
   padding-top: 0px;
   width: 100%;
-  z-index: 999;
+  z-index: 9999;
   background-color: white;
 }
 
@@ -138,7 +174,7 @@ nav .nav-container .logo div img {
      object-fit: contain;
 }
 
-nav .nav-container ul {
+nav .nav-container .nav-links {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
@@ -153,17 +189,17 @@ nav .nav-container ul {
   list-style: none;
 }
 
-nav .nav-container ul li {
+nav .nav-container .nav-links li {
   margin-right: 35px;
 }
 
-nav .nav-container ul li a {
+nav .nav-container .nav-links li a {
   color: black;
   text-decoration: none;
   font-weight: 600;
 }
 
-nav .nav-container ul li a sup {
+nav .nav-container .nav-links li a sup {
   background-color: #428035;
   color: white;
   display: inline-block;
@@ -173,7 +209,7 @@ nav .nav-container ul li a sup {
   border-radius: 50%;
 }
 
-nav .nav-container ul li:last-child {
+nav .nav-container .nav-links li:last-child {
   margin-right: 0px;
 }
 
@@ -192,23 +228,25 @@ nav .nav-container .function-tray {
           align-items: center;
 }
 
-nav .nav-container .function-tray svg {
+nav .nav-container .function-tray form svg {
   -webkit-transform: scale(0.8);
           transform: scale(0.8);
   cursor: pointer;
 }
 
-nav .nav-container .function-tray .navbar-search-input {
+nav .nav-container .function-tray form .navbar-search-input {
   padding: 0;
   border: 1px solid black;
   margin: 0px 1rem;
   width: 0px;
+  -webkit-transform: translateY(-5px);
+          transform: translateY(-5px);
   -webkit-transition: 0.2s ease-in-out;
   transition: 0.2s ease-in-out;
   background-color: transparent;
 }
 
-nav .nav-container .function-tray .search-input-expanded {
+nav .nav-container .function-tray form .search-input-expanded {
   border-radius: 5px;
   padding: 0.5rem;
   width: 200px;
@@ -222,5 +260,62 @@ nav .nav-container .function-tray .user-name {
   font-weight: bold;
   color: black;
   text-decoration: none;
+}
+
+nav .nav-container .hamburger-menu {
+  display: none;
+}
+
+@media screen and (max-width: 1400px) {
+  nav .nav-container {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  nav .nav-container .logo,
+  nav .nav-container .function-tray {
+    -ms-flex-preferred-size: 20%;
+        flex-basis: 20%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  nav .nav-container .function-tray {
+    margin-right: 30px;
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+  }
+  nav .nav-container .hamburger-menu {
+    display: block;
+    cursor: pointer;
+  }
+  nav .nav-container .nav-links {
+    position: absolute;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    background-color: #f7b61b;
+    width: 50%;
+    height: 94vh;
+    top: 6vh;
+    right: -100%;
+    -webkit-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+  }
+  nav .nav-container .nav-links li {
+    margin: 0px;
+  }
+  nav .nav-container .expanded-nav-link {
+    right: 0;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  nav .nav-container .nav-links {
+    width: 100%;
+  }
 }
 /*# sourceMappingURL=navbar.css.map */

@@ -64,16 +64,13 @@
                     ?>
                     <input type="text" placeholder="Discount" name="discount">
 
-                    <input type="text" placeholder="stock quantity" name="stock">
-
                 </div>
+
+                <input type="text" placeholder="stock quantity" name="stock">
 
                 <textarea name="allergy_info" id="" cols="30" rows="5" placeholder="Allergy Information"></textarea>
 
                 <input type="text" placeholder="Image Link" name="image">
-
-
-               
 
 
                 <select name="selection" id="">

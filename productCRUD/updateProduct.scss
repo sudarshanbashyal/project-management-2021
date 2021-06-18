@@ -5,7 +5,7 @@
     margin-top: 150px;
 
     .form-container {
-        width: 50%;
+        width: 60%;
         margin: auto;
         border: 1px solid $gray-dark;
         border-radius: 15px;
@@ -85,6 +85,27 @@
                     }
                 }
             }
+
+            @media screen and(max-width: $small) {
+                flex-direction: column;
+
+                .product-image {
+                    margin-bottom: 50px;
+                }
+
+                .product-image,
+                .product-details {
+                    width: 100%;
+                }
+            }
+        }
+
+        @media screen and(max-width: $large) {
+            width: 70%;
+        }
+
+        @media screen and(max-width: $medium-large) {
+            width: 90%;
         }
     }
 }

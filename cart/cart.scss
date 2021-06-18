@@ -179,6 +179,23 @@
             }
         }
     }
+
+    @media screen and (max-width: $medium-large) {
+        width: 90%;
+    }
+
+    @media screen and (max-width: $medium) {
+        flex-direction: column;
+
+        .product-showcase {
+            width: 100%;
+            margin-bottom: 100px;
+        }
+
+        .checkout-showcase {
+            width: 100%;
+        }
+    }
 }
 
 .empty-container {

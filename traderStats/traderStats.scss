@@ -71,4 +71,8 @@
             top: 0;
         }
     }
+
+    @media screen and (max-width: $medium-large) {
+        width: 90%;
+    }
 }

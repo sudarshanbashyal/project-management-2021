@@ -19,15 +19,23 @@
 
     <?php
         include '../init.php';
+        $productCategoryId=null;
 
         $productId = $_GET['productId'];
-        $productQuery = "SELECT * FROM product p INNER JOIN shop s ON s.shop_id=p.shop_id WHERE product_id=$productId;";
+        $productQuery = "
+            SELECT p.*, t.category_id FROM product p 
+            INNER JOIN shop s ON s.shop_id=p.shop_id 
+            INNER JOIN users u ON u.user_id = s.user_id
+            INNER JOIN trader_category t ON t.category_id = u.category_id
+            WHERE product_id=$productId;
+        ";
         $products = mysqli_query($connection, $productQuery);
         $currentProduct;
         
         if(!mysqli_num_rows($products)==0){
             foreach($products as $product){
                 $currentProduct=$product;
+                $productCategoryId=$product['category_id'];
             }
         }    
     ?>
@@ -223,7 +231,7 @@
 
         <div class="comments-container">
             <h2 class="comments-container-title">
-                What Others Think of this Product...
+                What Others Think of this <br> Product...
             </h2>
 
             <?php
@@ -287,6 +295,104 @@
                 </div>
 
             </div>
+        </div>
+
+        <hr>
+
+        <div class="recommendation-container">
+
+            <h2 class="recommendation-container-title">
+                Similar Products You <br>
+                Might Like...
+            </h2>
+
+            <div class="products">
+
+                <?php
+                
+                    $recommendationQuery = "
+                        SELECT p.product_id, p.product_name, p.product_image, p.product_price
+                        FROM product p
+                        INNER JOIN shop s ON p.shop_id=s.shop_id
+                        INNER JOIN users u ON u.user_id=s.user_id
+                        INNER JOIN trader_category t ON t.category_id=u.category_id
+                        WHERE t.category_id=$productCategoryId AND p.product_id<>$productId
+                        LIMIT 3;
+                    ";
+
+                    $recommendationQueryResult = mysqli_query($connection, $recommendationQuery);
+                    if($recommendationQueryResult){
+                        foreach($recommendationQueryResult as $product){
+                            
+
+                            echo "<div class='product'>";
+
+                            echo "<div class='product-image'>";
+                            echo "<img loading='lazy' src='$product[product_image]' alt='$product[product_name]'>";
+                            echo "</div>";
+
+                            echo "
+                                <a style='color:black; text-decoration:none;' href='../productDetails/productDetails.php?productId=$product[product_id]'>
+                                    <h3 class='product-name'>
+                                        $product[product_name]
+                                    </h3>
+                                </a>
+                            ";
+
+                            echo "<div class='product-rating'>";
+
+                            $productRating=0;
+                            $ratedUsers=0;
+
+                            $ratingQuery = "SELECT * FROM rating WHERE product_id=$product[product_id];";
+                            $ratingQueryResult = mysqli_query($connection, $ratingQuery);
+
+                            if($ratingQueryResult){
+                                $ratedUsers=mysqli_num_rows($ratingQueryResult);
+
+                                foreach($ratingQueryResult as $rating){
+
+                                    // adding to rating
+                                    $productRating=(int)$rating['rating_star'];
+                                }
+
+                                if($ratedUsers>0){
+                                    $productRating=$productRating/$ratedUsers;                                
+                                }
+                            }
+
+                            for($i=1; $i<=5; $i++){
+                                if($i<=$productRating){
+                                    echo "
+                                        <svg class='filled-star' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z'/></svg>
+                                    ";
+                                }else{
+                                    echo "
+                                        <svg class='stroke-star' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M12 5.173l2.335 4.817 5.305.732-3.861 3.71.942 5.27-4.721-2.524-4.721 2.525.942-5.27-3.861-3.71 5.305-.733 2.335-4.817zm0-4.586l-3.668 7.568-8.332 1.151 6.064 5.828-1.48 8.279 7.416-3.967 7.416 3.966-1.48-8.279 6.064-5.827-8.332-1.15-3.668-7.569z'/></svg>
+                                    ";
+                                }
+
+                            }
+
+                            echo "</div>";
+
+                            echo "<svg class='cart-icon' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z'/></svg>";
+
+                            echo "
+                                <h3 class='product-price'>
+                                    &pound; $product[product_price]
+                                </h3>
+                            ";
+
+                            echo "</div>";
+
+                        }
+                    }
+                
+                ?>
+                
+            </div>
+
         </div>
 
     </div>

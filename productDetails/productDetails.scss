@@ -207,6 +207,19 @@
                 }
             }
         }
+
+        @media screen and (max-width: $medium) {
+            flex-direction: column;
+
+            .image-container {
+                margin-bottom: 50px;
+            }
+
+            .image-container,
+            .text-container {
+                width: 100%;
+            }
+        }
     }
 
     .comments-container {
@@ -272,5 +285,100 @@
                 }
             }
         }
+
+        @media screen and (max-width: $medium) {
+            flex-direction: column;
+
+            .comments-container-title {
+                margin-bottom: 50px;
+            }
+
+            .comments-container-title,
+            .comment-section {
+                width: 100%;
+            }
+        }
+    }
+
+    .recommendation-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-top: 70px;
+        padding-bottom: 50px;
+
+        .recommendation-container-title {
+            @extend .primary-container-title;
+        }
+
+        .products {
+            flex-basis: 60%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-gap: 40px;
+
+            .product {
+                width: 285px;
+                position: relative;
+                margin-bottom: 50px;
+
+                .product-image {
+                    height: 315px;
+                    margin-bottom: 10px;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        border-radius: 7px;
+                    }
+                }
+
+                .product-rating {
+                    .filled-star {
+                        fill: $yellow-primary;
+                    }
+                }
+
+                .product-name {
+                    font-weight: 800;
+                    margin-bottom: 5px;
+                }
+
+                .product-price {
+                    color: $green-primary;
+                    font-weight: 800;
+                }
+
+                .cart-icon {
+                    position: absolute;
+                    right: 0;
+                    top: 325px;
+                    height: 35px;
+                    width: 35px;
+                    padding: 5px;
+                    background-color: $yellow-primary;
+                    border-radius: 50%;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        @media screen and (max-width: $medium) {
+            flex-direction: column;
+
+            .recommendation-container-title {
+                margin-bottom: 50px;
+            }
+
+            .recommendation-container-title,
+            .products {
+                width: 100%;
+            }
+        }
+    }
+
+    @media screen and (max-width: $large) {
+        width: 90%;
     }
 }

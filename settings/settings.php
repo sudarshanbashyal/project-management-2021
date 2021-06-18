@@ -45,6 +45,7 @@
 
                     if(isset($_SESSION['profileNameError'])){
                         echo "<p class='error-msg'>$_SESSION[profileNameError]</p>";
+                        unset($_SESSION['profileNameError']);
                     }
                 
                 ?>
@@ -54,6 +55,7 @@
 
                     if(isset($_SESSION['profilePhoneError'])){
                         echo "<p class='error-msg'>$_SESSION[profilePhoneError]</p>";
+                        unset($_SESSION['profilePhoneError']);
                     }
                 
                 ?>
@@ -74,6 +76,7 @@
 
                     if(isset($_SESSION['accountPasswordError'])){
                         echo "<p class='error-msg'>$_SESSION[accountPasswordError]</p>";
+                        unset($_SESSION['accountPasswordError']);
                     }
                 
                 ?>
@@ -83,6 +86,7 @@
 
                     if(isset($_SESSION['accountNewPasswordError'])){
                         echo "<p class='error-msg'>$_SESSION[accountNewPasswordError]</p>";
+                        unset($_SESSION['accountNewPasswordError']);
                     }
                 
                 ?>
@@ -92,10 +96,12 @@
 
                     if(isset($_SESSION['accountConfirmError'])){
                         echo "<p class='error-msg'>$_SESSION[accountConfirmError]</p>";
+                        unset($_SESSION['accountConfirmError']);
                     }
 
                     if(isset($_SESSION['accountSuccess'])){
                         echo "<p class='success-msg'>$_SESSION[accountSuccess]</p>";
+                        unset($_SESSION['accountSuccess']);
                     }
                 
                 ?>

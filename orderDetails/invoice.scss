@@ -66,4 +66,8 @@
     .order-summary {
         margin-top: 70px;
     }
+
+    @media screen and (max-width: $medium) {
+        width: 90%;
+    }
 }

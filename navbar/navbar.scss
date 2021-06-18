@@ -5,7 +5,7 @@ nav {
     margin-top: 0px;
     padding-top: 0px;
     width: 100%;
-    z-index: 999;
+    z-index: 9999;
     background-color: white;
 
     .nav-container {
@@ -36,7 +36,7 @@ nav {
             }
         }
 
-        ul {
+        .nav-links {
             flex: 1;
             display: flex;
             align-items: center;
@@ -75,24 +75,27 @@ nav {
             justify-content: flex-end;
             align-items: center;
 
-            svg {
-                transform: scale(0.8);
-                cursor: pointer;
-            }
+            form {
+                svg {
+                    transform: scale(0.8);
+                    cursor: pointer;
+                }
 
-            .navbar-search-input {
-                padding: 0;
-                border: 1px solid black;
-                margin: 0px 1rem;
-                width: 0px;
-                transition: 0.2s ease-in-out;
-                background-color: transparent;
-            }
+                .navbar-search-input {
+                    padding: 0;
+                    border: 1px solid black;
+                    margin: 0px 1rem;
+                    width: 0px;
+                    transform: translateY(-5px);
+                    transition: 0.2s ease-in-out;
+                    background-color: transparent;
+                }
 
-            .search-input-expanded {
-                border-radius: 5px;
-                padding: 0.5rem;
-                width: 200px;
+                .search-input-expanded {
+                    border-radius: 5px;
+                    padding: 0.5rem;
+                    width: 200px;
+                }
             }
 
             .user-icon {
@@ -103,6 +106,58 @@ nav {
                 font-weight: bold;
                 color: black;
                 text-decoration: none;
+            }
+        }
+
+        .hamburger-menu {
+            display: none;
+        }
+
+        @media screen and (max-width: $large) {
+            width: 90%;
+        }
+
+        @media screen and (max-width: $medium-large) {
+            .logo,
+            .function-tray {
+                flex-basis: 20%;
+            }
+        }
+
+        @media screen and (max-width: $medium) {
+            .function-tray {
+                margin-right: 30px;
+                flex: 1;
+            }
+
+            .hamburger-menu {
+                display: block;
+                cursor: pointer;
+            }
+
+            .nav-links {
+                position: absolute;
+                flex-direction: column;
+                background-color: $yellow-primary;
+                width: 50%;
+                height: 94vh;
+                top: 6vh;
+                right: -100%;
+                transition: 0.3s ease-in-out;
+
+                li {
+                    margin: 0px;
+                }
+            }
+
+            .expanded-nav-link {
+                right: 0;
+            }
+        }
+
+        @media screen and (max-width: $small) {
+            .nav-links {
+                width: 100%;
             }
         }
     }

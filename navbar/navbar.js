@@ -4,3 +4,9 @@ const navbarSearchIcon = document.querySelector('.navbar-search-icon');
 navbarSearchIcon.addEventListener('click', () => {
     navbarSearchInput.classList.toggle('search-input-expanded');
 });
+
+const hamburgerIcon = document.querySelector('.hamburger-menu');
+hamburgerIcon.addEventListener('click', () => {
+    const navLinks = document.querySelector('.nav-links');
+    navLinks.classList.toggle('expanded-nav-link');
+});

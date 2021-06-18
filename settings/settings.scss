@@ -59,4 +59,12 @@
         margin-top: 100px;
         @extend .profile-settings;
     }
+
+    @media screen and (max-width: $medium-large) {
+        width: 70%;
+    }
+
+    @media screen and (max-width: $medium) {
+        width: 90%;
+    }
 }

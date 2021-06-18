@@ -168,4 +168,21 @@
             }
         }
     }
+
+    @media screen and (max-width: $large) {
+        width: 90%;
+    }
+
+    @media screen and (max-width: $medium-large) {
+        flex-direction: column;
+
+        .search-container,
+        .products-showcase {
+            width: 100%;
+        }
+
+        .search-container {
+            margin-bottom: 50px;
+        }
+    }
 }

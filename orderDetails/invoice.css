@@ -6,6 +6,10 @@
   font-family: 'Roboto', sans-serif;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 .container-title {
   position: relative;
 }
@@ -87,6 +91,38 @@ footer .footer-container .newsletter-section button {
   border-radius: 7px;
 }
 
+@media screen and (max-width: 1400px) {
+  footer .footer-container {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  footer .footer-container .social-section {
+    width: 40%;
+  }
+  footer .footer-container .newsletter-section {
+    -ms-flex-preferred-size: 50%;
+        flex-basis: 50%;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  footer .footer-container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  footer .footer-container .social-section {
+    margin-bottom: 50px;
+  }
+  footer .footer-container .social-section,
+  footer .footer-container .newsletter-section {
+    width: 100%;
+  }
+}
+
 footer svg {
   fill: white;
   margin-right: 40px;
@@ -160,5 +196,11 @@ footer svg {
 
 .invoice-container .order-summary {
   margin-top: 70px;
+}
+
+@media screen and (max-width: 1000px) {
+  .invoice-container {
+    width: 90%;
+  }
 }
 /*# sourceMappingURL=invoice.css.map */

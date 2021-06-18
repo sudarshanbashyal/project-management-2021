@@ -6,6 +6,10 @@
   font-family: 'Roboto', sans-serif;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 .container-title {
   position: relative;
 }
@@ -87,6 +91,38 @@ footer .footer-container .newsletter-section button {
   border-radius: 7px;
 }
 
+@media screen and (max-width: 1400px) {
+  footer .footer-container {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  footer .footer-container .social-section {
+    width: 40%;
+  }
+  footer .footer-container .newsletter-section {
+    -ms-flex-preferred-size: 50%;
+        flex-basis: 50%;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  footer .footer-container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  footer .footer-container .social-section {
+    margin-bottom: 50px;
+  }
+  footer .footer-container .social-section,
+  footer .footer-container .newsletter-section {
+    width: 100%;
+  }
+}
+
 footer svg {
   fill: white;
   margin-right: 40px;
@@ -98,7 +134,7 @@ footer svg {
 }
 
 .update-container .form-container {
-  width: 50%;
+  width: 60%;
   margin: auto;
   border: 1px solid #c9c9c5;
   border-radius: 15px;
@@ -197,5 +233,33 @@ footer svg {
 .update-container .form-container form .product-details .product-price input {
   -ms-flex-preferred-size: 48%;
       flex-basis: 48%;
+}
+
+@media screen and (max-width: 720px) {
+  .update-container .form-container form {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .update-container .form-container form .product-image {
+    margin-bottom: 50px;
+  }
+  .update-container .form-container form .product-image,
+  .update-container .form-container form .product-details {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  .update-container .form-container {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  .update-container .form-container {
+    width: 90%;
+  }
 }
 /*# sourceMappingURL=updateProduct.css.map */
