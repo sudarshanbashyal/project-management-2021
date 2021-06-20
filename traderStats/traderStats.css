@@ -134,6 +134,53 @@ footer svg {
   margin-top: 150px;
 }
 
+.container .table-headers {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.container .table-headers form {
+  width: 300px;
+  border: 1px solid #c9c9c5;
+  padding: 0.5rem 1.5rem;
+  border-radius: 7px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.container .table-headers form input {
+  border: none;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  height: 100%;
+  outline: none;
+}
+
+.container .table-headers form button {
+  background-color: transparent;
+  border: none;
+}
+
+.container .table-headers form button svg {
+  -webkit-transform: scale(0.7);
+          transform: scale(0.7);
+}
+
 .container table {
   margin-top: 60px;
   width: 100%;

@@ -54,7 +54,7 @@ if($connection){
 		$maxOrder=$_POST['maxOrder'];
 
 
-		$sql="UPDATE product SET product_name='$name',product_description='$description',min_order=$minOrder,max_order=$maxOrder,allergy_information='$allergy_info',stock=$stock,product_image='$image', discount=$discount,product_price=$price WHERE product_id=$product_id;";
+		$sql="UPDATE product SET shop_id=$shop, product_name='$name',product_description='$description',min_order=$minOrder,max_order=$maxOrder,allergy_information='$allergy_info',stock=$stock,product_image='$image', discount=$discount,product_price=$price WHERE product_id=$product_id;";
 		
 		$query=mysqli_query($connection,$sql);
 		if($query){

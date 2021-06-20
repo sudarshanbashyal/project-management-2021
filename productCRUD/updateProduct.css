@@ -262,4 +262,53 @@ footer svg {
     width: 90%;
   }
 }
+
+.update-container .reviews-container {
+  width: 60%;
+  margin: auto;
+  margin-top: 100px;
+}
+
+@media screen and (max-width: 1400px) {
+  .update-container .reviews-container {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  .update-container .reviews-container {
+    width: 90%;
+  }
+}
+
+.update-container .reviews-container .comments {
+  margin-top: 50px;
+}
+
+.update-container .reviews-container .comments hr {
+  border: 0.5px solid #c9c9c5;
+}
+
+.update-container .reviews-container .comments .comment {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 30px;
+  padding-top: 30px;
+}
+
+.update-container .reviews-container .comments .comment svg {
+  margin-right: 10px;
+}
+
+.update-container .reviews-container .comments .comment .comment-info {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.update-container .reviews-container .comments .comment .comment-info .user-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
 /*# sourceMappingURL=updateProduct.css.map */

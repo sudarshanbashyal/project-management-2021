@@ -108,4 +108,45 @@
             width: 90%;
         }
     }
+
+    .reviews-container {
+        width: 60%;
+        margin: auto;
+        margin-top: 100px;
+
+        @media screen and(max-width: $large) {
+            width: 70%;
+        }
+
+        @media screen and(max-width: $medium-large) {
+            width: 90%;
+        }
+
+        .comments {
+            margin-top: 50px;
+
+            hr {
+                border: 0.5px solid $gray-dark;
+            }
+
+            .comment {
+                display: flex;
+                margin-bottom: 30px;
+                padding-top: 30px;
+
+                svg {
+                    margin-right: 10px;
+                }
+
+                .comment-info {
+                    flex: 1;
+
+                    .user-name {
+                        font-weight: bold;
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+        }
+    }
 }

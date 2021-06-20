@@ -107,7 +107,7 @@ footer .footer-container .newsletter-section button {
   }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 720px) {
   footer .footer-container {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
