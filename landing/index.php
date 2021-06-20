@@ -246,13 +246,22 @@
                     INNER JOIN shop s ON p.shop_id=s.shop_id
                     INNER JOIN users u ON u.user_id=s.user_id
                     INNER JOIN trader_category t ON t.category_id=u.category_id
+                    WHERE p.stock>0
                     LIMIT 3;
                 ";
 
                 $recommendationQueryResult = mysqli_query($connection, $recommendationQuery);
                 if($recommendationQueryResult){
                     foreach($recommendationQueryResult as $product){
-                        
+
+                        $productInCart = false;
+                        foreach($_SESSION['currentCart'] as $currCart){
+                            foreach($currCart as $cartProductId=>$cartProductQuantity){
+                                if($cartProductId==$product['product_id']){
+                                    $productInCart=true;
+                                }
+                            }
+                        }
 
                         echo "<div class='product'>";
 
@@ -305,7 +314,14 @@
 
                         echo "</div>";
 
-                        echo "<svg class='cart-icon' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z'/></svg>";
+                        // display default add to cart if product not in cart
+                        if(!$productInCart){
+                            echo "
+                            <a href='../products/defaultCart.php?productId=$product[product_id]'>
+                                <svg class='cart-icon' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z'/></svg>
+                            </a>
+                            ";
+                        }
 
                         echo "
                             <h3 class='product-price'>

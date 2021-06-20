@@ -243,7 +243,6 @@ footer svg {
 .products-container .products-showcase .product {
   border-radius: 15px;
   border: 0.5px solid #c9c9c5;
-  position: relative;
   height: auto;
 }
 
@@ -264,6 +263,7 @@ footer svg {
 .products-container .products-showcase .product .product-description {
   padding: 0.7rem;
   margin: 0.8rem 0rem;
+  position: relative;
 }
 
 .products-container .products-showcase .product .product-description .product-name {
@@ -309,10 +309,10 @@ footer svg {
   -webkit-transition: 0.05s ease-in;
   transition: 0.05s ease-in;
   opacity: 0%;
-  top: 20px;
+  bottom: 20px;
   right: 20px;
-  fill: white;
-  background-color: #428035;
+  fill: black;
+  background-color: #f7b61b;
   height: 25px;
   width: 25px;
   padding: 0.1rem;
