@@ -34,7 +34,7 @@
 
         if(isset($_SESSION['userId'])){
             $productsQuery = "
-            SELECT p.product_id, p.product_name, p.product_image, p.product_price, p.stock, p.min_order, p.max_order, cd.product_quantity FROM product p
+            SELECT p.product_id, p.discount, p.product_name, p.product_image, p.product_price, p.stock, p.min_order, p.max_order, cd.product_quantity FROM product p
             INNER JOIN cart_details cd ON cd.product_id = p.product_id
             INNER JOIN cart c ON c.cart_id=cd.cart_id
             INNER JOIN users u ON u.user_id=c.user_id
@@ -54,7 +54,7 @@
                     $currentValue = current(array_values($product));
     
                     $productsQuery="
-                    SELECT p.product_id, p.product_name, p.product_image, p.product_price, p.stock, p.min_order, p.max_order FROM product p
+                    SELECT p.product_id, p.product_name, p.discount, p.product_image, p.product_price, p.stock, p.min_order, p.max_order FROM product p
                     WHERE p.product_id=$currentKey;
                     ";
                     
@@ -108,7 +108,7 @@
 
                         echo "
                         <h3 class='product-price'>
-                            &pound; ".$product['product_price']."
+                            &pound; ".($product['product_price']-($product['discount']/100*$product['product_price']))."
                         </h3>";
 
                         echo "<a href='../cart/deleteCartProduct.php?productId=$product[product_id]'><svg class='trash-icon' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z'/></svg></a>";
@@ -144,12 +144,12 @@
                         echo "</p>";
 
                         echo "<p class='product-price'>";
-                        echo ($product['product_price']*$product['product_quantity']);
+                        echo (($product['product_price']-($product['discount']/100*$product['product_price']))*$product['product_quantity']);
                         echo "</p>";
 
                         echo "</div>";
 
-                        $checkoutSum+=$product['product_price']*$product['product_quantity'];
+                        $checkoutSum+=($product['product_price']-($product['discount']/100*$product['product_price']))*$product['product_quantity'];
                     }
 
                     echo "<h2 class='total-price'>";
@@ -161,11 +161,13 @@
             </div>
             <form method="POST" action="./orderProducts.php">
                 <input class="discount-input" type="text" placeholder="Discount Coupon" name="discount_coupon">
+                <label for="">Select a collection day:</label>
                 <select class="collection-day" name="collection_day">
-                    <option value="" selected disabled>Select a Collection Day</option>
+                    <!-- <option value="" selected disabled>Select a Collection Day</option> -->
                 </select>
+                <label for="">Select a collection time:</label>
                 <select class="collection-time" name="collection_time">
-                    <option value="" selected disabled>Select a Collection Time</option>
+                    <!-- <option value="" selected disabled>Select a Collection Time</option> -->
                 </select>
                 
                 <?php
@@ -175,11 +177,10 @@
                     }
                 
                 ?>
-            
-                <input type="submit" class="checkout-btn" value="Proceed to Checkout">
 
+                <div id="paypal-payment-button">
+                </div>
             </form>
-
 
         </div>
 
@@ -191,6 +192,8 @@
     
     ?>
     
+    <script src="https://www.paypal.com/sdk/js?client-id=AQWx7igehoamlx46L2d3sNCRVj8UpaJCHfebe-SwkMhSyK-QyAmLSHZYnd7DdwG_Nn6HDzBSe9ifzijS&disable-funding=credit,card"></script>
+    <script src='./payment.js'></script>
 
     <script src="../navbar/navbar.js"></script>
     <script src="./collectionSlot.js"></script>

@@ -304,6 +304,10 @@ footer svg {
   color: #f85149;
 }
 
+.cart-container .checkout-showcase label {
+  font-weight: bold;
+}
+
 .cart-container .checkout-showcase .checkout-btn {
   width: 100%;
   padding: 0.6rem 0rem;

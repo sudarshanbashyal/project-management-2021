@@ -6,7 +6,7 @@
     $slotId;
     $orderId;
     $cartId;
-    $couponCode=isset($_POST['discount_coupon'])?$_POST['discount_coupon']:null;
+    $couponCode=isset($_GET['discount_coupon'])?$_GET['discount_coupon']:null;
     $couponId='NULL';
 
     if(!isset($_SESSION['userId'])){
@@ -15,9 +15,9 @@
     }
 
     // no time date selected
-    if(isset($_POST['collection_time']) && isset($_POST['collection_day'])){
-        $collectionTime=$_POST['collection_time'];
-        $collectionDay=$_POST['collection_day'];
+    if(isset($_GET['collection_time']) && isset($_GET['collection_day'])){
+        $collectionTime=$_GET['collection_time'];
+        $collectionDay=$_GET['collection_day'];
         unset($_SESSION['orderError']);
     }
     else{
