@@ -29,6 +29,17 @@ if(isset($_POST['submit'])){
 	}
 
 }
+if(isset($_POST['delete_submit'])){
+	$sql1="DELETE FROM shop WHERE shop_id=$shop_id";
+
+	$query1=mysqli_query($connection,$sql1);
+	if($query1){
+		$_SESSION['status']="delete";
+		header('location:'.$_SESSION['url']);
+		unset($_SESSION['url']);
+		exit();
+	}
+}
 }
 
 

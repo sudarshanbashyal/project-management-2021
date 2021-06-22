@@ -69,6 +69,24 @@ if($connection){
 		
 
 	}
+
+	if(isset($_POST['delete_submit'])){
+
+		$sql1="DELETE FROM product WHERE product_id=$product_id";
+		$query1=mysqli_query($connection,$sql1);
+
+
+
+		if($query1){
+			$_SESSION['status']="delete";
+			header('location:'.$_SESSION['url']);
+			unset($_SESSION['url']);
+			exit();
+		}
+		
+
+
+	}
 }
 
 

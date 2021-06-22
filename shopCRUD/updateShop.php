@@ -48,7 +48,7 @@
                 ?>
 
                 <div class="form-actions">
-                    <input class="delete-button" type="submit" value="Delete Shop" >
+                    <input class="delete-button" type="submit" value="Delete Shop" name="delete_submit" >
                     <input class="add-button" type="submit" value="Update Shop"name="submit">           
                 </div>
             </form>
@@ -62,6 +62,12 @@
                 elseif ($_SESSION['status']=="fail") {
                     echo "shop update fail.please try again.";
                     unset($_SESSION['status']);
+                }elseif($_SESSION['status']=="delete"){
+
+                    echo "shop deleted successfully.";
+                    unset($_SESSION['status']);
+                    unset($_SESSION['shop_name']);
+
                 }
 
 

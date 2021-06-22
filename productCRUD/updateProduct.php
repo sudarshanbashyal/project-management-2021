@@ -153,6 +153,21 @@
                 echo "products updaated successfully.";
                 unset($_SESSION['status']);
 
+            }elseif($_SESSION['status']=="delete"){
+
+
+                echo "product deleted successfully";
+                unset($_SESSION['status']);
+                unset($_SESSION['product_name']);
+                unset($_SESSION['product_description']);
+                unset($_SESSION['min_order']);
+                unset($_SESSION['max_order']);
+                unset($_SESSION['allergy_information']);
+                unset($_SESSION['stock']);
+                unset($_SESSION['product_image']);
+                unset($_SESSION['product_price']);
+                unset($_SESSION['discount']);
+                unset($_SESSION['shop_id']);
             }
         }
            ?>
