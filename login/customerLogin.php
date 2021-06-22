@@ -25,6 +25,12 @@
             <a href="traderLogin.php" class="login-page-link">Trader Login</a>
 
             <form>
+                <?php
+                    if (isset($_SESSION['successful_update'])) {
+                        echo $_SESSION['successful_update'];
+                        unset($_SESSION['successful_update']);
+                    }
+                ?>
 
                 <h2>Login to your account</h2>
                 <input type="text" name="" id="" placeholder="Email Address">

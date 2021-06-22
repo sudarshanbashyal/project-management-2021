@@ -6,10 +6,6 @@
   font-family: 'Roboto', sans-serif;
 }
 
-html {
-  overflow-x: hidden;
-}
-
 .container-title {
   position: relative;
 }
@@ -23,6 +19,24 @@ html {
   left: 0;
   bottom: -10px;
 }
+
+.error{
+   padding: 15px;
+margin-bottom: 20px;
+border: 1px solid transparent;
+border-radius: 4px;
+  background-color: #f44336;
+  color: white;
+}
+.success{
+  padding: 15px;
+margin-bottom: 20px;
+border: 1px solid transparent;
+border-radius: 4px;
+ background-color: lightseagreen;
+ color: white;
+}
+
 
 footer {
   margin-top: 200px;
@@ -91,38 +105,6 @@ footer .footer-container .newsletter-section button {
   border-radius: 7px;
 }
 
-@media screen and (max-width: 1400px) {
-  footer .footer-container {
-    width: 90%;
-  }
-}
-
-@media screen and (max-width: 1000px) {
-  footer .footer-container .social-section {
-    width: 40%;
-  }
-  footer .footer-container .newsletter-section {
-    -ms-flex-preferred-size: 50%;
-        flex-basis: 50%;
-  }
-}
-
-@media screen and (max-width: 720px) {
-  footer .footer-container {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-  }
-  footer .footer-container .social-section {
-    margin-bottom: 50px;
-  }
-  footer .footer-container .social-section,
-  footer .footer-container .newsletter-section {
-    width: 100%;
-  }
-}
-
 footer svg {
   fill: white;
   margin-right: 40px;
@@ -187,11 +169,5 @@ footer svg {
 
 .register-container .form-container form .login-link span {
   font-weight: bold;
-}
-
-@media screen and (max-width: 1000px) {
-  .register-container .form-container {
-    width: 90%;
-  }
 }
 /*# sourceMappingURL=register.css.map */
