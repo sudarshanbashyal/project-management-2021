@@ -118,6 +118,14 @@
 
                                 echo "<div class='product'>";
                                 echo "<div class='product-image'>"; 
+
+                                if($product['discount']>0){
+                                    echo "
+                                    <span class='product-discount'>
+                                        $product[discount]%
+                                    </span>";
+                                }
+                                
                                 echo "
                                 <a href='../productDetails/productDetails.php?productId=$product[product_id]'>
                                     <img src='$product[product_image]' alt='$product[product_name]'>
@@ -130,7 +138,9 @@
                                     <div class='product-description'>
                                         <a style='text-decoration: none;' href='../productDetails/productDetails.php?productId=$product[product_id]'>
                                             <p class='product-name'>$product[product_name]</p>
-                                            <p class='product-price'>&pound; $product[product_price]</p>
+                                            <p class='product-price'>&pound;"
+                                            .($product['product_price']-($product['discount']/100*$product['product_price'])).
+                                            "</p>
                                         </a>
                                 ";
                                 echo "<span class='rating'>";

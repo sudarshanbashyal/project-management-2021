@@ -109,11 +109,26 @@
 
                 </div>
 
-                <h2 class="product-price">
+                <div class="product-price">
                     <?php
-                        echo "&pound ".$currentProduct['product_price'];
+                    
+                        if($currentProduct['discount']>0){
+                            echo "
+                            <span class='discount'>
+                                &pound;
+                                $currentProduct[product_price]
+                            </span>
+                            ";
+                        }
+                    
                     ?>
-                </h2>
+
+                    <h2 class="price">
+                        <?php
+                            echo "&pound ".($currentProduct['product_price']-($currentProduct['discount']/100*$currentProduct['product_price']));
+                        ?>
+                    </h2>
+                </div>
 
                 <!-- show product out of stock -->
                 <?php

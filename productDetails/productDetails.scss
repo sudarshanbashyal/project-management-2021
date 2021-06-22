@@ -86,9 +86,20 @@
             }
 
             .product-price {
+                display: flex;
+                align-items: center;
                 margin-top: 50px;
-                color: $green-primary;
-                font-weight: 700;
+
+                .discount {
+                    text-decoration: line-through;
+                    margin-right: 15px;
+                    font-weight: bold;
+                }
+
+                .price {
+                    color: $green-primary;
+                    font-weight: 700;
+                }
             }
 
             .cart-functionalities {

@@ -94,6 +94,22 @@
                 height: 250px;
                 width: 100%;
                 margin-bottom: 20px;
+                position: relative;
+
+                .product-discount {
+                    position: absolute;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    left: 0.5rem;
+                    bottom: 0.7rem;
+                    font-weight: bold;
+                    width: 40px;
+                    color: white;
+                    height: 40px;
+                    border-radius: 50%;
+                    background-color: $green-primary;
+                }
 
                 img {
                     border-radius: 15px 15px 0px 0px;

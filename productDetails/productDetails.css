@@ -226,7 +226,22 @@ footer svg {
 }
 
 .main-container .details-container .text-container .product-price {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin-top: 50px;
+}
+
+.main-container .details-container .text-container .product-price .discount {
+  text-decoration: line-through;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.main-container .details-container .text-container .product-price .price {
   color: #428035;
   font-weight: 700;
 }

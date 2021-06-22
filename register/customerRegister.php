@@ -2,9 +2,6 @@
 session_start();
 include '../init.php';
 
-
-
-
 // declaring the variable
 $errors = array(); 
 $successs = array();
@@ -40,22 +37,26 @@ if (isset($_POST['signup'])) {
   }
 
   //there isn't another customer with the same username,email address and phone number
-  $user_check_query = "SELECT * FROM users WHERE user_name='$username' OR user_email='$email' OR user_phone_number='$phonenumber' LIMIT 1";
-  $results= mysqli_query($connection, $user_check_query);
-  $user = mysqli_fetch_assoc($results);
+  $userEmailCheck = "SELECT * FROM users WHERE user_email='$email';";
+  $userPhoneNumberCheck = "SELECT * FROM users WHERE user_phone_number='$phonenumber';";
   
-  if ($user) { // if user exists
-    if ($user['user_name'] === $username) {
-      array_push($errors, "Username already exists");
-    }
-
-    if ($user['user_email'] === $email) {
-      array_push($errors, "Email already exists");
-    }
-    if ($user['user_phone_number'] === $phonenumber) {
-      array_push($errors, "Phone number already exists");
+  $userEmailCheckResult = mysqli_query($connection, $userEmailCheck);
+  $userPhoneNumberCheck = mysqli_query($connection, $userPhoneNumberCheck);
+  
+  // email exists
+  if($userEmailCheckResult){
+    if(mysqli_num_rows($userEmailCheckResult)>0){
+        array_push($errors, 'Email address already exists.');
     }
   }
+
+  // phone number exists
+  if(mysqli_num_rows($userPhoneNumberCheck)>0){
+      array_push($errors, 'Phone Number already exists.');
+  }
+
+  // phonenumber exists
+
   //password stength
   if(strlen($password) <=8)
   {
