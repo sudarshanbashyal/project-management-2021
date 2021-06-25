@@ -11,19 +11,21 @@
             $userId=$_SESSION['userId'];
 
             // getting cart id of the current user
-            $cartIdQuery = "SELECT cart_id from cart c INNER JOIN users u ON c.user_id=u.user_id WHERE u.user_id=$userId;";
-            $cartIds=mysqli_query($connection, $cartIdQuery);
+            $cartIdQuery = "SELECT cart_id from HAMROMART.cart c INNER JOIN HAMROMART.users u ON c.user_id=u.user_id WHERE u.user_id=$userId";
+            $cartIds=oci_parse($connection, $cartIdQuery);
+            oci_execute($cartIds);
             $userCartId=null;
 
             if($cartIds){
-                foreach($cartIds as $currentId){
-                    $userCartId=$currentId['cart_id'];
+                while($currentId=oci_fetch_assoc($cartIds)){
+                    $userCartId=$currentId['CART_ID'];
                 }
             }
 
             // adding product to cart
-            $addQuery = "INSERT INTO cart_details VALUES($userCartId, $productId, $productQuantity);";
-            $addQueryResult = mysqli_query($connection, $addQuery);
+            $addQuery = "INSERT INTO HAMROMART.cart_details VALUES($userCartId, $productId, $productQuantity)";
+            $addQueryResult = oci_parse($connection, $addQuery);
+            oci_execute($addQueryResult);
             if($addQueryResult){
                 header('Location: ../cart/cart.php');
             }

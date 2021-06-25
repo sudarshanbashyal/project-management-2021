@@ -6,50 +6,48 @@
     $minOrder = 1;
 
     $minOrderQuery = "
-        SELECT min_order FROM product WHERE product_id=$productId;
+        SELECT min_order FROM HAMROMART.product WHERE product_id=$productId
     ";
-    $minOrderQueryResult = mysqli_query($connection, $minOrderQuery);
+    $minOrderQueryResult = oci_parse($connection, $minOrderQuery);
+    oci_execute($minOrderQueryResult);
 
     if($minOrderQueryResult){
-        if(mysqli_num_rows($minOrderQueryResult)==0){
-            header('Location: ./products.php');
-        }
-        else{
-            foreach($minOrderQueryResult as $product){
-                $minOrder=$product['min_order'];
+        while($product = oci_fetch_assoc($minOrderQueryResult) ){
+            $minOrder=$product['MIN_ORDER'];
 
-                // check if user is logged in or not
-                if(isset($_SESSION['userId'])){
-                    $userId=$_SESSION['userId'];
+            // check if user is logged in or not
+            if(isset($_SESSION['userId'])){
+                $userId=$_SESSION['userId'];
 
-                    // getting cart id of the current user
-                    $cartIdQuery = "SELECT cart_id from cart c INNER JOIN users u ON c.user_id=u.user_id WHERE u.user_id=$userId;";
-                    $cartIds=mysqli_query($connection, $cartIdQuery);
-                    $userCartId=null;
+                // getting cart id of the current user
+                $cartIdQuery = "SELECT cart_id from HAMROMART.cart c INNER JOIN HAMROMART.users u ON c.user_id=u.user_id WHERE u.user_id=$userId";
+                $cartIds=oci_parse($connection, $cartIdQuery);
+                oci_execute($cartIds);
+                $userCartId=null;
 
-                    if($cartIds){
-                        foreach($cartIds as $currentId){
-                            $userCartId=$currentId['cart_id'];
-                        }
-                    }
-
-                    // adding product to cart
-                    $addQuery = "INSERT INTO cart_details VALUES($userCartId, $productId, $minOrder);";
-                    $addQueryResult = mysqli_query($connection, $addQuery);
-                    if($addQueryResult){
-                        header('Location: ../cart/cart.php');
+                if($cartIds){
+                    while($currentId=oci_fetch_assoc($cartIds)){
+                        $userCartId=$currentId['CART_ID'];
                     }
                 }
-                else{
-                    if(isset($_SESSION['currentCart'])){
-                        array_push($_SESSION['currentCart'],array($productId=>$minOrder));
-                    }
-                    else{
-                        $_SESSION['currentCart']=array();
-                        array_push($_SESSION['currentCart'],array($productId=>$minOrder));
-                    }
+
+                // adding product to cart
+                $addQuery = "INSERT INTO HAMROMART.cart_details VALUES($userCartId, $productId, $minOrder)";
+                $addQueryResult = oci_parse($connection, $addQuery);
+                oci_execute($addQueryResult);
+                if($addQueryResult){
                     header('Location: ../cart/cart.php');
                 }
+            }
+            else{
+                if(isset($_SESSION['currentCart'])){
+                    array_push($_SESSION['currentCart'],array($productId=>$minOrder));
+                }
+                else{
+                    $_SESSION['currentCart']=array();
+                    array_push($_SESSION['currentCart'],array($productId=>$minOrder));
+                }
+                header('Location: ../cart/cart.php');
             }
         }
     }

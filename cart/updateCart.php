@@ -7,17 +7,28 @@
         
         if(isset($_SESSION['userId'])){
             $userId = $_SESSION['userId'];
+            $cartId=0;
+
+            $cartIdQuery = "SELECT cart_id FROM HAMROMART.cart WHERE user_id=$userId";
+            $cartIdQueryResult = oci_parse($connection, $cartIdQuery);
+            oci_execute($cartIdQueryResult);
+            if($cartIdQueryResult){
+                while($cart = oci_fetch_assoc($cartIdQueryResult)){
+                    $cartId = $cart['CART_ID'];
+                }
+            }
+
 
             foreach($quantities as $productNo=>$quantity){
                 $updateQuery = "
-                    UPDATE cart_details cd
-                    INNER JOIn cart c ON c.cart_id=cd.cart_id
-                    INNER JOIN users u ON u.user_id=c.user_id
+                    UPDATE HAMROMART.cart_details cd
                     SET cd.product_quantity=$quantity[0]
-                    WHERE cd.product_id=$productNo AND u.user_id=$userId;
+                    WHERE cd.product_id=$productNo AND cd.cart_id=$cartId
                 ";
     
-                $updateQueryResult = mysqli_query($connection, $updateQuery);
+                $updateQueryResult = oci_parse($connection, $updateQuery);
+                oci_execute($updateQueryResult);
+
                 if($updateQueryResult){
                     header('Location: cart.php');
                 }

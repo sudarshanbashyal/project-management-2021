@@ -24,6 +24,9 @@
         // query to get all the cart products
         $productsQuery='';
         $productsQueryResult;
+
+
+        $productsQueryResult=array();
         
         if(isset($_SESSION['currentCart'])){
             $cartSize = sizeof($_SESSION['currentCart']);
@@ -34,17 +37,21 @@
 
         if(isset($_SESSION['userId'])){
             $productsQuery = "
-            SELECT p.product_id, p.discount, p.product_name, p.product_image, p.product_price, p.stock, p.min_order, p.max_order, cd.product_quantity FROM product p
-            INNER JOIN cart_details cd ON cd.product_id = p.product_id
-            INNER JOIN cart c ON c.cart_id=cd.cart_id
-            INNER JOIN users u ON u.user_id=c.user_id
-            WHERE u.user_id=$_SESSION[userId];  
+            SELECT p.product_id, p.discount, p.product_name, p.product_image, p.product_price, p.stock, p.min_order, p.max_order, cd.product_quantity FROM HAMROMART.product p
+            INNER JOIN HAMROMART.cart_details cd ON cd.product_id = p.product_id
+            INNER JOIN HAMROMART.cart c ON c.cart_id=cd.cart_id
+            INNER JOIN HAMROMART.users u ON u.user_id=c.user_id
+            WHERE u.user_id=$_SESSION[userId]
             ";
 
-            $productsQueryResult = mysqli_query($connection, $productsQuery);
+            $queryResult = oci_parse($connection, $productsQuery);
+            oci_execute($queryResult);
+
+            while($currentProduct = oci_fetch_assoc($queryResult)){
+                array_push($productsQueryResult, $currentProduct);
+            }
         }
         else{
-            $productsQueryResult=array();
 
             if(isset($_SESSION['currentCart'])){
 
@@ -54,14 +61,16 @@
                     $currentValue = current(array_values($product));
     
                     $productsQuery="
-                    SELECT p.product_id, p.product_name, p.discount, p.product_image, p.product_price, p.stock, p.min_order, p.max_order FROM product p
-                    WHERE p.product_id=$currentKey;
+                    SELECT p.product_id, p.product_name, p.discount, p.product_image, p.product_price, p.stock, p.min_order, p.max_order FROM HAMROMART.product p
+                    WHERE p.product_id=$currentKey
                     ";
                     
-                    $queryResult= mysqli_query($connection, $productsQuery);
+                    $queryResult= oci_parse($connection, $productsQuery);
+                    oci_execute($queryResult);
+
                     if($queryResult){
-                        foreach($queryResult as $currentProduct){
-                            $currentProduct['product_quantity']=$product[$currentKey];
+                        while($currentProduct=oci_fetch_assoc($queryResult)){
+                            $currentProduct['PRODUCT_QUANTITY']=$product[$currentKey];
                             array_push($productsQueryResult,$currentProduct);
                         }
                     }
@@ -84,34 +93,34 @@
                         
                         echo "<div class='products'>
                         <div class='product-image'>
-                            <img src='".$product['product_image']."' alt='".$product['product_name']."'>
+                            <img src='".$product['PRODUCT_IMAGE']."' alt='".$product['PRODUCT_NAME']."'>
                         </div>
                         ";
 
                         echo "
                         <div class='product-description'>
                             <h2 class='product-name'>
-                                ".$product['product_name']."
+                                ".$product['PRODUCT_NAME']."
                             </h2>
 
                             <label class='quantity-label'>Quantity: </label>
                         ";
 
-                        $maxCartQuantity = $product['stock']<$product['max_order']?$product['stock']:$product['max_order'];
+                        $maxCartQuantity = $product['STOCK']<$product['MAX_ORDER']?$product['STOCK']:$product['MAX_ORDER'];
 
-                        echo "<select name='quantities[$product[product_id]][]'>";
-                        for($i=$product['min_order']; $i<$maxCartQuantity; $i++){
-                            $selectedQuantity = $i==$product['product_quantity']?'selected':'';
+                        echo "<select name='quantities[$product[PRODUCT_ID]][]'>";
+                        for($i=$product['MIN_ORDER']; $i<$maxCartQuantity; $i++){
+                            $selectedQuantity = $i==$product['PRODUCT_QUANTITY']?'selected':'';
                             echo "<option value='$i' $selectedQuantity>$i</option>";
                         }
                         echo "</select>";
 
                         echo "
                         <h3 class='product-price'>
-                            &pound; ".($product['product_price']-($product['discount']/100*$product['product_price']))."
+                            &pound; ".($product['PRODUCT_PRICE']-($product['DISCOUNT']/100*$product['PRODUCT_PRICE']))."
                         </h3>";
 
-                        echo "<a href='../cart/deleteCartProduct.php?productId=$product[product_id]'><svg class='trash-icon' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z'/></svg></a>";
+                        echo "<a href='../cart/deleteCartProduct.php?productId=$product[PRODUCT_ID]'><svg class='trash-icon' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z'/></svg></a>";
                         echo "</div></div>";
                         
                     }
@@ -137,19 +146,19 @@
                     foreach($productsQueryResult as $product){
                         
                         echo "<div class='products'>";
-                        echo $product['product_name'];
+                        echo $product['PRODUCT_NAME'];
 
                         echo "<p class='product-quantity'>";
-                        echo "X ".$product['product_quantity'];
+                        echo "X ".$product['PRODUCT_QUANTITY'];
                         echo "</p>";
 
                         echo "<p class='product-price'>";
-                        echo (($product['product_price']-($product['discount']/100*$product['product_price']))*$product['product_quantity']);
+                        echo (($product['PRODUCT_PRICE']-($product['DISCOUNT']/100*$product['PRODUCT_PRICE']))*$product['PRODUCT_QUANTITY']);
                         echo "</p>";
 
                         echo "</div>";
 
-                        $checkoutSum+=($product['product_price']-($product['discount']/100*$product['product_price']))*$product['product_quantity'];
+                        $checkoutSum+=($product['PRODUCT_PRICE']-($product['DISCOUNT']/100*$product['PRODUCT_PRICE']))*$product['PRODUCT_QUANTITY'];
                     }
 
                     echo "<h2 class='total-price'>";

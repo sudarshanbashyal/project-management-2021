@@ -10,10 +10,11 @@
     $commentContent= htmlspecialchars($commentContent);
 
     $commentQuery = "
-        INSERT INTO comments(user_id, product_id, comment_content)
-        VALUES($userId, $productId, '$commentContent');
+        INSERT INTO HAMROMART.comments(user_id, product_id, comment_content)
+        VALUES($userId, $productId, '$commentContent')
     ";
-    $commentQueryResult = mysqli_query($connection, $commentQuery);
+    $commentQueryResult = oci_parse($connection, $commentQuery);
+    oci_execute($commentQueryResult);
 
     if($commentQueryResult){
         header("Location: ./productDetails.php?productId=$productId");

@@ -23,21 +23,21 @@
 
         $productId = $_GET['productId'];
         $productQuery = "
-            SELECT p.*, t.category_id FROM product p 
-            INNER JOIN shop s ON s.shop_id=p.shop_id 
-            INNER JOIN users u ON u.user_id = s.user_id
-            INNER JOIN trader_category t ON t.category_id = u.category_id
-            WHERE product_id=$productId;
+            SELECT p.*, t.category_id, u.user_name FROM HAMROMART.product p 
+            INNER JOIN HAMROMART.shop s ON s.shop_id=p.shop_id 
+            INNER JOIN HAMROMART.users u ON u.user_id = s.user_id
+            INNER JOIN HAMROMART.trader_category t ON t.category_id = u.category_id
+            WHERE product_id=$productId
         ";
-        $products = mysqli_query($connection, $productQuery);
-        $currentProduct;
+        $products = oci_parse($connection, $productQuery);
+        oci_execute($products);
+
+        $currentProduct=null;
         
-        if(!mysqli_num_rows($products)==0){
-            foreach($products as $product){
-                $currentProduct=$product;
-                $productCategoryId=$product['category_id'];
-            }
-        }    
+        while($product=oci_fetch_assoc($products)){
+            $currentProduct=$product;
+            $productCategoryId=$product['CATEGORY_ID'];
+        }
     ?>
 
     <div class="main-container">
@@ -45,19 +45,19 @@
         <div class="details-container">
 
             <div class="image-container">
-                <img src="<?php echo($currentProduct['product_image']) ?>" alt="">
+                <img src="<?php echo($currentProduct['PRODUCT_IMAGE']) ?>" alt="">
             </div>
 
             <div class="text-container">
 
                 <h2 class="product-name">
                     <?php
-                        echo $currentProduct['product_name'];
+                        echo $currentProduct['PRODUCT_NAME'];
                     ?>
                 </h2>
                 <p class="trader-name">
                     <?php
-                        echo $currentProduct['shop_name'];
+                        echo $currentProduct['USER_NAME'];
                     ?>
                 </p>
 
@@ -70,19 +70,20 @@
                         $averageRating=0;
                         $numberOfUsers=0;
 
-                        $ratingQuery = "SELECT * FROM rating WHERE product_id=$productId;";
-                        $ratingQueryResult = mysqli_query($connection, $ratingQuery);
+                        $ratingQuery = "SELECT * FROM HAMROMART.rating WHERE product_id=$productId";
+                        $ratingQueryResult = oci_parse($connection, $ratingQuery);
+                        oci_execute($ratingQueryResult);
 
                         if($ratingQueryResult){
-                            $numberOfUsers=mysqli_num_rows($ratingQueryResult);
 
-                            foreach($ratingQueryResult as $rating){
-                                if($rating['user_id']==$_SESSION['userId']){
-                                    $productRated=$rating['rating_star'];
+                            while($rating=oci_fetch_assoc($ratingQueryResult)){
+                                if(isset($_SESSION['userId']) && $rating['USER_ID']==$_SESSION['userId']){
+                                    $productRated=$rating['RATING_STAR'];
                                 }
+                                $numberOfUsers++;
 
                                 // adding to rating
-                                $averageRating+=(int)$rating['rating_star'];
+                                $averageRating+=(int)$rating['RATING_STAR'];
                             }
 
                             if($numberOfUsers>0){
@@ -112,11 +113,11 @@
                 <div class="product-price">
                     <?php
                     
-                        if($currentProduct['discount']>0){
+                        if($currentProduct['DISCOUNT']>0){
                             echo "
                             <span class='discount'>
                                 &pound;
-                                $currentProduct[product_price]
+                                $currentProduct[PRODUCT_PRICE]
                             </span>
                             ";
                         }
@@ -125,7 +126,7 @@
 
                     <h2 class="price">
                         <?php
-                            echo "&pound ".($currentProduct['product_price']-($currentProduct['discount']/100*$currentProduct['product_price']));
+                            echo "&pound ".($currentProduct['PRODUCT_PRICE']-($currentProduct['DISCOUNT']/100*$currentProduct['PRODUCT_PRICE']));
                         ?>
                     </h2>
                 </div>
@@ -141,7 +142,7 @@
                         }
                     }
                 
-                    if($currentProduct['stock']<1){
+                    if($currentProduct['STOCK']<1){
                         echo "<h3 class='out-of-stock'>Product out of stock</h3>";
                     }
                     elseif($productInCart){
@@ -154,10 +155,10 @@
                         echo "<div class='cart-functionalities'>";
                         echo "<form action='./cartForm.php?productId=$productId' method='POST'>";
                         echo "<select name='productQuantity'>";
-                        $maxCartQuantity = $currentProduct['stock']<$currentProduct['max_order']?$currentProduct['stock']:$currentProduct['max_order'];
+                        $maxCartQuantity = $currentProduct['STOCK']<$currentProduct['MAX_ORDER']?$currentProduct['STOCK']:$currentProduct['MAX_ORDER'];
 
-                        for($i=$currentProduct['min_order']; $i<=$maxCartQuantity; $i++){
-                            $selectedQuantity = ($i==$currentProduct['min_order'])?'selected':'';
+                        for($i=$currentProduct['MIN_ORDER']; $i<=$maxCartQuantity; $i++){
+                            $selectedQuantity = ($i==$currentProduct['MIN_ORDER'])?'selected':'';
                             echo "<option value='$i' $selectedQuantity>$i</option>";
                         }
                         echo "</select>";
@@ -176,7 +177,7 @@
 
                     <p class="product-description">
                         <?php
-                            echo $currentProduct['product_description'];
+                            echo $currentProduct['PRODUCT_DESCRIPTION'];
                         ?>
                     </p>
 
@@ -190,7 +191,7 @@
 
                         <p class="allergy-content">
                             <?php
-                                echo $currentProduct['allergy_information'];
+                                echo $currentProduct['ALLERGY_INFORMATION'];
                             ?>                        
                         </p>
                     </div>
@@ -257,13 +258,14 @@
                 // retrieving all comments from database
                 $commentQuery = "
                     SELECT c.comment_content, u.user_name
-                    FROM comments c
-                    INNER JOIN users u ON u.user_id=c.user_id
-                    INNER JOIN product p ON p.product_id=c.product_id
-                    WHERE p.product_id=$productId;
+                    FROM HAMROMART.comments c
+                    INNER JOIN HAMROMART.users u ON u.user_id=c.user_id
+                    INNER JOIN HAMROMART.product p ON p.product_id=c.product_id
+                    WHERE p.product_id=$productId
                 ";
 
-                $commentQueryResult = mysqli_query($connection, $commentQuery);
+                $commentQueryResult = oci_parse($connection, $commentQuery);
+                oci_execute($commentQueryResult);
             
             ?>
 
@@ -283,30 +285,30 @@
 
                     <?php
 
-                        if(mysqli_num_rows($commentQueryResult)==0){
-                            echo "<h3 class='no-comments'>This product does not have any comments.</h3>";
+                        $noOfComments=0;
+                        while($comment=oci_fetch_assoc($commentQueryResult)){
+                            echo "<div class='comment'>";
+                            echo "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7.753 18.305c-.261-.586-.789-.991-1.871-1.241-2.293-.529-4.428-.993-3.393-2.945 3.145-5.942.833-9.119-2.489-9.119-3.388 0-5.644 3.299-2.489 9.119 1.066 1.964-1.148 2.427-3.393 2.945-1.084.25-1.608.658-1.867 1.246-1.405-1.723-2.251-3.919-2.251-6.31 0-5.514 4.486-10 10-10s10 4.486 10 10c0 2.389-.845 4.583-2.247 6.305z'/></svg>";
+
+                            echo "
+                                <div class='comment-info'>
+                                    <p class='user-name'>$comment[USER_NAME]</p>
+        
+                                    <p class='comment-content'>
+                                        $comment[COMMENT_CONTENT]
+                                    </p>
+                                </div>
+                            ";
+
+                            echo "</div>";
+                            echo "<hr>";
+                            $noOfComments++;
                         }
-                        else{
 
-                            foreach($commentQueryResult as $comment){
-                                echo "<div class='comment'>";
-                                echo "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7.753 18.305c-.261-.586-.789-.991-1.871-1.241-2.293-.529-4.428-.993-3.393-2.945 3.145-5.942.833-9.119-2.489-9.119-3.388 0-5.644 3.299-2.489 9.119 1.066 1.964-1.148 2.427-3.393 2.945-1.084.25-1.608.658-1.867 1.246-1.405-1.723-2.251-3.919-2.251-6.31 0-5.514 4.486-10 10-10s10 4.486 10 10c0 2.389-.845 4.583-2.247 6.305z'/></svg>";
-
-                                echo "
-                                    <div class='comment-info'>
-                                        <p class='user-name'>$comment[user_name]</p>
-            
-                                        <p class='comment-content'>
-                                            $comment[comment_content]
-                                        </p>
-                                    </div>
-                                ";
-
-                                echo "</div>";
-                                echo "<hr>";
-                            }
-
+                        if($noOfComments==0){
+                            echo "<h3 class='no-comment'>This product does not have any comments</h3>";
                         }
+
                     
                     ?>
 
@@ -330,29 +332,30 @@
                 
                     $recommendationQuery = "
                         SELECT p.product_id, p.product_name, p.product_image, p.product_price
-                        FROM product p
-                        INNER JOIN shop s ON p.shop_id=s.shop_id
-                        INNER JOIN users u ON u.user_id=s.user_id
-                        INNER JOIN trader_category t ON t.category_id=u.category_id
+                        FROM HAMROMART.product p
+                        INNER JOIN HAMROMART.shop s ON p.shop_id=s.shop_id
+                        INNER JOIN HAMROMART.users u ON u.user_id=s.user_id
+                        INNER JOIN HAMROMART.trader_category t ON t.category_id=u.category_id
                         WHERE t.category_id=$productCategoryId AND p.product_id<>$productId
-                        LIMIT 3;
                     ";
 
-                    $recommendationQueryResult = mysqli_query($connection, $recommendationQuery);
+                    $recommendationQueryResult = oci_parse($connection, $recommendationQuery);
+                    oci_execute($recommendationQueryResult);
+
                     if($recommendationQueryResult){
-                        foreach($recommendationQueryResult as $product){
+                        while($product=oci_fetch_assoc($recommendationQueryResult)){
                             
 
                             echo "<div class='product'>";
 
                             echo "<div class='product-image'>";
-                            echo "<img loading='lazy' src='$product[product_image]' alt='$product[product_name]'>";
+                            echo "<img loading='lazy' src='$product[PRODUCT_IMAGE]' alt='$product[PRODUCT_NAME]'>";
                             echo "</div>";
 
                             echo "
-                                <a style='color:black; text-decoration:none;' href='../productDetails/productDetails.php?productId=$product[product_id]'>
+                                <a style='color:black; text-decoration:none;' href='../productDetails/productDetails.php?productId=$product[PRODUCT_ID]'>
                                     <h3 class='product-name'>
-                                        $product[product_name]
+                                        $product[PRODUCT_NAME]
                                     </h3>
                                 </a>
                             ";
@@ -362,16 +365,17 @@
                             $productRating=0;
                             $ratedUsers=0;
 
-                            $ratingQuery = "SELECT * FROM rating WHERE product_id=$product[product_id];";
-                            $ratingQueryResult = mysqli_query($connection, $ratingQuery);
+                            $ratingQuery = "SELECT * FROM HAMROMART.rating WHERE product_id=$product[PRODUCT_ID]";
+                            $ratingQueryResult = oci_parse($connection, $ratingQuery);
+                            oci_execute($ratingQueryResult);
 
                             if($ratingQueryResult){
-                                $ratedUsers=mysqli_num_rows($ratingQueryResult);
 
-                                foreach($ratingQueryResult as $rating){
+                                while($rating=oci_fetch_assoc($ratingQueryResult)){
 
                                     // adding to rating
-                                    $productRating=(int)$rating['rating_star'];
+                                    $productRating=(int)$rating['RATING_STAR'];
+                                    $ratedUsers++;
                                 }
 
                                 if($ratedUsers>0){
@@ -396,7 +400,7 @@
 
                             if(!$productInCart && sizeof($_SESSION['currentCart'])<20){
                                 echo "
-                                <a href='../products/defaultCart.php?productId=$product[product_id]'>
+                                <a href='../products/defaultCart.php?productId=$product[PRODUCT_ID]'>
                                     <svg class='cart-icon' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z'/></svg>
                                 </a>
                                 ";
@@ -404,7 +408,7 @@
 
                             echo "
                                 <h3 class='product-price'>
-                                    &pound; $product[product_price]
+                                    &pound; $product[PRODUCT_PRICE]
                                 </h3>
                             ";
 

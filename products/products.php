@@ -32,7 +32,7 @@
                 // form values
 
                 // product name
-                $productName = (isset($_GET['product_name']) && !empty($_GET['product_name']))?$_GET['product_name']:'';
+                $productName = (isset($_GET['product_name']) && !empty($_GET['product_name']))?strtolower($_GET['product_name']):'';
                 $_SESSION['searchData']=$productName;
 
                 // trader category
@@ -63,35 +63,36 @@
                 // building the search query
                 $searchQuery = "
                     SELECT p.product_id, p.product_name, p.product_price, p.discount, p.product_image, u.user_name
-                    FROM product p
-                    INNER JOIN shop s ON s.shop_id = p.shop_id
-                    INNER JOIN users u ON u.user_id = s.user_id
-                    INNER JOIN trader_category t ON t.category_id=u.category_id
+                    FROM HAMROMART.product p
+                    INNER JOIN HAMROMART.shop s ON s.shop_id = p.shop_id
+                    INNER JOIN HAMROMART.users u ON u.user_id = s.user_id
+                    INNER JOIN HAMROMART.trader_category t ON t.category_id=u.category_id
                     WHERE p.disabled <> 'TRUE' AND p.stock>0 
-                    AND p.product_name LIKE '%$productName%' 
+                    AND lower(p.product_name) LIKE lower('%$productName%') 
                     AND t.category_type LIKE '%$traderCategory%'
                     AND s.shop_name LIKE '%$shopName%'
-                    AND p.product_price BETWEEN $minPrice AND $maxPrice; 
+                    AND p.product_price BETWEEN $minPrice AND $maxPrice
                 ";
-                $searchQueryResult = mysqli_query($connection, $searchQuery);
+                $searchQueryResult = oci_parse($connection, $searchQuery);
+                oci_execute($searchQueryResult);
 
                 if($searchQueryResult){
 
                     // no products found
-                    if(mysqli_num_rows($searchQueryResult)==0){
-                        echo "<h3>No Products Found =(</h3>";
-                    }
+                    // if(oci_fetch_all($searchQueryResult, $res)<=0){
+                    //     echo "<h3>No Products Found =(</h3>";
+                    // }
 
                     $productsDisplayed=0;
 
                     // display product
-                    foreach($searchQueryResult as $product){
+                    while($product = oci_fetch_assoc($searchQueryResult) ){
                         // checking if product is already in cart
                         // if it is in cart, the cart in the thumbnail will be not be shown
                         $productInCart = false;
                         foreach($_SESSION['currentCart'] as $currCart){
                             foreach($currCart as $cartProductId=>$cartProductQuantity){
-                                if($cartProductId==$product['product_id']){
+                                if($cartProductId==$product['PRODUCT_ID']){
                                     $productInCart=true;
                                 }
                             }
@@ -99,17 +100,20 @@
 
                         // getting product ratng
 
-                        $ratingQuery = "SELECT rating_star FROM rating WHERE product_id=$product[product_id]";
-                        $ratingQueryResult = mysqli_query($connection, $ratingQuery);
+                        $ratingQuery = "SELECT rating_star FROM HAMROMART.rating WHERE product_id=$product[PRODUCT_ID]";
+                        $ratingQueryResult = oci_parse($connection, $ratingQuery);
+                        oci_execute($ratingQueryResult);
+
                         if($ratingQueryResult){
-                            $noOfUsers = mysqli_num_rows($ratingQueryResult);
+                            $noOfUsers = 0;
                             $averageRating=0;
 
-                            if(mysqli_num_rows($ratingQueryResult)>0){
-                                foreach($ratingQueryResult as $rating){
-                                    $averageRating+=$rating['rating_star'];
-                                }
-    
+                            while($rating = oci_fetch_assoc($ratingQueryResult)){
+                                $averageRating+=$rating['RATING_STAR'];
+                                $noOfUsers++;
+                            }
+
+                            if($noOfUsers>0){
                                 $averageRating=$averageRating/$noOfUsers;
                             }
 
@@ -119,16 +123,16 @@
                                 echo "<div class='product'>";
                                 echo "<div class='product-image'>"; 
 
-                                if($product['discount']>0){
+                                if($product['DISCOUNT']>0){
                                     echo "
                                     <span class='product-discount'>
-                                        $product[discount]%
+                                        $product[DISCOUNT]%
                                     </span>";
                                 }
                                 
                                 echo "
-                                <a href='../productDetails/productDetails.php?productId=$product[product_id]'>
-                                    <img src='$product[product_image]' alt='$product[product_name]'>
+                                <a href='../productDetails/productDetails.php?productId=$product[PRODUCT_ID]'>
+                                    <img src='$product[PRODUCT_IMAGE]' alt='$product[PRODUCT_NAME]'>
                                 </a>
                                 ";
         
@@ -136,10 +140,10 @@
         
                                 echo "
                                     <div class='product-description'>
-                                        <a style='text-decoration: none;' href='../productDetails/productDetails.php?productId=$product[product_id]'>
-                                            <p class='product-name'>$product[product_name]</p>
+                                        <a style='text-decoration: none;' href='../productDetails/productDetails.php?productId=$product[PRODUCT_ID]'>
+                                            <p class='product-name'>$product[PRODUCT_NAME]</p>
                                             <p class='product-price'>&pound;"
-                                            .($product['product_price']-($product['discount']/100*$product['product_price'])).
+                                            .($product['PRODUCT_PRICE']-($product['DISCOUNT']/100*$product['PRODUCT_PRICE'])).
                                             "</p>
                                         </a>
                                 ";
@@ -161,7 +165,7 @@
                                 // display default add to cart if product not in cart
                                 if(!$productInCart){
                                     echo "
-                                    <a href='./defaultCart.php?productId=$product[product_id]'>
+                                    <a href='./defaultCart.php?productId=$product[PRODUCT_ID]'>
                                         <svg class='cart-icon' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z'/></svg>
                                     </a>
                                     ";
@@ -171,7 +175,7 @@
         
                                 echo "
                                     <div class='trader'>
-                                        <div class='trader-name'>$product[user_name]</div>
+                                        <div class='trader-name'>$product[USER_NAME]</div>
                                     </div>
                                 ";
         
@@ -205,11 +209,12 @@
                 <select name="product-type" id="product-dropdown">
                     <option selected value=''>Product Category</option>
                     <?php
-                        $traderQuery = "SELECT category_type FROM trader_category";
-                        $traderResult = mysqli_query($connection, $traderQuery);
+                        $traderQuery = "SELECT category_type FROM HAMROMART.trader_category";
+                        $traderResult = oci_parse($connection, $traderQuery);
+                        oci_execute($traderResult);
 
-                        foreach ($traderResult as $key) {
-                            $value = $key['category_type'];
+                        while($key = oci_fetch_assoc($traderResult)) {
+                            $value = $key['CATEGORY_TYPE'];
                             if (isset($_SESSION['traderCategory']) && $_SESSION['traderCategory'] == $value){
                                 echo "<option value ='$value' selected )>$value</option>";
                             }
@@ -225,11 +230,12 @@
                     <option selected value=''>Shop Name</option>
 
                     <?php
-                        $shopQuery = "SELECT shop_name FROM shop";
-                        $shopResult = mysqli_query($connection, $shopQuery);
+                        $shopQuery = "SELECT shop_name FROM HAMROMART.shop";
+                        $shopResult = oci_parse($connection, $shopQuery);
+                        oci_execute($shopResult);
 
-                        foreach ($shopResult as $key) {
-                            $value = $key['shop_name'];
+                        while($key=oci_fetch_assoc($shopResult)) {
+                            $value = $key['SHOP_NAME'];
                             if (isset($_SESSION['shopName']) && $_SESSION['shopName'] == $value ) {
                                 echo "<option value ='$value' selected>$value</option>";
                             }

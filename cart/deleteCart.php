@@ -4,14 +4,24 @@
 
     if(isset($_SESSION['userId'])){
         $userId = $_SESSION['userId'];
+        $cartId=0;
+
+        $cartIdQuery = "SELECT cart_id FROM HAMROMART.cart WHERE user_id=$userId";
+        $cartIdQueryResult = oci_parse($connection, $cartIdQuery);
+        oci_execute($cartIdQueryResult);
+        if($cartIdQueryResult){
+            while($cart = oci_fetch_assoc($cartIdQueryResult)){
+                $cartId = $cart['CART_ID'];
+            }
+        }
+
         $deleteQuery = "
-            DELETE cd.* FROM cart_details cd
-            INNER JOIN cart c ON c.cart_id = cd.cart_id
-            INNER JOIN users u ON u.user_id = c.user_id
-            WHERE u.user_id=$userId;
+            DELETE FROM HAMROMART.cart_details WHERE cart_id=$cartId
         ";
 
-        $deleteQueryResult = mysqli_query($connection, $deleteQuery);
+        $deleteQueryResult = oci_parse($connection, $deleteQuery);
+        oci_execute($deleteQueryResult);
+
         if($deleteQueryResult){
             header('Location: cart.php');
         }

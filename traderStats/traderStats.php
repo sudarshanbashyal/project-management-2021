@@ -53,28 +53,29 @@
                         $shopQuery = "
                         SELECT 
                         s.shop_id, s.shop_name, COUNT(p.product_id) products_no, COUNT(od.order_id) orders_no
-                        FROM shop s
-                        INNER JOIN users u ON s.user_id = u.user_id
-                        LEFT OUTER JOIN product p ON p.shop_id=s.shop_id
-                        LEFT OUTER JOIN order_details od ON od.product_id = p.product_id 
-                        WHERE u.user_id = $_SESSION[userId] AND s.shop_name LIKE '%$shopSearch%'
-                        GROUP BY s.shop_id;
+                        FROM HAMROMART.shop s
+                        INNER JOIN HAMROMART.users u ON s.user_id = u.user_id
+                        LEFT OUTER JOIN HAMROMART.product p ON p.shop_id=s.shop_id
+                        LEFT OUTER JOIN HAMROMART.order_details od ON od.product_id = p.product_id 
+                        WHERE u.user_id = $_SESSION[userId] AND lower(s.shop_name) LIKE lower('%$shopSearch%')
+                        GROUP BY s.shop_id, s.shop_name
                         ";
 
-                        $shopQueryResult = mysqli_query($connection, $shopQuery);
+                        $shopQueryResult = oci_parse($connection, $shopQuery);
+                        oci_execute($shopQueryResult);
 
                         if($shopQueryResult){
     
-                            foreach($shopQueryResult as $shop){
+                            while($shop = oci_fetch_assoc($shopQueryResult)){
 
                                 echo "<tr>";
-                                echo "<td>$shop[shop_id]</td>";
-                                echo "<td>$shop[shop_name]</td>";
-                                echo "<td>$shop[orders_no]</td>";
-                                echo "<td>$shop[products_no]</td>";
+                                echo "<td>$shop[SHOP_ID]</td>";
+                                echo "<td>$shop[SHOP_NAME]</td>";
+                                echo "<td>$shop[ORDERS_NO]</td>";
+                                echo "<td>$shop[PRODUCTS_NO]</td>";
                                 echo "
                                 <td>
-                                    <a href='../shopCRUD/updateShop.php?shop_id=$shop[shop_id]'>
+                                    <a href='../shopCRUD/updateShop.php?shop_id=$shop[SHOP_ID]'>
                                         <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M1.438 16.873l-1.438 7.127 7.127-1.437 16.874-16.872-5.69-5.69-16.873 16.872zm1.12 4.572l.722-3.584 2.86 2.861-3.582.723zm18.613-15.755l-13.617 13.617-2.86-2.861 13.617-13.617 2.86 2.861z'/></svg>
                                     </a>                                    
                                 </td>";
@@ -121,26 +122,27 @@
 
                         $productsQuery = "
                             SELECT p.product_id, p.product_name, s.shop_name, p.product_price, p.stock
-                            FROM product p
-                            LEFT OUTER JOIN shop s ON p.shop_id=s.shop_id
-                            LEFT OUTER JOIN users u ON u.user_id = s.user_id
-                            WHERE u.user_id = $_SESSION[userId] AND p.product_name LIKE '%$productSearch%';
+                            FROM HAMROMART.product p
+                            LEFT OUTER JOIN HAMROMART.shop s ON p.shop_id=s.shop_id
+                            LEFT OUTER JOIN HAMROMART.users u ON u.user_id = s.user_id
+                            WHERE u.user_id = $_SESSION[userId] AND lower(p.product_name) LIKE lower('%$productSearch%')
                         ";
-                        $productsQueryResult = mysqli_query($connection, $productsQuery);
+                        $productsQueryResult = oci_parse($connection, $productsQuery);
+                        oci_execute($productsQueryResult);
 
                         
                         if($productsQueryResult){
     
-                            foreach($productsQueryResult as $product){
+                            while($product=oci_fetch_assoc($productsQueryResult)){
 
                                 echo "<tr>";
-                                echo "<td>$product[product_id]</td>";
-                                echo "<td>$product[product_name]</td>";
-                                echo "<td>$product[shop_name]</td>";
-                                echo "<td>$product[product_price]</td>";
-                                echo "<td>$product[stock]</td>";
+                                echo "<td>$product[PRODUCT_ID]</td>";
+                                echo "<td>$product[PRODUCT_NAME]</td>";
+                                echo "<td>$product[SHOP_NAME]</td>";
+                                echo "<td>$product[PRODUCT_PRICE]</td>";
+                                echo "<td>$product[STOCK]</td>";
                                 echo "<td>
-                                    <a href='../productCRUD/updateProduct.php?product_id=$product[product_id]'>
+                                    <a href='../productCRUD/updateProduct.php?product_id=$product[PRODUCT_ID]'>
                                         <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M1.438 16.873l-1.438 7.127 7.127-1.437 16.874-16.872-5.69-5.69-16.873 16.872zm1.12 4.572l.722-3.584 2.86 2.861-3.582.723zm18.613-15.755l-13.617 13.617-2.86-2.861 13.617-13.617 2.86 2.861z'/></svg>
                                     </a>
                                     </td>";
