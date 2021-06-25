@@ -29,21 +29,23 @@
         $detailsQuery = "
             SELECT 
             o.order_date, u.user_name, cs.collection_day, cs.collection_time, co.discount_percent
-            FROM orders o
-            INNER JOIN collection_slot cs ON o.slot_id=cs.slot_id
-            INNER JOIN cart c ON c.cart_id = o.cart_id
-            INNER JOIN users u ON u.user_id = c.user_id
-            LEFT OUTER JOIN coupon co ON co.coupon_id = o.coupon_id
-            WHERE o.order_id = $orderId AND u.user_id=$_SESSION[userId];
+            FROM HAMROMART.orders o
+            INNER JOIN HAMROMART.collection_slot cs ON o.slot_id=cs.slot_id
+            INNER JOIN HAMROMART.cart c ON c.cart_id = o.cart_id
+            INNER JOIN HAMROMART.users u ON u.user_id = c.user_id
+            LEFT OUTER JOIN HAMROMART.coupon co ON co.coupon_id = o.coupon_id
+            WHERE o.order_id = $orderId AND u.user_id=$_SESSION[userId]
         ";
-        $detailsResult = mysqli_query($connection, $detailsQuery);
-        if($detailsResult){
-            foreach($detailsResult as $detail){
+        $detailsResult = oci_parse($connection, $detailsQuery);
+        oci_execute($detailsResult);
 
-                $customerName = $detail['user_name'];
-                $orderDate = $detail['order_date'];
-                $collectionSlot = $detail['collection_day']." ".$detail['collection_time'];
-                $discountPercent=$detail['discount_percent'];
+        if($detailsResult){
+            while($detail=oci_fetch_assoc($detailsResult)){
+
+                $customerName = $detail['USER_NAME'];
+                $orderDate = $detail['ORDER_DATE'];
+                $collectionSlot = $detail['COLLECTION_DAY']." ".$detail['COLLECTION_TIME'];
+                $discountPercent=$detail['DISCOUNT_PERCENT'];
 
             }
         }
@@ -60,7 +62,7 @@
             </div>
 
             <div class="header-date">
-                Date Issued: 2021-13-14
+                Date Issued: <?php echo $orderDate; ?>
             </div>
 
         </div>
@@ -90,37 +92,38 @@
                         $orderQuery = "
                         SELECT 
                         od.product_quantity, od.product_id, p.product_price, p.product_name, p.discount
-                        FROM order_details od
-                        INNER JOIN orders o ON o.order_id = od.order_id
-                        INNER JOIN product p ON p.product_id = od.product_id
-                        WHERE o.order_id=$orderId;
+                        FROM HAMROMART.order_details od
+                        INNER JOIN HAMROMART.orders o ON o.order_id = od.order_id
+                        INNER JOIN HAMROMART.product p ON p.product_id = od.product_id
+                        WHERE o.order_id=$orderId
                         ";
 
-                        $orderQueryResult = mysqli_query($connection, $orderQuery);
+                        $orderQueryResult = oci_parse($connection, $orderQuery);
+                        oci_execute($orderQueryResult);
+
                         if($orderQueryResult){
 
+                            while($orderDetail=oci_fetch_assoc($orderQueryResult)){
 
-                            foreach($orderQueryResult as $orderDetail){
-
-                                $calculatedPrice = ($orderDetail['product_price']-(($orderDetail['discount']/100)*$orderDetail['product_price']))*$orderDetail['product_quantity'];
+                                $calculatedPrice = ($orderDetail['PRODUCT_PRICE']-(($orderDetail['DISCOUNT']/100)*$orderDetail['PRODUCT_PRICE']))*$orderDetail['PRODUCT_QUANTITY'];
                                 $totalPrice+=$calculatedPrice;
 
                                 echo "<tr>";
 
                                 echo "<td>
-                                    $orderDetail[product_name]
+                                    $orderDetail[PRODUCT_NAME]
                                 </td>";
 
                                 echo "<td>
-                                    &pound; $orderDetail[product_price]
+                                    &pound; $orderDetail[PRODUCT_PRICE]
                                 </td>";
 
                                 echo "<td>
-                                    $orderDetail[product_quantity]
+                                    $orderDetail[PRODUCT_QUANTITY]
                                 </td>";
 
                                 echo "<td>
-                                    $orderDetail[discount]
+                                    $orderDetail[DISCOUNT]
                                 </td>";
 
                                 echo "<td class='total-price'>

@@ -34,33 +34,30 @@
                     $ordersQuery = "
                     SELECT 
                     o.order_id, o.order_date, o.delivered 
-                    FROM orders o
-                    INNER JOIN cart c ON c.cart_id = o.cart_id
-                    INNER JOIN users u ON u.user_id = c.user_id
-                    WHERE u.user_id=$_SESSION[userId];
+                    FROM HAMROMART.orders o
+                    INNER JOIN HAMROMART.cart c ON c.cart_id = o.cart_id
+                    INNER JOIN HAMROMART.users u ON u.user_id = c.user_id
+                    WHERE u.user_id=$_SESSION[userId]
                     ";
-                    $ordersQueryResult = mysqli_query($connection, $ordersQuery);
-
-                    if(mysqli_num_rows($ordersQueryResult)==0){
-                        echo "<h3>You do not have any orders.</h3>";
-                    }
+                    $ordersQueryResult = oci_parse($connection, $ordersQuery);
+                    oci_execute($ordersQueryResult);
 
                     if($ordersQueryResult){
-                        foreach($ordersQueryResult as $order){
+                        while($order=oci_fetch_assoc($ordersQueryResult)){
                             
                             echo "
                                 <div class='order'>
-                                    <a href='./invoice.php?order_id=$order[order_id]'>
+                                    <a href='./invoice.php?order_id=$order[ORDER_ID]'>
                                         <h2>
-                                            Order #$order[order_id]
+                                            Order #$order[ORDER_ID]
                                         </h2>
                                         <span>
-                                            Date: $order[order_date]
+                                            Date: $order[ORDER_DATE]
                                         </span>
                                     </a>
                             ";
 
-                            if(strtolower($order['delivered'])=='true'){
+                            if(strtolower($order['DELIVERED'])=='true'){
                                 echo "<svg class='delivered-order' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.959 17l-4.5-4.319 1.395-1.435 3.08 2.937 7.021-7.183 1.422 1.409-8.418 8.591z'/></svg>";
                             }
 

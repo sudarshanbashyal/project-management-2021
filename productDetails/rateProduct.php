@@ -21,6 +21,7 @@
             }
 
             if($rated==0){
+                
                 $ratingQuery = "INSERT INTO HAMROMART.rating(user_id, rating_star, product_id) VALUES($_SESSION[userId], $_GET[ratingStar], $productId)";
                 $ratingQueryResult = oci_parse($connection, $ratingQuery);
                 echo $ratingQuery;
@@ -32,6 +33,7 @@
             }
             else{
                 // this line doesnot read $rating for some reason so i had to keep $_GET[ratingStar] in the query  = | weird
+
                 $ratingQuery = "UPDATE HAMROMART.rating SET rating_star=$_GET[ratingStar] WHERE user_id=$_SESSION[userId] AND product_id=$productId";
                 $ratingQueryResult = oci_parse($connection, $ratingQuery);
                 oci_execute($ratingQueryResult);
