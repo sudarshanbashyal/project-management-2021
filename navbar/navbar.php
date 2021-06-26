@@ -25,7 +25,7 @@
                 echo "<li><a href='../traderStats/traderStats.php'>My Stats</a></li>";
                 echo "<li><a href='../productCRUD/addProduct.php'>Add Product</a></li>";
                 echo "<li><a href='../shopCRUD/addShop.php'>Add Shop</a></li>";
-                echo "<li><a href=''>Log Out</a></li>";
+                echo "<li><a href='../login/logout.php'>Log Out</a></li>";
                 echo "</ul>";
 
                 echo "<div class='function-tray'>";
@@ -38,7 +38,7 @@
                 echo "<li><a href='../products/products.php'>Products</a></li>";
                 echo "<li><a href='../cart/cart.php'>My Cart<sup>$cartSize</sup></a></li>";
                 echo "<li><a href='../orderDetails/orderDetails.php'>Order History</a></li>";
-                echo "<li><a href=''>Log Out</a></li>";
+                echo "<li><a href='../login/logout.php'>Log Out</a></li>";
                 echo "</ul>";
 
                 echo "<div class='function-tray'>";
@@ -54,8 +54,8 @@
                 echo "<ul class='nav-links'>";
                 echo "<li><a href='../products/products.php'>Products</a></li>";
                 echo "<li><a href='../cart/cart.php'>My Cart<sup>$cartSize</sup></a></li>";
-                echo "<li><a href='../orderDetails/orderDetails.php'>Log In</a></li>";
-                echo "<li><a href=''>Register</a></li>";
+                echo "<li><a href='../login/customerLogin.php'>Log In</a></li>";
+                echo "<li><a href='../register/customerRegister.php'>Register</a></li>";
                 echo "</ul>";
 
                 echo "<div class='function-tray'>";

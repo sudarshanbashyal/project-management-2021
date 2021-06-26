@@ -172,6 +172,12 @@ footer svg {
   border: 0.5px solid #c9c9c5;
 }
 
+.login-container .form-container form .login-error {
+  color: #f7351b;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
 .login-container .form-container form .submit-btn {
   padding: 0.8rem 0rem;
   background-color: #f7b61b;

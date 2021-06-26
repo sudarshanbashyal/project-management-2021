@@ -26,11 +26,18 @@
 
         //checking unique phone number
         $phoneNumberQuery = "
-            SELECT user_id FROM users WHERE user_phone_number = $userPhoneNumber;
+            SELECT user_id FROM HAMROMART.users WHERE user_phone_number = $userPhoneNumber
         ";
-        $phoneNumberQueryResult = mysqli_query($connection, $phoneNumberQuery);
+        $phoneNumberQueryResult = oci_parse($connection, $phoneNumberQuery);
+        oci_execute($phoneNumberQueryResult);
 
-        if(mysqli_num_rows($phoneNumberQueryResult)>0){
+        $phoneNumberExists = false;
+        while($phoneNumber = oci_fetch_assoc($phoneNumberQueryResult)){
+            if($phoneNumber['USER_ID']!==$_SESSION['userId']){
+                $phoneNumberExists = true;
+            }
+        }
+        if($phoneNumberExists){
             $_SESSION['profilePhoneError']='Your phone number must be unique.';
             header('Location: ./settings.php');
             return;
@@ -38,11 +45,13 @@
 
         //update profile
         $updateQuery = "
-            UPDATE users SET user_name='$userName', user_phone_number='$userPhoneNumber' 
-            WHERE user_id=$_SESSION[userId];
+            UPDATE HAMROMART.users SET user_name='$userName', user_phone_number='$userPhoneNumber' 
+            WHERE user_id=$_SESSION[userId]
         ";
-        $updateQueryResult = mysqli_query($connection, $updateQuery);
+        $updateQueryResult = oci_parse($connection, $updateQuery);
+        oci_execute($updateQueryResult);
         if($updateQueryResult){
+            $_SESSION['profileUpdateSuccess'] = 'Profile Updated!';
             header('Location: ./settings.php');
         }
 

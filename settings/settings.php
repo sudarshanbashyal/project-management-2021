@@ -20,14 +20,15 @@
         $currentPhoneNumber='';
 
         $profileQuery = "
-            SELECT user_name, user_phone_number FROM users WHERE user_id=$_SESSION[userId];
+            SELECT user_name, user_phone_number FROM HAMROMART.users WHERE user_id=$_SESSION[userId]
         ";
 
-        $profileQueryResult = mysqli_query($connection, $profileQuery);
+        $profileQueryResult = oci_parse($connection, $profileQuery);
+        oci_execute($profileQueryResult);
         if($profileQueryResult){
-            foreach($profileQueryResult as $profile){
-                $currentName=$profile['user_name'];
-                $currentPhoneNumber=$profile['user_phone_number'];
+            while($profile = oci_fetch_assoc($profileQueryResult) ){
+                $currentName=$profile['USER_NAME'];
+                $currentPhoneNumber=$profile['USER_PHONE_NUMBER'];
             }
         }
     
@@ -56,6 +57,11 @@
                     if(isset($_SESSION['profilePhoneError'])){
                         echo "<p class='error-msg'>$_SESSION[profilePhoneError]</p>";
                         unset($_SESSION['profilePhoneError']);
+                    }
+
+                    if(isset($_SESSION['profileUpdateSuccess'])){
+                        echo "<p class='success-msg'>$_SESSION[profileUpdateSuccess]</p>";
+                        unset($_SESSION['profileUpdateSuccess']);
                     }
                 
                 ?>

@@ -14,13 +14,18 @@
             $error=true;
         }
         else{
+            $passwordCorrect = false;
             $passwordQuery = "
-                SELECT user_id FROM users WHERE user_id=$_SESSION[userId] AND user_password='$currentPassword';
+                SELECT user_id FROM HAMROMART.users WHERE user_id=$_SESSION[userId] AND user_password='$currentPassword'
             ";
-            $passwordQueryResult = mysqli_query($connection, $passwordQuery);
+            $passwordQueryResult = oci_parse($connection, $passwordQuery);
+            oci_execute($passwordQueryResult);
 
             if($passwordQueryResult){
-                if(mysqli_num_rows($passwordQueryResult)==0){
+                while($password = oci_fetch_assoc($passwordQueryResult)){
+                    $passwordCorrect = true;
+                }
+                if(!$passwordCorrect){
                     $_SESSION['accountPasswordError']='Incorrect Password.';
                     $error=true;
                 }
@@ -51,21 +56,23 @@
             $error=true;
         }
         else{
-            unset($_SESSION_['accountConfirmError']);
+            unset($_SESSION['accountConfirmError']);
         }
 
         if($error){
-            unset($_SESSION_['accountSuccess']);
+            unset($_SESSION['accountSuccess']);
             header('Location: ./settings.php');
         }
         else{
             $updatePasswordQuery = "
-            UPDATE users SET user_password='$newPassword'
-            WHERE user_id=$_SESSION[userId];
+                UPDATE HAMROMART.users SET user_password='$newPassword'
+                WHERE user_id=$_SESSION[userId]
             ";
 
-            $updatePasswordQueryResult = mysqli_query($connection, $updatePasswordQuery);
-            if($updatePasswordQuery){
+            $updatePasswordQueryResult = oci_parse($connection, $updatePasswordQuery);
+            oci_execute($updatePasswordQueryResult);
+
+            if($updatePasswordQueryResult){
                 $_SESSION['accountSuccess']='Password Successfully Updated!';
                 header('Location: ./settings.php');
             }

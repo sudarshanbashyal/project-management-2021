@@ -41,6 +41,12 @@
                 border: 0.5px solid $gray-dark;
             }
 
+            .login-error {
+                color: $red-primary;
+                margin-bottom: 10px;
+                font-weight: bold;
+            }
+
             .submit-btn {
                 padding: 0.8rem 0rem;
                 background-color: $yellow-primary;

@@ -3,10 +3,6 @@
     $connection = oci_connect('system', '12345', '//localhost/xe');
     
     session_start();
-    $_SESSION['userId']=7;
-    $_SESSION['userRole']='customer';
-    // $_SESSION['currentCart']=array();
-    // $_SESSION['currentCart']=array();
 
     if(isset($_SESSION['userId'])&&(isset($_SESSION['userRole'])&&$_SESSION['userRole']=='customer')){
         $_SESSION['currentCart']=array();

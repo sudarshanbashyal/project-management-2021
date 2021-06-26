@@ -21,21 +21,24 @@
     
         <div class="form-container">
 
-            <a href="" class="login-page-link active-login-link">Customer Login</a>
-            <a href="traderLogin.php" class="login-page-link">Trader Login</a>
+            <!-- <a href="" class="login-page-link active-login-link">Customer Login</a>
+            <a href="traderLogin.php" class="login-page-link">Trader Login</a> -->
 
-            <form>
+            <form method="POST" action="./login.php">
+                <h2>Login to your account</h2>
+                <input type="text" name="email" id="" placeholder="Email Address">
+                <input type="password" name="password" id="" placeholder="Password">
+
                 <?php
-                    if (isset($_SESSION['successful_update'])) {
-                        echo $_SESSION['successful_update'];
-                        unset($_SESSION['successful_update']);
+
+                    if(isset($_SESSION['loginError'])){
+                        echo "<p class='login-error'>$_SESSION[loginError]</p>";
+                        unset($_SESSION['loginError']);
                     }
+                
                 ?>
 
-                <h2>Login to your account</h2>
-                <input type="text" name="" id="" placeholder="Email Address">
-                <input type="password" name="" id="" placeholder="Password">
-                <input class="submit-btn" type="submit" value="Sign In">
+                <input class="submit-btn" type="submit" value="Sign In" name="submit-btn">
 
                 <a href="../register/customerRegister.php" class="register-link">Not a member yet? <span>Register here</span></a>
             
