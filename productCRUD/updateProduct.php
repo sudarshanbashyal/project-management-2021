@@ -16,34 +16,43 @@
     ?>
     <?php
         include '../init.php';
-        $product_id=$_GET['product_id'];
-        $sql="SELECT * FROM product WHERE product_id= $product_id;";
-        $query=mysqli_query($connection,$sql);
-        while($row=mysqli_fetch_assoc($query)){
-            $_SESSION['product_name']=$row['product_name'];
-            $_SESSION['product_description']=$row['product_description'];
-            $_SESSION['min_order']=$row['min_order'];
-            $_SESSION['max_order']=$row['max_order'];
-            $_SESSION['allergy_information']=$row['allergy_information'];
-            $_SESSION['stock']=$row['stock'];
-            $_SESSION['product_image']=$row['product_image'];
-            $_SESSION['discount']=$row['discount'];
-            $_SESSION['product_price']=$row['product_price'];
-            $_SESSION['shop_id']=$row['shop_id'];
-        }
-        $shop_id=$_SESSION['shop_id'];
-        $sql2="SELECT * FROM shop WHERE shop_id=$shop_id;";
-        $query2=mysqli_query($connection,$sql2);
-        while($row=mysqli_fetch_assoc($query2)){
-            $_SESSION['shop_name']=$row['shop_name'];
-        }
-        $shop_name=$_SESSION['shop_name'];
 
+        $product_id=$_GET['product_id'];
+        $sql="
+            SELECT * FROM HAMROMART.product p
+            INNER JOIN HAMROMART.shop s ON s.shop_id = p.shop_id
+            INNER JOIN HAMROMART.users u ON u.user_id = s.user_id
+            WHERE product_id= $product_id AND u.user_id = $_SESSION[userId]
+        ";
+        $query=oci_parse($connection,$sql);
+        oci_execute($query);
+
+        while($row=oci_fetch_assoc($query)){
+            $_SESSION['product_name']=$row['PRODUCT_NAME'];
+            $_SESSION['product_description']=$row['PRODUCT_DESCRIPTION'];
+            $_SESSION['min_order']=$row['MIN_ORDER'];
+            $_SESSION['max_order']=$row['MAX_ORDER'];
+            $_SESSION['allergy_information']=$row['ALLERGY_INFORMATION'];
+            $_SESSION['stock']=$row['STOCK'];
+            $_SESSION['product_image']=$row['PRODUCT_IMAGE'];
+            $_SESSION['discount']=$row['DISCOUNT'];
+            $_SESSION['product_price']=$row['PRODUCT_PRICE'];
+            $_SESSION['shop_id']=$row['SHOP_ID'];
+        }
+
+        $shop_id=$_SESSION['shop_id'];
+        $sql2="SELECT * FROM HAMROMART.shop WHERE shop_id=$shop_id";
+        $query2=oci_parse($connection,$sql2);
+        oci_execute($query2);
+
+        while($row=oci_fetch_assoc($query2)){
+            $_SESSION['shop_name']=$row['SHOP_NAME'];
+        }
+
+        $shop_name=$_SESSION['shop_name'];
         $_SESSION['url']="http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
     ?>
-
-    
 
     <div class="update-container">
     
@@ -72,9 +81,9 @@
                              }
                          }
                     ?>
-                    <textarea  id="" cols="30" rows="5" placeholder="Product Description" name="Description">
-                        <?php echo $_SESSION['product_description'];?>
-                    </textarea>
+                    
+                    <textarea  id="" cols="30" rows="5" placeholder="Product Description" name="Description"><?php echo $_SESSION['product_description'];?></textarea>
+
                     <?php
                         if(isset($_SESSION['error'])){
                             if($_SESSION['error']=="description") {
@@ -99,9 +108,7 @@
                         <input type="text" placeholder="Discount" name="discount" value="<?php echo $_SESSION['discount'];?>">
                     </div>
 
-                    <textarea id="" cols="30" rows="5" placeholder="Allergy Information" name="allergy_info">
-                        <?php echo $_SESSION['allergy_information'];?>
-                    </textarea>
+                    <textarea id="" cols="30" rows="5" placeholder="Allergy Information" name="allergy_info"><?php echo $_SESSION['allergy_information'];?></textarea>
 
                     <input type="text" placeholder="Image Link" name="image" value="<?php echo $_SESSION['product_image'];?>">
 
@@ -111,16 +118,18 @@
                             echo '<option>'.'Select a shop to display the product'.'</option>';
                             include '../init.php';
                             $user_id = $_SESSION['userId'];
-                            $sql="SELECT * FROM shop WHERE user_id = $user_id ;";
-                            $query=mysqli_query($connection,$sql);
+                            $sql="SELECT * FROM HAMROMART.shop WHERE user_id = $user_id";
+                            $query=oci_parse($connection,$sql);
+                            oci_execute($query);
                         
-                        while($row=mysqli_fetch_assoc($query)){
-                            if($shop_name==$row['shop_name']){
-                                echo '<option selected="'.'selected'.'"'.'value="'.$row['shop_id'].'"'.'>'.$row['shop_name'].'</option>';
-                            }else{
-                            echo '<option value="'.$row['shop_id'].'"'.'>'.$row['shop_name'].'</option>';
-                        }
-                        }
+                            while($row=oci_fetch_assoc($query)){
+                                if($shop_name==$row['SHOP_NAME']){
+                                    echo '<option selected="'.'selected'.'"'.'value="'.$row['SHOP_ID'].'"'.'>'.$row['SHOP_NAME'].'</option>';
+                                }
+                                else{
+                                echo '<option value="'.$row['SHOP_ID'].'"'.'>'.$row['SHOP_NAME'].'</option>';
+                                }
+                            }
                         ?>
                     </select>
                     <input type="text" placeholder="stock quantity" name="stock" value="<?php echo $_SESSION['stock'];?>">
@@ -150,12 +159,10 @@
            if(isset($_SESSION['status'])){
             if($_SESSION['status']=="successfull"){
 
-                echo "products updaated successfully.";
+                echo "<h3 class='success-message'>Product updated successfully.</h3>";
                 unset($_SESSION['status']);
 
             }elseif($_SESSION['status']=="delete"){
-
-
                 echo "product deleted successfully";
                 unset($_SESSION['status']);
                 unset($_SESSION['product_name']);
@@ -185,36 +192,40 @@
                 <?php
                 
                     $commentsQuery = "
-                        SELECT comment_content, u.user_name FROM comments c
-                        INNER JOIN users u ON u.user_id = c.user_id
-                        INNER JOIN product p ON p.product_id=c.product_id
-                        WHERE p.product_id=$product_id;
+                        SELECT comment_content, u.user_name FROM HAMROMART.comments c
+                        INNER JOIN HAMROMART.users u ON u.user_id = c.user_id
+                        INNER JOIN HAMROMART.product p ON p.product_id=c.product_id
+                        WHERE p.product_id=$product_id
                     ";
 
-                    $commentsQueryResult = mysqli_query($connection, $commentsQuery);
+                    $commentsQueryResult = oci_parse($connection, $commentsQuery);
+                    oci_execute($commentsQueryResult);
                     
                     if($commentsQueryResult){
 
-                        if(mysqli_num_rows($commentsQueryResult)==0){
-                            echo "<h3>No comments found =(</h3>";
-                        }
+                        $noOfComments = 0;
 
-                        foreach($commentsQueryResult as $comment){
+                        while($comment=oci_fetch_assoc($commentsQueryResult)){
+                            $noOfComments++;
                             echo "<div class='comment'>";
                             echo "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7.753 18.305c-.261-.586-.789-.991-1.871-1.241-2.293-.529-4.428-.993-3.393-2.945 3.145-5.942.833-9.119-2.489-9.119-3.388 0-5.644 3.299-2.489 9.119 1.066 1.964-1.148 2.427-3.393 2.945-1.084.25-1.608.658-1.867 1.246-1.405-1.723-2.251-3.919-2.251-6.31 0-5.514 4.486-10 10-10s10 4.486 10 10c0 2.389-.845 4.583-2.247 6.305z'/></svg>";
 
                             echo "
                                 <div class='comment-info'>
-                                    <p class='user-name'>$comment[user_name]</p>
+                                    <p class='user-name'>$comment[USER_NAME]</p>
 
                                     <p class='comment-content'>
-                                        $comment[comment_content]
+                                        $comment[COMMENT_CONTENT]
                                     </p>
                                 </div>
                             ";
 
                             echo "</div>";
                             echo "<hr>";
+                        }
+
+                        if($noOfComments==0){
+                            echo "<h3>No comments found =(</h3>";
                         }
                     }
                 

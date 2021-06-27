@@ -18,7 +18,6 @@
     <?php
         $_SESSION['url']="http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     ?>
-
     
     <div class="add-container">
 
@@ -33,9 +32,22 @@
                 <?php
                     if(isset($_SESSION['error'])){
                         if($_SESSION['error']=="name"){
-                            echo "shop name must be filled";
+                            echo "
+                            <p class='error-message'>
+                                Shop name must be filled
+                            </p>
+                            ";
                             unset($_SESSION['error']);
                         }
+                    }
+
+                    if(isset($_SESSION['shopLimitError'])){
+                        echo 
+                        "<p class='error-message'>
+                            $_SESSION[shopLimitError]
+                        </p>";
+
+                        unset($_SESSION['shopLimitError']);
                     }
                 ?>
                 <input class="add-button" type="submit" value="Add New Shop" name="submit">           
@@ -44,7 +56,11 @@
             <?php
                 if(isset($_SESSION['status'])){
                     if($_SESSION['status']=="success"){
-                        echo "shop added successfully.";
+                        echo "
+                            <p class='success-message'>
+                                Shop added successfully!
+                            </p>
+                            ";
                         unset($_SESSION['status']);
                     }
                     elseif($_SESSION['status']=="fail"){

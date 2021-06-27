@@ -33,7 +33,27 @@
             <!-- add method to this form and name attributes to the inputs -->
             <form action="add.php" method="POST">
 
-                <input type="text" placeholder="Product Name" name="product_name">
+                <!-- displaying prodcut errors -->
+                <?php
+                
+                    if(isset($_SESSION['productErrors']) && sizeof($_SESSION['productErrors'])>0){
+                        echo "<div class='product-errors'>";
+
+                        foreach($_SESSION['productErrors'] as $error){
+                            echo "<p>$error</p>";
+                        }
+
+                        echo "</div>";
+
+                        unset($_SESSION['productErrors']);
+                    }
+
+                
+                ?>
+
+                <input type="text" placeholder="Product Name" name="product_name"
+                    value="<?php echo isset($_SESSION['productAddName'])?$_SESSION['productAddName']:''; unset($_SESSION['productAddName']); ?>"
+                >
                 <?php 
                         if(isset($_SESSION['error'])){
                             if($_SESSION['error']=="name"){
@@ -42,7 +62,7 @@
                              }
                          }
                     ?>
-                <textarea name="description" id="" cols="30" rows="5" placeholder="Product Description"></textarea>
+                <textarea name="description" id="" cols="30" rows="5" placeholder="Product Description"><?php echo isset($_SESSION['productAddDescription'])?$_SESSION['productAddDescription']:''; unset($_SESSION['productAddDescription']); ?></textarea>
                 <?php 
                         if(isset($_SESSION['error'])){
                             if($_SESSION['error']=="description"){
@@ -53,7 +73,9 @@
                     ?>
                 
                 <div class="product-price">
-                    <input type="text" placeholder="Product Price" name="price">
+                    <input type="number" placeholder="Product Price" name="price" min="1"
+                        value="<?php echo isset($_SESSION['productAddPrice'])?$_SESSION['productAddPrice']:''; unset($_SESSION['productAddPrice']); ?>"
+                    >
                     <?php 
                         if(isset($_SESSION['error'])){
                             if($_SESSION['error']=="price"){
@@ -62,37 +84,44 @@
                              }
                          }
                     ?>
-                    <input type="text" placeholder="Discount" name="discount">
+
+                    <input type="number" placeholder="Discount" name="discount" max="100" min="0">
 
                 </div>
 
-                <input type="text" placeholder="stock quantity" name="stock">
+                <input type="text" placeholder="stock quantity" name="stock"
+                    value="<?php echo isset($_SESSION['productAddPrice'])?$_SESSION['productAddPrice']:''; unset($_SESSION['productAddPrice']); ?>"
+                >
 
-                <textarea name="allergy_info" id="" cols="30" rows="5" placeholder="Allergy Information"></textarea>
+                <textarea name="allergy_info" id="" cols="30" rows="5" placeholder="Allergy Information"><?php echo isset($_SESSION['productAddAllergy'])?$_SESSION['productAddAllergy']:''; unset($_SESSION['productAddAllergy']); ?></textarea>
 
                 <input type="text" placeholder="Image Link" name="image">
 
 
-                <select name="selection" id="">
+                <select name="shop" id="">
                 	<?php
 
                 	echo '<option>'.'Select a shop to display the product'.'</option>';
                 	include '../init.php';
 
                 	$id=$_SESSION['userId'];
-					$sql="SELECT * FROM shop WHERE user_id=$id";
-					$result=mysqli_query($connection,$sql);
-					while($row=mysqli_fetch_assoc($result)){
-					echo'<option value="'.$row['shop_id'].'">'.$row['shop_name'].'</option>';
+					$sql="SELECT * FROM HAMROMART.shop WHERE user_id=$id";
+					$result=oci_parse($connection,$sql);
+                    oci_execute($result);
+
+					while($row=oci_fetch_assoc($result)){
+
+					    echo'<option value="'.$row['SHOP_ID'].'">'.$row['SHOP_NAME'].'</option>';
 
                     }
                 	?>
                 	
 
                 </select>
+
                 <div class="minMax">
-                	<input type="text" placeholder="minimum order" name="minOrder">
-                	<input type="text" placeholder="Maximum order" name="maxOrder">
+                	<input type="number" placeholder="Minimum order" name="minOrder" min="1">
+                	<input type="number" placeholder="Maximum order" name="maxOrder" max="20">
                 </div>
 
                 <input class="add-button" type="submit" value="Add New Prouct" name="product_submit">           
@@ -102,7 +131,7 @@
            		if(isset($_SESSION['status'])){
             		if($_SESSION['status']=="successfull"){
 
-                		echo "products added successfully.";
+                		echo "<p class='success-message'>Product added successfully.</p>";
                 		unset($_SESSION['status']);
 
             		}

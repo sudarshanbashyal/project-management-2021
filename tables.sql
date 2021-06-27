@@ -93,3 +93,19 @@ CREATE TABLE payment(
     payment_amount FLOAT NOT NULL,
     order_id INT REFERENCES orders(order_id)
 );
+
+
+ALTER TABLE product DROP CONSTRAINT SYS_C0011479;
+ALTER TABLE product ADD CONSTRAINT shop_fk FOREIGN KEY (shop_id) REFERENCES shop(shop_id) ON DELETE CASCADE;
+
+ALTER TABLE order_details DROP CONSTRAINT SYS_C0011504;
+ALTER TABLE order_details ADD CONSTRAINT product_fk FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE;
+
+ALTER TABLE cart_details DROP CONSTRAINT SYS_C0011492; 
+ALTER TABLE cart_details ADD CONSTRAINT cart_product_fk FOREIGN KEY (product_id) REFERENCES product(product_Id) ON DELETE CASCADE;
+
+ALTER TABLE comments DROP CONSTRAINT SYS_C0011482;
+ALTER TABLE comments ADD CONSTRAINT comment_product_fk FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE;
+
+ALTER TABLE rating DROP CONSTRAINT SYS_C0011486;
+ALTER TABLE rating ADD CONSTRAINT rating_product_fk FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE;

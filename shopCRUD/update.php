@@ -13,8 +13,9 @@ if(isset($_POST['submit'])){
 		$shop_name=$_POST['shop_name'];
 	}
 
-	$sql="UPDATE shop SET shop_name='$shop_name' WHERE shop_id=$shop_id;";
-	$query=mysqli_query($connection,$sql);
+	$sql="UPDATE HAMROMART.shop SET shop_name='$shop_name' WHERE shop_id=$shop_id";
+	$query=oci_parse($connection,$sql);
+    oci_execute($query);
 
 	if($query){
 		$_SESSION['status']="success";
@@ -29,10 +30,13 @@ if(isset($_POST['submit'])){
 	}
 
 }
-if(isset($_POST['delete_submit'])){
-	$sql1="DELETE FROM shop WHERE shop_id=$shop_id";
 
-	$query1=mysqli_query($connection,$sql1);
+if(isset($_POST['delete_submit'])){
+	$sql1="DELETE FROM HAMROMART.shop WHERE shop_id=$shop_id";
+
+	$query1=oci_parse($connection,$sql1);
+    oci_execute($query1);
+
 	if($query1){
 		$_SESSION['status']="delete";
 		header('location:'.$_SESSION['url']);

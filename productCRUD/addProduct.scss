@@ -11,12 +11,29 @@
         border-radius: 15px;
         padding: 1.5rem 3rem;
 
+        .success-message {
+            font-weight: bold;
+            color: $green-primary;
+        }
+
         .container-title {
             margin-bottom: 50px;
         }
 
         form {
             margin-bottom: 50px;
+
+            .product-errors {
+                background-color: $red-dark;
+                color: white;
+                padding: 1rem;
+                border-radius: 7px;
+                margin-bottom: 20px;
+
+                p {
+                    font-weight: bold;
+                }
+            }
 
             input,
             select,

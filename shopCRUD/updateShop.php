@@ -19,11 +19,21 @@
     include '../init.php';
     $_SESSION['url']="http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $shop_id=$_GET['shop_id'];
-    $sql="SELECT * FROM shop WHERE shop_id=$shop_id;";
-    $query=mysqli_query($connection,$sql);
-    while($row=mysqli_fetch_assoc($query)){
-        $_SESSION['shop_name']=$row['shop_name'];
+    $sql="
+        SELECT * FROM HAMROMART.shop s
+        INNER JOIN HAMROMART.users u ON u.user_id=s.user_id
+        WHERE shop_id=$shop_id AND u.user_id=$_SESSION[userId]
+    ";
+
+    $query=oci_parse($connection,$sql);
+    oci_execute($query);
+
+    if($query){
+        while($row=oci_fetch_assoc($query)){
+            $_SESSION['shop_name']=$row['SHOP_NAME'];
+        }
     }
+    
     ?>
 
     
@@ -56,22 +66,17 @@
 
             if(isset($_SESSION['status'])){
                 if($_SESSION['status']=="success"){
-                    echo "shop updated successfully.";
+                    echo "<p class='success-message'>Shop updated successfully.</p>";
                     unset($_SESSION['status']);
                 }
                 elseif ($_SESSION['status']=="fail") {
-                    echo "shop update fail.please try again.";
+                    echo "<p class='error-message'>shop update fail.please try again.</p>";
                     unset($_SESSION['status']);
                 }elseif($_SESSION['status']=="delete"){
-
-                    echo "shop deleted successfully.";
-                    unset($_SESSION['status']);
                     unset($_SESSION['shop_name']);
-
+                    echo "<p class='success-message'>shop deleted successfully.</p>";
+                    unset($_SESSION['status']);
                 }
-
-
-
                
             }
             ?>

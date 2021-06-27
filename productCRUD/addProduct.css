@@ -141,12 +141,29 @@ footer svg {
   padding: 1.5rem 3rem;
 }
 
+.add-container .form-container .success-message {
+  font-weight: bold;
+  color: #428035;
+}
+
 .add-container .form-container .container-title {
   margin-bottom: 50px;
 }
 
 .add-container .form-container form {
   margin-bottom: 50px;
+}
+
+.add-container .form-container form .product-errors {
+  background-color: #f85149;
+  color: white;
+  padding: 1rem;
+  border-radius: 7px;
+  margin-bottom: 20px;
+}
+
+.add-container .form-container form .product-errors p {
+  font-weight: bold;
 }
 
 .add-container .form-container form input,

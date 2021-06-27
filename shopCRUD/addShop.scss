@@ -4,16 +4,26 @@
     min-height: 30vh;
     margin-top: 150px;
 
+    .container-title {
+        margin-bottom: 50px;
+    }
+
+    .error-message {
+        font-weight: bold;
+        color: $red-primary;
+    }
+
+    .success-message {
+        font-weight: bold;
+        color: $green-primary;
+    }
+
     .form-container {
         width: 50%;
         margin: auto;
         border: 1px solid $gray-dark;
         border-radius: 15px;
         padding: 1.5rem 3rem;
-
-        .container-title {
-            margin-bottom: 50px;
-        }
 
         form {
             input {

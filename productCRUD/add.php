@@ -3,62 +3,88 @@ include '../init.php';
 
 
 if($connection){
+
+    $_SESSION['productErrors'] = array();
+
 	if(isset($_POST['product_submit'])){
+
 		//storing product name
 		if($_POST['product_name'] != null && $_POST['product_name'] != " "){
-			$name=$_POST['product_name'];
+			$name=htmlentities($_POST['product_name']);
+            $_SESSION['productAddName'] = $name;
 		}else{
-			$_SESSION['error']="name";
-			header('location:'.$_SESSION['url']);
-			unset($_SESSION['url']);
-			exit();
-
+			array_push($_SESSION['productErrors'], "You must enter the product name.");
 		}
 
-		//storing product description
 		if($_POST['description']!= null && $_POST['description']!= " "){
-			$description = $_POST['description'];
+			$description = htmlentities($_POST['description']);
+            $_SESSION['productAddDescription'] = $description;
 		}else{
-
-			$_SESSION['error']="description";
-			header('location:'.$_SESSION['url']);
-			unset($_SESSION['url']);
-			exit();
-
-		}
-		//storing product price
-		if($_POST['price']!= null && $_POST['price']!=" "){
-			$price = $_POST['price'];
-		}else{
-			$_SESSION['error']="price";
-			header('location:'.$_SESSION['url']);
-			unset($_SESSION['url']);
-			exit();
-
+			array_push($_SESSION['productErrors'], "You must enter the product description.");
 		}
 
-            $discount =$_POST['discount'];
-            $allergy_info =$_POST['allergy_info'];
-            $image= $_POST['image'];
-            $shop=$_POST['selection'];
-            $minOrder=$_POST['minOrder'];
-            $maxOrder=$_POST['maxOrder'];
-            $stock=$_POST['stock'];
+        if($_POST['price']!= null && $_POST['price']!=" "){
+			$price = htmlentities($_POST['price']);
+            $_SESSION['productAddPrice'] = $price;
+		}else{
+			array_push($_SESSION['productErrors'], "You must enter the product price.");
+		}
 
-            $query= "INSERT INTO product(shop_id,product_name,product_description,min_order,max_order,allergy_information,stock,product_image,discount,product_price) VALUES('$shop','$name','$description',$minOrder,$maxOrder,'$allergy_info',$stock,'$image',$discount,$price);";
+        if($_POST['allergy_info']!= null && $_POST['allergy_info']!=" "){
+			$allergy_info = htmlentities($_POST['allergy_info']);
+            $_SESSION['productAddAllergy'] = $allergy_info;
+		}else{
+			array_push($_SESSION['productErrors'], "You must enter the allergy information.");
+		}
+
+        if($_POST['shop']!= null && $_POST['shop']!=" "){
+			$shop =htmlentities($_POST['shop']);
+            $_SESSION['productAddShop'] = $shop;
+		}else{
+			array_push($_SESSION['productErrors'], "You must select a shop.");
+		}
+
+        if($_POST['stock']!=null && $_POST['stock']!=" "){
+			$stock = htmlentities($_POST['stock']);
+            $_SESSION['productAddStock'] = $stock;
+		}else{
+			array_push($_SESSION['productErrors'], "You must enter the stock quantity.");
+		}
+
+        if($_POST['image']!= null && $_POST['image']!=" "){
+			$image = htmlentities($_POST['image']);
+            $_SESSION['productAddImage'] = $image;
+		}else{
+			array_push($_SESSION['productErrors'], "You must enter the product image link.");
+		}
+
+        $discount =(isset($_POST['discount']) && !empty($_POST['discount']) )?htmlentities(isset($_POST['discount'])):0;
+        $minOrder=(isset($_POST['minOrder']) && !empty($_POST['minOrder']) )?htmlentities(isset($_POST['minOrder'])):1;
+        $maxOrder=(isset($_POST['maxOrder']) && !empty($_POST['maxOrder']))?htmlentities(isset($_POST['maxOrder'])):20;
+
+        if(sizeof($_SESSION['productErrors'])==0){
+            $query= "
+                INSERT INTO HAMROMART.product(shop_id,product_name,product_description,min_order,max_order,allergy_information,stock,product_image,discount,product_price) 
+                VALUES('$shop','$name','$description',$minOrder,$maxOrder,'$allergy_info',$stock,'$image',$discount,$price)
+            ";
             
-            $productQuery=mysqli_query($connection,$query);
-		
-		if($productQuery){
-			$_SESSION['status']="successfull";
-			header('location:'.$_SESSION['url']);
-			unset($_SESSION['url']);
-			exit();
-			
+            $productQuery=oci_parse($connection,$query);
+            oci_execute($productQuery);
+            
+            if($productQuery){
 
-		}else{
-			echo "error adding product";
-		}
+                $_SESSION['status']="successfull";
+                header('location:'.$_SESSION['url']);
+                unset($_SESSION['url']);
+                exit();
+                
+            }else{
+                echo "error adding product";
+            }
+        }
+        else{
+            header('Location: ./addProduct.php');
+        }
 
 	}
 }

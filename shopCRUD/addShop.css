@@ -133,16 +133,26 @@ footer svg {
   margin-top: 150px;
 }
 
+.add-container .container-title {
+  margin-bottom: 50px;
+}
+
+.add-container .error-message {
+  font-weight: bold;
+  color: #f7351b;
+}
+
+.add-container .success-message {
+  font-weight: bold;
+  color: #428035;
+}
+
 .add-container .form-container {
   width: 50%;
   margin: auto;
   border: 1px solid #c9c9c5;
   border-radius: 15px;
   padding: 1.5rem 3rem;
-}
-
-.add-container .form-container .container-title {
-  margin-bottom: 50px;
 }
 
 .add-container .form-container form input {

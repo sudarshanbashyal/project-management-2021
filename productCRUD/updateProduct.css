@@ -145,6 +145,10 @@ footer svg {
   margin-bottom: 50px;
 }
 
+.update-container .form-container .success-message {
+  color: #428035;
+}
+
 .update-container .form-container form {
   margin-bottom: 50px;
   display: -webkit-box;

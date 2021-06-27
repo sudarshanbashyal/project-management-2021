@@ -19,8 +19,8 @@
             $userRole=null;
 
             // sanitizing
-            $emailAddress=htmlspecialchars($emailAddress);
-            $password=htmlspecialchars($password);
+            $emailAddress=htmlspecialchars(trim($emailAddress));
+            $password=htmlspecialchars(trim($password));
             
             $userQuery = "
                 SELECT * FROM HAMROMART.users WHERE lower(user_email)=lower('$emailAddress') AND user_password='$password'
