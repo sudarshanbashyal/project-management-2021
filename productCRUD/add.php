@@ -63,24 +63,39 @@ if($connection){
         $maxOrder=(isset($_POST['maxOrder']) && !empty($_POST['maxOrder']))?htmlentities(isset($_POST['maxOrder'])):20;
 
         if(sizeof($_SESSION['productErrors'])==0){
-            $query= "
-                INSERT INTO HAMROMART.product(shop_id,product_name,product_description,min_order,max_order,allergy_information,stock,product_image,discount,product_price) 
-                VALUES('$shop','$name','$description',$minOrder,$maxOrder,'$allergy_info',$stock,'$image',$discount,$price)
-            ";
-            
-            $productQuery=oci_parse($connection,$query);
-            oci_execute($productQuery);
-            
-            if($productQuery){
 
-                $_SESSION['status']="successfull";
-                header('location:'.$_SESSION['url']);
-                unset($_SESSION['url']);
-                exit();
+            $permissionEmailQuery = "SELECT user_email FROM HAMROMART.users WHERE user_id=$_SESSION[userId]";
+            $permissionEmailQueryResult = oci_parse($connection, $permissionEmailQuery);
+            oci_execute($permissionEmailQueryResult);
+
+            if($permissionEmailQueryResult){
+                $permissionEmail = '';
                 
-            }else{
-                echo "error adding product";
+                while($permission = oci_fetch_assoc($permissionEmailQueryResult)){
+                    $permissionEmail = $permission['USER_EMAIL'];
+                }
+
+                $query= "
+                INSERT INTO HAMROMART.product(shop_id,product_name,product_description,min_order,max_order,allergy_information,stock,product_image,discount,product_price, permissions) 
+                VALUES('$shop','$name','$description',$minOrder,$maxOrder,'$allergy_info',$stock,'$image',$discount,$price, '$permissionEmail')
+                ";
+                
+                $productQuery=oci_parse($connection,$query);
+                oci_execute($productQuery);
+                
+                if($productQuery){
+
+                    $_SESSION['status']="successfull";
+                    header('location:'.$_SESSION['url']);
+                    unset($_SESSION['url']);
+                    exit();
+                    
+                }else{
+                    echo "error adding product";
+                }
             }
+
+            
         }
         else{
             header('Location: ./addProduct.php');

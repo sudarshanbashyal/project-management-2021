@@ -184,11 +184,22 @@
                     if(isset($_SESSION['orderError'])){
                         echo "<h4 class='order-error'>$_SESSION[orderError]</h4>";
                     }
+
+                    if(isset($_SESSION['userId'])){
+                        echo "<div id='paypal-payment-button'>
+                        </div>";
+                    }
+                    else{
+                        echo "
+                            <a class='checkout-btn' href='../login/customerLogin.php'>
+                                Login Before Checkout
+                            </a>
+                        ";
+                    }
                 
                 ?>
 
-                <div id="paypal-payment-button">
-                </div>
+                
             </form>
 
         </div>

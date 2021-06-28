@@ -20,7 +20,7 @@
 
             // sanitizing
             $emailAddress=htmlspecialchars(trim($emailAddress));
-            $password=htmlspecialchars(trim($password));
+            $password=md5(htmlspecialchars(trim($password)));
             
             $userQuery = "
                 SELECT * FROM HAMROMART.users WHERE lower(user_email)=lower('$emailAddress') AND user_password='$password'
@@ -61,9 +61,9 @@
 
                         // getting items from user's cart
                         $userCartQuery = "
-                            SELECT cd.product_id, c.cart_id FROM HAMROMART.cart_details cd 
-                            INNER JOIN HAMROMART.cart c ON c.cart_id=cd.cart_id
-                            INNER JOIN HAMROMART.users u ON u.user_id=c.user_id
+                            SELECT cd.product_id, c.cart_id FROM HAMROMART.cart c
+                            LEFT OUTER JOIN HAMROMART.cart_details cd ON c.cart_id=cd.cart_id
+                            LEFT OUTER JOIN HAMROMART.users u ON u.user_id=c.user_id
                             WHERE u.user_id=$userId
                         ";
                         $userCartQueryResult = oci_parse($connection, $userCartQuery);
@@ -74,6 +74,8 @@
                                 array_push($customerCartItems, $cartItem['PRODUCT_ID']);
                                 $cartId = $cartItem['CART_ID'];
                             }
+
+                            print_r ($customerCartItems);
                         }
 
                         // getting current cart items
@@ -86,6 +88,8 @@
                                         INSERT INTO HAMROMART.cart_details(cart_id, product_id, product_quantity)
                                         VALUES ($cartId, $productId, $productQuantity)
                                     ";
+                                    echo "need to add this to cart";
+                                    echo $productMergeQuery;
                                     $productMergeQueryResult = oci_parse($connection, $productMergeQuery);
                                     oci_execute($productMergeQueryResult);
 

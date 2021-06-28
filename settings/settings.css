@@ -147,7 +147,7 @@ footer svg {
 .container .profile-settings .error-msg, .container .account-settings .error-msg, .container .profile-settings .success-msg, .container .account-settings .success-msg {
   margin-bottom: 10px;
   font-weight: bold;
-  color: #f85149;
+  color: #f85149 !important;
 }
 
 .container .profile-settings .success-msg, .container .account-settings .success-msg {

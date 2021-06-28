@@ -4,7 +4,7 @@
 
     if(isset($_POST['submit_btn'])){
 
-        $currentPassword = $_POST['current_password'];
+        $currentPassword = md5($_POST['current_password']);
         $newPassword = $_POST['new_password'];
         $confirmPassword = $_POST['confirm_password'];
         $error=false;
@@ -39,8 +39,15 @@
             $_SESSION['accountNewPasswordError']='Your must enter a new password.';
             $error=true;
         }
-        elseif(strlen($newPassword)<6){
-            $_SESSION['accountNewPasswordError']='Your password must be at least 6 characters long.';
+        // password validation here
+        elseif(!strlen($newPassword)>=8 || !preg_match('#[0-9]+#',$newPassword) || !preg_match('#[A-Z]+#',$newPassword) || !preg_match('#[a-z]+#',$newPassword) || !preg_match('@[^\w]@', $newPassword)){
+            $_SESSION['accountNewPasswordError']="
+                Your password must contain: <br>
+                    - At least 8 characters <br>
+                    - At least one uppercase letter <br>
+                    - At least one number <br>
+                    - At least one special character <br>
+            ";
             $error=true;
         }
         else{
@@ -64,6 +71,7 @@
             header('Location: ./settings.php');
         }
         else{
+            $newPassword = md5($newPassword);
             $updatePasswordQuery = "
                 UPDATE HAMROMART.users SET user_password='$newPassword'
                 WHERE user_id=$_SESSION[userId]
@@ -77,7 +85,6 @@
                 header('Location: ./settings.php');
             }
         }    
-
     }
     else{
         header('Location: ./settings.php');

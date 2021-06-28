@@ -51,14 +51,15 @@
                         $shopSearch=(isset($_GET['shop_search'])&&!empty($_GET['shop_search']))?$_GET['shop_search']:'';
 
                         $shopQuery = "
-                        SELECT 
-                        s.shop_id, s.shop_name, COUNT(p.product_id) products_no, COUNT(od.order_id) orders_no
-                        FROM HAMROMART.shop s
-                        INNER JOIN HAMROMART.users u ON s.user_id = u.user_id
-                        LEFT OUTER JOIN HAMROMART.product p ON p.shop_id=s.shop_id
-                        LEFT OUTER JOIN HAMROMART.order_details od ON od.product_id = p.product_id 
-                        WHERE u.user_id = $_SESSION[userId] AND lower(s.shop_name) LIKE lower('%$shopSearch%')
-                        GROUP BY s.shop_id, s.shop_name
+                            SELECT 
+                                s.shop_id, s.shop_name, COUNT(distinct p.product_id) total_products, COUNT(distinct o.order_id) total_orders
+                                FROM HAMROMART.shop s
+                                INNER JOIN HAMROMART.users u ON s.user_id = u.user_id
+                                LEFT OUTER JOIN HAMROMART.product p ON p.shop_id=s.shop_id
+                                LEFT OUTER JOIN HAMROMART.order_details od ON od.product_id = p.product_id 
+                                LEFT OUTER JOIN HAMROMART.orders o ON od.order_id = o.order_id
+                            WHERE u.user_id = $_SESSION[userId] AND lower(s.shop_name) LIKE lower('%$shopSearch%')
+                            GROUP BY s.shop_id, s.shop_name
                         ";
 
                         $shopQueryResult = oci_parse($connection, $shopQuery);
@@ -71,8 +72,8 @@
                                 echo "<tr>";
                                 echo "<td>$shop[SHOP_ID]</td>";
                                 echo "<td>$shop[SHOP_NAME]</td>";
-                                echo "<td>$shop[ORDERS_NO]</td>";
-                                echo "<td>$shop[PRODUCTS_NO]</td>";
+                                echo "<td>$shop[TOTAL_ORDERS]</td>";
+                                echo "<td>$shop[TOTAL_PRODUCTS]</td>";
                                 echo "
                                 <td>
                                     <a href='../shopCRUD/updateShop.php?shop_id=$shop[SHOP_ID]'>
