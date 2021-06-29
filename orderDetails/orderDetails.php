@@ -38,6 +38,7 @@
                     INNER JOIN HAMROMART.cart c ON c.cart_id = o.cart_id
                     INNER JOIN HAMROMART.users u ON u.user_id = c.user_id
                     WHERE u.user_id=$_SESSION[userId]
+                    ORDER BY o.order_id DESC
                     ";
                     $ordersQueryResult = oci_parse($connection, $ordersQuery);
                     oci_execute($ordersQueryResult);

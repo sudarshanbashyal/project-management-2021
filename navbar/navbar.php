@@ -33,6 +33,13 @@
                 echo "<a href='../settings/settings.php' class='user-name'>Settings</a>";
                 echo "</div>";
             }
+            elseif(isset($_SESSION['userRole'])&&$_SESSION['userRole']=='admin'){
+                echo "<ul class='nav-links nav-links-full'>";
+                echo "<li><a href='../admin/traders.php'>Trader Requests</a></li>";
+                echo "<li><a href='../admin/products.php'>All Products</a></li>";
+                echo "<li><a href='../login/logout.php'>Log Out</a></li>";
+                echo "</ul>";
+            }
             elseif(isset($_SESSION['userId'])){
                 echo "<ul class='nav-links'>";
                 echo "<li><a href='../products/products.php'>Products</a></li>";

@@ -1,9 +1,10 @@
-const navbarSearchInput = document.querySelector('.navbar-search-input');
-const navbarSearchIcon = document.querySelector('.navbar-search-icon');
+const navbarSearchInput = document.querySelector('.navbar-search-input') || '';
+const navbarSearchIcon = document.querySelector('.navbar-search-icon') || '';
 
-navbarSearchIcon.addEventListener('click', () => {
-    navbarSearchInput.classList.toggle('search-input-expanded');
-});
+navbarSearchIcon &&
+    navbarSearchIcon.addEventListener('click', () => {
+        navbarSearchInput.classList.toggle('search-input-expanded');
+    });
 
 const hamburgerIcon = document.querySelector('.hamburger-menu');
 hamburgerIcon.addEventListener('click', () => {

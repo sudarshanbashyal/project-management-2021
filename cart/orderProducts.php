@@ -63,7 +63,7 @@
     }
 
     // generating collection sequence and inserting collection slot into that sequence
-    $collectionSequenceQuery = "SELECT HAMROMART.collection_seq.NEXTVAL FROM dual";
+    $collectionSequenceQuery = "SELECT HAMROMART.slot_id_seq.NEXTVAL FROM dual";
     $collectionSequenceQueryResult = oci_parse($connection, $collectionSequenceQuery);
     oci_execute($collectionSequenceQueryResult);
 
@@ -100,7 +100,7 @@
         $cartDetailsQuery = "
             SELECT product_id, product_quantity
             FROM HAMROMART.cart_details cd
-            INNER JOIN HAMROMART.cart c ON c.cart_id = c.cart_id
+            INNER JOIN HAMROMART.cart c ON cd.cart_id = c.cart_id
             WHERE c.cart_id=$cartId
         ";
 

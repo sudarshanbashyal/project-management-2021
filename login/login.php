@@ -52,6 +52,9 @@
                     if($_SESSION['userRole']=='trader'){
                         header('Location: ../traderStats/traderStats.php');
                     }
+                    elseif($_SESSION['userRole']=='admin'){
+                        header('Location: ../admin/products.php');
+                    }
                     else{
 
 

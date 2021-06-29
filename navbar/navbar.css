@@ -174,7 +174,7 @@ nav .nav-container .logo div img {
      object-fit: contain;
 }
 
-nav .nav-container .nav-links {
+nav .nav-container .nav-links, nav .nav-container .nav-links-full {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
@@ -189,17 +189,17 @@ nav .nav-container .nav-links {
   list-style: none;
 }
 
-nav .nav-container .nav-links li {
+nav .nav-container .nav-links li, nav .nav-container .nav-links-full li {
   margin-right: 35px;
 }
 
-nav .nav-container .nav-links li a {
+nav .nav-container .nav-links li a, nav .nav-container .nav-links-full li a {
   color: black;
   text-decoration: none;
   font-weight: 600;
 }
 
-nav .nav-container .nav-links li a sup {
+nav .nav-container .nav-links li a sup, nav .nav-container .nav-links-full li a sup {
   background-color: #428035;
   color: white;
   display: inline-block;
@@ -209,8 +209,16 @@ nav .nav-container .nav-links li a sup {
   border-radius: 50%;
 }
 
-nav .nav-container .nav-links li:last-child {
+nav .nav-container .nav-links li:last-child, nav .nav-container .nav-links-full li:last-child {
   margin-right: 0px;
+}
+
+nav .nav-container .nav-links-full {
+  -webkit-box-flex: 0;
+      -ms-flex: 0;
+          flex: 0;
+  -ms-flex-preferred-size: 40%;
+      flex-basis: 40%;
 }
 
 nav .nav-container .function-tray {
@@ -291,7 +299,7 @@ nav .nav-container .hamburger-menu {
     display: block;
     cursor: pointer;
   }
-  nav .nav-container .nav-links {
+  nav .nav-container .nav-links, nav .nav-container .nav-links-full {
     position: absolute;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -305,7 +313,7 @@ nav .nav-container .hamburger-menu {
     -webkit-transition: 0.3s ease-in-out;
     transition: 0.3s ease-in-out;
   }
-  nav .nav-container .nav-links li {
+  nav .nav-container .nav-links li, nav .nav-container .nav-links-full li {
     margin: 0px;
   }
   nav .nav-container .expanded-nav-link {
@@ -314,7 +322,7 @@ nav .nav-container .hamburger-menu {
 }
 
 @media screen and (max-width: 720px) {
-  nav .nav-container .nav-links {
+  nav .nav-container .nav-links, nav .nav-container .nav-links-full {
     width: 100%;
   }
 }

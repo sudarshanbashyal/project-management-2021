@@ -68,6 +68,12 @@ nav {
             }
         }
 
+        .nav-links-full {
+            @extend .nav-links;
+            flex: 0;
+            flex-basis: 40%;
+        }
+
         .function-tray {
             flex-basis: 30%;
             justify-self: right;
