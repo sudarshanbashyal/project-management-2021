@@ -15,6 +15,11 @@
 
         include '../navbar/navbar.php';
         include '../init.php';
+
+        if(!isset($_SESSION['userId'])||(isset($_SESSION['userRole']) && $_SESSION['userRole']!='admin')){
+            include '../401/401.php';
+            exit();
+        }
     
     ?>
 

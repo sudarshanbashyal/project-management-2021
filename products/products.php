@@ -19,6 +19,10 @@
     <?php
 
         include "../navbar/navbar.php";
+        if((isset($_SESSION['userRole']) && $_SESSION['userRole']!='customer')){
+            include '../401/401.php';
+            exit();
+        }
         
     ?>
 

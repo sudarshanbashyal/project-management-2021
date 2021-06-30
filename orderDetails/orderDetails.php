@@ -17,6 +17,11 @@
         include '../navbar/navbar.php';
         include '../init.php';
 
+        if((isset($_SESSION['userRole']) && $_SESSION['userRole']!='customer')){
+            include '../401/401.php';
+            exit();
+        }
+
     ?>
 
 
@@ -44,7 +49,10 @@
                     oci_execute($ordersQueryResult);
 
                     if($ordersQueryResult){
+                        $noOfOrders = 0;
+
                         while($order=oci_fetch_assoc($ordersQueryResult)){
+                            $noOfOrders++;
                             
                             echo "
                                 <div class='order'>
@@ -65,7 +73,12 @@
                             echo "</div>";
 
                         }
+
+                        if($noOfOrders==0){
+                            echo "<h3>No Orders Found.</h3>";
+                        }
                     }
+                    
                 }
                 else{
                     echo "<h3>Please log in to see your order history.</h3>";

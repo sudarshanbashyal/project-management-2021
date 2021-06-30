@@ -14,10 +14,14 @@
 
     <?php
         include '../navbar/navbar.php';
+        if(!isset($_SESSION['userRole']) || $_SESSION['userRole']!='trader'){
+            include '../401/401.php';
+            exit();
+        }
     ?>
     <?php
-    include '../init.php';
-    $_SESSION['url']="http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        include '../init.php';
+        $_SESSION['url']="http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
     ?>
 
@@ -32,6 +36,28 @@
 
             <!-- add method to this form and name attributes to the inputs -->
             <form action="add.php" method="POST">
+
+                <!-- checking if the current user has any shops, open or not. if no shop is found, display error message -->
+                <?php
+
+                    $noOfShops=0;
+                    $userShopQuery = "SELECT COUNT(shop_id) SHOP_NUMBER FROM HAMROMART.shop WHERE user_id=$_SESSION[userId]";
+                    $userShopQueryResult = oci_parse($connection, $userShopQuery);
+                    oci_execute($userShopQueryResult);
+
+                    if($userShopQueryResult){
+                        while($shop=oci_fetch_assoc($userShopQueryResult)){
+                            $noOfShops=(int)$shop['SHOP_NUMBER'];
+                        }
+                    }
+
+                    if($noOfShops==0){
+                        echo "<h3>You currently do not own a shop. Please open a shop before adding products.</h3>";
+                        echo "<a href='../shopCRUD/addShop.php' class='add-shop-button'>Open Shop</a>";
+                        exit();
+                    }
+                
+                ?>
 
                 <!-- displaying prodcut errors -->
                 <?php

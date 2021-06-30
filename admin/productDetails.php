@@ -19,6 +19,12 @@
         $productId = $_GET['product_id'];
         if(!$productId){
             header('Location: ./products.php');
+            exit();
+        }
+
+        if(!isset($_SESSION['userId'])||(isset($_SESSION['userRole']) && $_SESSION['userRole']!='admin')){
+            include '../401/401.php';
+            exit();
         }
     
     ?>

@@ -25,6 +25,7 @@
         $customerName= $orderDate= $collectionSlot= '';
         $discountPercent=0;
         $totalPrice=0;
+        $orderExists = false;
 
         $detailsQuery = "
             SELECT 
@@ -41,6 +42,7 @@
 
         if($detailsResult){
             while($detail=oci_fetch_assoc($detailsResult)){
+                $orderExists=true;
 
                 $customerName = $detail['USER_NAME'];
                 $orderDate = $detail['ORDER_DATE'];
@@ -48,6 +50,11 @@
                 $discountPercent=$detail['DISCOUNT_PERCENT'];
 
             }
+        }
+
+        if(!$orderExists){
+            include '../401/401.php';
+            exit();
         }
 
     ?>

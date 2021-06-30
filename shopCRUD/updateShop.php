@@ -17,6 +17,8 @@
     ?>
     <?php
     include '../init.php';
+
+    $shopExists = false;
     $_SESSION['url']="http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $shop_id=$_GET['shop_id'];
     $sql="
@@ -30,8 +32,14 @@
 
     if($query){
         while($row=oci_fetch_assoc($query)){
+            $shopExists=true;
             $_SESSION['shop_name']=$row['SHOP_NAME'];
         }
+    }
+
+    if(!$shopExists){
+        include '../401/401.php';
+        exit();
     }
     
     ?>

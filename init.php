@@ -1,5 +1,4 @@
 <?php
-
     $connection = oci_connect('system', '12345', '//localhost/xe');
     
     session_start();

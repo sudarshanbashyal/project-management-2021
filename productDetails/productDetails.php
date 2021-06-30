@@ -14,6 +14,10 @@
     <?php
 
         include '../navbar/navbar.php';
+        if((isset($_SESSION['userRole']) && $_SESSION['userRole']!='customer')){
+            include '../401/401.php';
+            exit();
+        }
     
     ?>
 
@@ -329,7 +333,7 @@
             <div class="products">
 
                 <?php
-                
+                    $similarProductsCount=0;
                     $recommendationQuery = "
                         SELECT p.product_id, p.product_name, p.product_image, p.product_price
                         FROM HAMROMART.product p
@@ -344,7 +348,7 @@
 
                     if($recommendationQueryResult){
                         while($product=oci_fetch_assoc($recommendationQueryResult)){
-                            
+                            $similarProductsCount++;
 
                             echo "<div class='product'>";
 
@@ -414,6 +418,10 @@
 
                             echo "</div>";
 
+                        }
+
+                        if($similarProductsCount==0){
+                            echo "<h3>No Other Products Similar to This Found =(</h3>";
                         }
                     }
                 

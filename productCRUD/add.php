@@ -102,6 +102,9 @@ if($connection){
         }
 
 	}
+    else{
+        header('Location: ./addProduct.php');
+    }
 }
 
 

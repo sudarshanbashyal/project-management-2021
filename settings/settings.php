@@ -23,6 +23,11 @@
             SELECT user_name, user_phone_number FROM HAMROMART.users WHERE user_id=$_SESSION[userId]
         ";
 
+        if(!isset($_SESSION['userId']) || (isset($_SESSION['userRole']) && $_SESSION['userRole']=='admin' ) ){
+            include '../401/401.php';
+            exit();
+        }
+
         $profileQueryResult = oci_parse($connection, $profileQuery);
         oci_execute($profileQueryResult);
         if($profileQueryResult){

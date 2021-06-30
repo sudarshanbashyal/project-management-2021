@@ -14,6 +14,10 @@
 
     <?php
         include '../navbar/navbar.php';
+        if(!isset($_SESSION['userRole']) || $_SESSION['userRole']!='trader'){
+            include '../401/401.php';
+            exit();
+        }
     ?>
     <?php
         $_SESSION['url']="http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";

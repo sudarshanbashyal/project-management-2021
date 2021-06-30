@@ -250,7 +250,7 @@
                     INNER JOIN HAMROMART.rating r ON r.product_id=p.product_id
                     WHERE p.stock>0
                     GROUP BY p.product_id, p.product_name, p.product_image, p.product_price
-                    HAVING AVG(r.rating_star)>2
+                    HAVING AVG(r.rating_star)>3
                 ";
 
                 $recommendationQueryResult = oci_parse($connection, $recommendationQuery);
@@ -296,7 +296,7 @@
                             while($rating=oci_fetch_assoc($ratingQueryResult)){
                                 $ratedUsers++;
                                 // adding to rating
-                                $productRating=(int)$rating['RATING_STAR'];
+                                $productRating+=(int)$rating['RATING_STAR'];
                             }
 
                             if($ratedUsers>0){

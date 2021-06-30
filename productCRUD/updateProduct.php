@@ -13,10 +13,15 @@
 
     <?php
         include '../navbar/navbar.php';
+
+        if(!isset($_SESSION['userRole']) || $_SESSION['userRole']!='trader'){
+            include '../401/401.php';
+            exit();
+        }
     ?>
     <?php
         include '../init.php';
-
+        $productExists = false;
         $product_id=$_GET['product_id'];
         $sql="
             SELECT * FROM HAMROMART.product p
@@ -28,6 +33,7 @@
         oci_execute($query);
 
         while($row=oci_fetch_assoc($query)){
+            $productExists = true;
             $_SESSION['product_name']=$row['PRODUCT_NAME'];
             $_SESSION['product_description']=$row['PRODUCT_DESCRIPTION'];
             $_SESSION['min_order']=$row['MIN_ORDER'];
@@ -38,6 +44,11 @@
             $_SESSION['discount']=$row['DISCOUNT'];
             $_SESSION['product_price']=$row['PRODUCT_PRICE'];
             $_SESSION['shop_id']=$row['SHOP_ID'];
+        }
+
+        if(!$productExists){
+            include '../401/401.php';
+            exit();
         }
 
         $shop_id=$_SESSION['shop_id'];

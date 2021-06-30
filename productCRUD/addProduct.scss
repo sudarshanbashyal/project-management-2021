@@ -11,6 +11,17 @@
         border-radius: 15px;
         padding: 1.5rem 3rem;
 
+        .add-shop-button {
+            display: inline-block;
+            margin-top: 20px;
+            color: black;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0.8rem 2rem;
+            background-color: $yellow-primary;
+            border-radius: 7px;
+        }
+
         .success-message {
             font-weight: bold;
             color: $green-primary;

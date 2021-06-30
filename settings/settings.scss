@@ -22,7 +22,7 @@
 
         .success-msg {
             @extend .error-msg;
-            color: $green-primary;
+            color: $green-primary !important;
         }
 
         input[type='text'],
