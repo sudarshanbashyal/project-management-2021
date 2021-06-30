@@ -44,6 +44,8 @@
                     $noOfTraders = 0;
 
                     while($trader = oci_fetch_assoc($tradersQueryResult)){
+                        $noOfTraders++;
+
                         echo "<div class='trader'>";
                         
                         echo "<span class='trader-id'>$trader[USER_ID]</span>";
