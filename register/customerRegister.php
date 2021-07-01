@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include '../init.php';
 
 // declaring the variable
@@ -11,11 +11,11 @@ $user_role="Customer";
 // register the customer
 if (isset($_POST['signup'])) {
   // receive all form input values
-  $username = mysqli_real_escape_string($connection, $_POST['username']);
-  $email = mysqli_real_escape_string($connection, $_POST['email']);
-  $password = mysqli_real_escape_string($connection, $_POST['password']);
-  $cpassword = mysqli_real_escape_string($connection, $_POST['cpassword']);
-  $phonenumber = mysqli_real_escape_string($connection, $_POST['number']);
+  $username = $_POST['username'];
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+  $cpassword = $_POST['cpassword'];
+  $phonenumber = $_POST['number'];
 
  // form validation: ensure that the form is filled correctly
   // by adding (array_push()) corresponding error unto $errors array
@@ -37,25 +37,23 @@ if (isset($_POST['signup'])) {
   }
 
   //there isn't another customer with the same username,email address and phone number
-  $userEmailCheck = "SELECT * FROM users WHERE user_email='$email';";
-  $userPhoneNumberCheck = "SELECT * FROM users WHERE user_phone_number='$phonenumber';";
+  $userEmailCheck = "SELECT * FROM HAMROMART.USERS WHERE USER_EMAIL='$email'";
+  $userPhoneNumberCheck = "SELECT * FROM HAMROMART.USERS WHERE USER_PHONE_NUMBER='$phonenumber'";
   
-  $userEmailCheckResult = mysqli_query($connection, $userEmailCheck);
-  $userPhoneNumberCheck = mysqli_query($connection, $userPhoneNumberCheck);
+  $userEmailCheckResult = oci_parse($connection, $userEmailCheck);
+   $userPhoneNumberCheckResult = oci_parse($connection, $userPhoneNumberCheck);
+  oci_execute($userEmailCheckResult);
+  oci_execute($userPhoneNumberCheckResult);
   
-  // email exists
-  if($userEmailCheckResult){
-    if(mysqli_num_rows($userEmailCheckResult)>0){
-        array_push($errors, 'Email address already exists.');
-    }
-  }
 
-  // phone number exists
-  if(mysqli_num_rows($userPhoneNumberCheck)>0){
-      array_push($errors, 'Phone Number already exists.');
-  }
-
-  // phonenumber exists
+  if($userEmailResultAns= oci_fetch_assoc($userEmailCheckResult)){
+  
+    array_push($errors, 'Email address already exists.');
+     }
+        
+     if($userPhoneNumberResultAns=oci_fetch_assoc($userPhoneNumberCheckResult)){
+      array_push($errors, 'Phone number already exists.'); 
+     }
 
   //password stength
   if(strlen($password) <=8)
@@ -83,9 +81,10 @@ if (isset($_POST['signup'])) {
   if (count($errors) == 0) {
   	$password = md5($cpassword);//encrypt the password before saving in the database
 
-  	$query = "INSERT INTO users (user_phone_number,user_name, user_email, user_password ,user_role, verified) 
+  	$query = "INSERT INTO HAMROMART.USERS (USER_PHONE_NUMBER,USER_NAME,USER_EMAIL, USER_PASSWORD ,USER_ROLE, VERIFIED) 
   			  VALUES('$phonenumber','$username', '$email', '$password','$user_role', 'FALSE')";
-  	$insertToTable = mysqli_query($connection, $query);
+  	$insertToTable = oci_parse($connection,$query);
+    oci_execute($insertToTable);
     array_push($successs, "Registration successful.");
 
     //Checking to see if it has been inserted into the table and sending the mail if it has been inserted to table

@@ -1,5 +1,4 @@
 <?php
-session_start();
 include '../init.php';
 
 
@@ -12,15 +11,12 @@ $user_role="Trader";
 // register the trader
 if (isset($_POST['signup'])) {
   // receive all form input values
-  $username = mysqli_real_escape_string($connection, $_POST['username']);
-  $email = mysqli_real_escape_string($connection, $_POST['email']);
-  $password = mysqli_real_escape_string($connection, $_POST['password']);
-  $cpassword = mysqli_real_escape_string($connection, $_POST['cpassword']);
-  $phonenumber = mysqli_real_escape_string($connection, $_POST['number']);
-  $tradertype = mysqli_real_escape_string($connection, $_POST['tradertype']);
-
-  
-
+  $username =$_POST['username'];
+  $email =$_POST['email'];
+  $password =$_POST['password'];
+  $cpassword = $_POST['cpassword'];
+  $phonenumber = $_POST['number'];
+  $tradertype = $_POST['tradertype'];
   
 
 
@@ -32,6 +28,12 @@ if (isset($_POST['signup'])) {
   if (empty($phonenumber)) { array_push($errors, "Phonenumber is required"); }
   if (empty($tradertype)) { array_push($errors, "Tradertype is required"); }
   
+//making the data persist
+if (!empty($username)) {$_SESSION['usernameData'] = $username;}
+if (!empty($email)) {$_SESSION['emailData'] = $email;}
+if (!empty($password)) {$_SESSION['passwordData'] = $password;}
+if (!empty($cpassword)) {$_SESSION['cpasswordData'] = $cpassword;}
+if (!empty($phonenumber)) {$_SESSION['phonenumberData'] = $phonenumber;}
 
   if ($password != $cpassword) {
 	array_push($errors, "Password do not match");
@@ -39,23 +41,22 @@ if (isset($_POST['signup'])) {
 
   
   //there isn't another customer with the same username,email address and phone number
-  $userEmailCheck = "SELECT * FROM users WHERE user_email='$email';";
-  $userPhoneNumberCheck = "SELECT * FROM users WHERE user_phone_number='$phonenumber';";
+  $userEmailCheck = "SELECT * FROM HAMROMART.USERS WHERE USER_EMAIL='$email'";
+  $userPhoneNumberCheck = "SELECT * FROM HAMROMART.USERS WHERE USER_PHONE_NUMBER='$phonenumber'";
   
-  $userEmailCheckResult = mysqli_query($connection, $userEmailCheck);
-  $userPhoneNumberCheck = mysqli_query($connection, $userPhoneNumberCheck);
-  
-  // email exists
-  if($userEmailCheckResult){
-    if(mysqli_num_rows($userEmailCheckResult)>0){
-        array_push($errors, 'Email address already exists.');
-    }
-  }
+  $userEmailCheckResult = oci_parse($connection,$userEmailCheck);
+  $userPhoneNumberCheckResult = oci_parse($connection, $userPhoneNumberCheck);
+  oci_execute($userEmailCheckResult);
+  oci_execute($userPhoneNumberCheckResult);
 
-  // phone number exists
-  if(mysqli_num_rows($userPhoneNumberCheck)>0){
-      array_push($errors, 'Phone Number already exists.');
-  }
+  if($userEmailResultAns= oci_fetch_assoc($userEmailCheckResult)){
+  
+    array_push($errors, 'Email address already exists.');
+     }
+        
+     if($userPhoneNumberResultAns=oci_fetch_assoc($userPhoneNumberCheckResult)){
+      array_push($errors, 'Phone number already exists.'); 
+     }
 
   //password stength
   if(strlen($password) <=8)
@@ -83,10 +84,16 @@ if (isset($_POST['signup'])) {
   if (count($errors) == 0) {
   	$password = md5($cpassword);//encrypt the password before storing it in the database.
 
-  	$query = "INSERT INTO users (user_phone_number,user_name, user_email, user_password, user_role,category_id) 
-  			  VALUES('$phonenumber','$username', '$email', '$password','$user_role','$tradertype')";
-  	mysqli_query($connection, $query);
-    array_push($successs, "Registration successful.");
+  	$query = "INSERT INTO HAMROMART.USERS (USER_PHONE_NUMBER,USER_NAME, USER_EMAIL, USER_PASSWORD,USER_ROLE,CATEGORY_ID) 
+  			  VALUES('$phonenumber','$username', '$email', '$password','$user_role', '$tradertype')";
+      
+    
+  	$queryResult = oci_parse($connection,$query);
+    oci_execute($queryResult);
+
+    if($queryResult){
+        array_push($successs, "Registration successful.");        
+    }
 
   
   }
@@ -120,7 +127,24 @@ if (isset($_POST['signup'])) {
             <a href="" class="login-page-link active-login-link">Register as Trader</a>
             
             <form action="traderRegister.php" method="POST">
-            <?php include 'errors.php'; ?>
+            <?php include 'errors.php'; 
+            if (isset($_SESSION['emailSent'])) {
+                echo $_SESSION['emailSent'];
+                unset($_SESSION['emailSent']);
+              }
+              elseif(isset($_SESSION['emailFail'])) {
+            		echo $_SESSION['emailFail'];
+            		unset($_SESSION['emailFail']);
+            	}
+
+              if (isset($_SESSION['register_error'])) {
+                echo $_SESSION['register_error'];
+                unset($_SESSION['register_error']);
+              }elseif (isset($_SESSION['successful_update'])) {
+                echo $_SESSION['successful_update'];
+                unset($_SESSION['successful_update']);
+              }
+              ?>
                 <h2>Create a new Trader account</h2>
                
                 <input type="text" name="username" id="" placeholder="Trader Name">
@@ -128,19 +152,20 @@ if (isset($_POST['signup'])) {
                 <input type="password" name="password" id="" placeholder="Password">
                 <input type="password" name="cpassword" id="" placeholder="Confirm Password">
                 <input type="number" name="number" id="" placeholder="Phone Number">
-               <?php
-             
-               $traderQuery="Select * FROM trader_category;";
-               $traderQueryResult=mysqli_query($connection, $traderQuery);
-
-               ?>
                 <select name="tradertype" id="">
                 <option selected disabled>Select Your Trader Type</option>
                     
                     <?php
-                    foreach($traderQueryResult as $trader){
-                        echo "<option value='$trader[category_id]'>$trader[category_type]</option>";
+                    
+                    $traderQuery="Select * FROM HAMROMART.TRADER_CATEGORY";
+                    $traderQueryResult= oci_parse($connection, $traderQuery);
+                    oci_execute($traderQueryResult);
+                    while($key=oci_fetch_assoc($traderQueryResult)){
+                        $value=$key['CATEGORY_ID'];
+                        echo "<option value ='$value'>$key[CATEGORY_TYPE]</option>";
                     }
+                   
+                   
                     ?>
                 </select>
                
