@@ -35,6 +35,14 @@
                         echo "<p class='login-error'>$_SESSION[loginError]</p>";
                         unset($_SESSION['loginError']);
                     }
+                    if(isset($_SESSION['successful_update'])){
+                        echo "<p class='successful_update'>$_SESSION[successful_update]</p>";
+                        unset($_SESSION['successful_update']);
+                    }
+                    if(isset($_SESSION['register_error'])){
+                        echo "<p class='login-error'>$_SESSION[register_error]</p>";
+                        unset($_SESSION['register_error']);
+                    }
                 
                 ?>
 

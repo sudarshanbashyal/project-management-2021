@@ -2,25 +2,29 @@
 	include '../init.php';
 	if (isset($_GET['key'])) {
 		$email = $_GET['key'];
-		$query = "SELECT user_email, verified, user_role FROM users WHERE user_email = '$email' && verified = 'FALSE' && user_role = 'Customer'";
-		$checkemail = mysqli_query($connection, $query);
-		if ($checkemail-> num_rows != 0) {
-			$update = "UPDATE users SET verified = 'TRUE' WHERE user_email = '$email'";
-			$checkUpdate = mysqli_query($connection, $update);
-			if ($checkUpdate) {
-				$_SESSION['successful_update'] = '<h3>Your "Customer" account has been verified. You may login</h3>';
+		$query = "SELECT user_email, verified, user_role FROM HAMROMART.USERS WHERE user_email = '$email' AND verified = 'FALSE' AND user_role = 'Customer'";
+		$checkemail = oci_parse($connection, $query);
+		oci_execute($checkemail);
+
+		if ($result = oci_fetch_assoc($checkemail)) {
+			$update = "UPDATE HAMROMART.USERS SET verified = 'TRUE' WHERE user_email = '$email'";
+			$setUpdate = oci_parse($connection, $update);
+			oci_execute($setUpdate);
+
+			if ($setUpdate) {
+				$_SESSION['successful_update'] = 'Your "Customer" account has been verified. You may login.';
 				header("location:../login/customerLogin.php");
 			}else{
-				$_SESSION['register_error'] = "<h3>Error, fault in query.</h3>";
+				$_SESSION['register_error'] = "Error, fault in query.";
 				header("location:customerRegister.php");
 			}
 
 		}else{
-			$_SESSION['register_error'] = "<h3>Error, your account has already been verified.</h3>";
+			$_SESSION['register_error'] = "Error, your account has already been verified.";
 			header("location:../login/customerLogin.php");
 		}
 	}else{
-		$_SESSION['register_error'] = "<h3>You do not have a key</h3>";
+		$_SESSION['register_error'] = "You do not have a key.";
 		header("location:customerRegister.php");
 	}
 ?>
