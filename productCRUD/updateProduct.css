@@ -194,7 +194,7 @@ footer svg {
 .update-container .form-container form .product-image {
   -ms-flex-preferred-size: 45%;
       flex-basis: 45%;
-  height: 500px;
+  height: 600px;
 }
 
 .update-container .form-container form .product-image img {
@@ -318,16 +318,12 @@ footer svg {
   margin-top: 50px;
 }
 
-.update-container .reviews-container .comments hr {
-  border: 0.5px solid #c9c9c5;
-}
-
 .update-container .reviews-container .comments .comment {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  padding-bottom: 30px;
   margin-bottom: 30px;
-  padding-top: 30px;
 }
 
 .update-container .reviews-container .comments .comment svg {
@@ -343,5 +339,9 @@ footer svg {
 .update-container .reviews-container .comments .comment .comment-info .user-name {
   font-weight: bold;
   margin-bottom: 5px;
+}
+
+.update-container .reviews-container .comments .comment:not(:last-child) {
+  border-bottom: 1px solid #c9c9c5;
 }
 /*# sourceMappingURL=updateProduct.css.map */

@@ -27,7 +27,7 @@
 
             .product-image {
                 flex-basis: 45%;
-                height: 500px;
+                height: 600px;
 
                 img {
                     width: 100%;
@@ -129,14 +129,10 @@
         .comments {
             margin-top: 50px;
 
-            hr {
-                border: 0.5px solid $gray-dark;
-            }
-
             .comment {
                 display: flex;
+                padding-bottom: 30px;
                 margin-bottom: 30px;
-                padding-top: 30px;
 
                 svg {
                     margin-right: 10px;
@@ -149,6 +145,10 @@
                         font-weight: bold;
                         margin-bottom: 5px;
                     }
+                }
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid $gray-dark;
                 }
             }
         }

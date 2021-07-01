@@ -58,9 +58,26 @@ if($connection){
 			array_push($_SESSION['productErrors'], "You must enter the product image link.");
 		}
 
-        $discount =(isset($_POST['discount']) && !empty($_POST['discount']) )?htmlentities(isset($_POST['discount'])):0;
-        $minOrder=(isset($_POST['minOrder']) && !empty($_POST['minOrder']) )?htmlentities(isset($_POST['minOrder'])):1;
-        $maxOrder=(isset($_POST['maxOrder']) && !empty($_POST['maxOrder']))?htmlentities(isset($_POST['maxOrder'])):20;
+        if($_POST['discount']!==null && $_POST['discount']!=""){
+            $discount=htmlentities($_POST['discount']);
+        }
+        else{
+            $discount = 0;
+        }
+
+        if($_POST['minOrder']!==null && $_POST['minOrder']!=""){
+            $minOrder=htmlentities($_POST['minOrder']);
+        }
+        else{
+            $minOrder = 1;
+        }
+
+        if($_POST['maxOrder']!==null && $_POST['maxOrder']!=""){
+            $discount=htmlentities($_POST['maxOrder']);
+        }
+        else{
+            $maxOrder = 20;
+        }
 
         if(sizeof($_SESSION['productErrors'])==0){
 

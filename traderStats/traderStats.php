@@ -20,6 +20,9 @@
             include '../401/401.php';
             exit();
         }
+
+        $noOfProducts=0;
+        $noOfShops=0;
     
     ?>
 
@@ -54,7 +57,6 @@
                     <?php
 
                         $shopSearch=(isset($_GET['shop_search'])&&!empty($_GET['shop_search']))?$_GET['shop_search']:'';
-                        $noOfShops=0;
                         $shopQuery = "
                             SELECT 
                                 s.shop_id, s.shop_name, COUNT(distinct p.product_id) total_products, COUNT(distinct o.order_id) total_orders
@@ -130,7 +132,6 @@
 
                 <tbody>
                     <?php
-                        $noOfProducts;
                         $productSearch=(isset($_GET['product_search'])&&!empty($_GET['product_search']))?$_GET['product_search']:'';
 
                         $productsQuery = "
@@ -171,7 +172,7 @@
 
             <?php
                 if($noOfProducts==0){
-                    echo "<h3>You do not own any shops.</h3>";
+                    echo "<h3>You do not own any products.</h3>";
                 }
             ?>
         </div>

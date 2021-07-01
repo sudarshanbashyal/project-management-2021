@@ -96,7 +96,7 @@ if($connection){
 
 		if($query1){
 			$_SESSION['status']="delete";
-			header('location:'.$_SESSION['url']);
+			header('location: ../traderStats/traderStats.php');
 			unset($_SESSION['url']);
 			exit();
         }

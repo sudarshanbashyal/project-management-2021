@@ -272,14 +272,10 @@
             .comments {
                 margin-top: 50px;
 
-                hr {
-                    border: 0.5px solid $gray-dark;
-                }
-
                 .comment {
                     display: flex;
+                    padding-bottom: 30px;
                     margin-bottom: 30px;
-                    padding-top: 30px;
 
                     svg {
                         margin-right: 10px;
@@ -292,6 +288,10 @@
                             font-weight: bold;
                             margin-bottom: 5px;
                         }
+                    }
+
+                    &:not(:last-child) {
+                        border-bottom: 1px solid $gray-dark;
                     }
                 }
             }
@@ -323,13 +323,13 @@
         }
 
         .products {
-            flex-basis: 60%;
+            width: 60%;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             grid-gap: 40px;
 
             .product {
-                width: 285px;
+                width: auto;
                 position: relative;
                 margin-bottom: 50px;
 
@@ -385,6 +385,10 @@
             .recommendation-container-title,
             .products {
                 width: 100%;
+
+                .product {
+                    margin: auto;
+                }
             }
         }
     }

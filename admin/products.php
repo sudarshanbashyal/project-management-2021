@@ -42,7 +42,7 @@
             
                 $productsQuery = "
                     SELECT p.product_id, p.disabled, p.product_name, u.user_id, u.user_name, p.product_image FROM HAMROMART.product p 
-                    INNER JOIN HAMROMART.shop s ON s.shop_id=p.product_id
+                    INNER JOIN HAMROMART.shop s ON s.shop_id=p.shop_id
                     INNER JOIN HAMROMART.users u ON u.user_id = s.user_id
                     WHERE lower(p.product_name) LIKE lower('%$productName%')
                 ";

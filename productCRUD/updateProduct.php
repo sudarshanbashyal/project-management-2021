@@ -114,7 +114,7 @@
                                 unset($_SESSION['error']);
                             }
                         }
-                    ?>
+                        ?>
 
                         <input type="text" placeholder="Discount" name="discount" value="<?php echo $_SESSION['discount'];?>">
                     </div>
@@ -232,7 +232,6 @@
                             ";
 
                             echo "</div>";
-                            echo "<hr>";
                         }
 
                         if($noOfComments==0){
