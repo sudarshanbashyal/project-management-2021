@@ -1,6 +1,7 @@
 <?php
 
     include '../init.php';
+    include './altertUser.php';
 
     if(isset($_POST['submit_btn'])){
 
@@ -82,7 +83,8 @@
 
             if($updatePasswordQueryResult){
                 $_SESSION['accountSuccess']='Password Successfully Updated!';
-                header('Location: ./settings.php');
+                sendMail('Password');
+                // header('Location: ./settings.php');
             }
         }    
     }

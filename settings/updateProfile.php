@@ -1,4 +1,5 @@
 <?php
+    include './altertUser.php';
     include '../init.php';
 
     if(isset($_POST['submit_btn'])){
@@ -52,7 +53,8 @@
         oci_execute($updateQueryResult);
         if($updateQueryResult){
             $_SESSION['profileUpdateSuccess'] = 'Profile Updated!';
-            header('Location: ./settings.php');
+            // header('Location: ./settings.php');
+            sendMail('Profile');
         }
 
     }

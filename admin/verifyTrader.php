@@ -29,7 +29,7 @@
                 }
 
                 // send email to trader
-                $to = 'bsudarshan18@tbc.edu.np';
+                $to = $traderEmail;
                 $subject = "Account Verification";
                 $message = "Hi $traderName,\r\n 
                 Your trader account has been successfully verified! You can now login to your account.
@@ -39,10 +39,7 @@
                 $headers .= "Content-type:text/html;charset=UTF-8"."\r\n";
 
                 if (mail($to, $subject, $message, $headers)) {
-                    echo "Email sent";
-                }
-                else{
-                    echo "Failed";
+                    header('Location: ./traders.php');
                 }
             }
         }
