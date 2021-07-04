@@ -28,8 +28,16 @@
         <h2 class="container-title">
             New Trader Requests
         </h2>
+ 
 
         <div class="traders">
+            <?php
+                if(isset($_SESSION['traderVerificationSuccess'])){
+                    echo "<p class='success-message'>$_SESSION[traderVerificationSuccess]</p>";
+                    unset($_SESSION['traderVerificationSuccess']);
+                }
+
+            ?>
             <?php
             
                 $tradersQuery = "

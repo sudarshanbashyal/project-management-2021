@@ -31,14 +31,19 @@
                 // send email to trader
                 $to = $traderEmail;
                 $subject = "Account Verification";
-                $message = "Hi $traderName,\r\n 
-                Your trader account has been successfully verified! You can now login to your account.
+                $message = "Hi $traderName, <br>
+                Your trader account has been successfully verified! You can now login to your account. <br>
+                You can use the following credentails to login to your database: <br>
+                Email: $traderEmail <br>
+                Password: trader123 <br>
+                Plesae change your password after your initial login for security measures. <br>
                 Regards:Hamro-Mart";
                 $headers = "From: HamroMart \r\n";
                 $headers .= "MIME-Version: 1.0"."\r\n";
                 $headers .= "Content-type:text/html;charset=UTF-8"."\r\n";
 
                 if (mail($to, $subject, $message, $headers)) {
+                    $_SESSION['traderVerificationSuccess']='Trader Verified Successfully!';
                     header('Location: ./traders.php');
                 }
             }

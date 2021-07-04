@@ -25,7 +25,14 @@
             <a href="traderLogin.php" class="login-page-link">Trader Login</a> -->
 
             <form method="POST" action="./login.php">
+                <?php
+                    if(isset($_SESSION['successful_update'])){
+                        echo "<p style='color:#428035; font-weight:bold; margin-bottom:20px' class='successful-update'>$_SESSION[successful_update]</p>";
+                        unset($_SESSION['successful_update']);
+                    }
+                ?> 
                 <h2>Login to your account</h2>
+                 
                 <input type="text" name="email" id="" placeholder="Email Address">
                 <input type="password" name="password" id="" placeholder="Password">
 
@@ -35,10 +42,7 @@
                         echo "<p class='login-error'>$_SESSION[loginError]</p>";
                         unset($_SESSION['loginError']);
                     }
-                    if(isset($_SESSION['successful_update'])){
-                        echo "<p class='successful_update'>$_SESSION[successful_update]</p>";
-                        unset($_SESSION['successful_update']);
-                    }
+                    
                     if(isset($_SESSION['register_error'])){
                         echo "<p class='login-error'>$_SESSION[register_error]</p>";
                         unset($_SESSION['register_error']);

@@ -155,13 +155,17 @@
                     elseif(sizeof($_SESSION['currentCart'])>=20){
                         echo "<h3 class='out-of-stock'>Your cart is already at a limit of 20 items.</h3>";
                     }
+                    elseif($currentProduct['DISABLED']=='TRUE'){
+                        echo "<h3 class='out-of-stock'>This product has been disabled by the admin.</h3>";
+                    }
                     else{
                         echo "<div class='cart-functionalities'>";
                         echo "<form action='./cartForm.php?productId=$productId' method='POST'>";
                         echo "<select name='productQuantity'>";
                         $maxCartQuantity = $currentProduct['STOCK']<$currentProduct['MAX_ORDER']?$currentProduct['STOCK']:$currentProduct['MAX_ORDER'];
+                        $minCartQuantity = $currentProduct['STOCK']<$currentProduct['MIN_ORDER']?$currentProduct['STOCK']:$currentProduct['MIN_ORDER'];
 
-                        for($i=$currentProduct['MIN_ORDER']; $i<=$maxCartQuantity; $i++){
+                        for($minCartQuantity; $minCartQuantity<=$maxCartQuantity; $minCartQuantity++){
                             $selectedQuantity = ($i==$currentProduct['MIN_ORDER'])?'selected':'';
                             echo "<option value='$i' $selectedQuantity>$i</option>";
                         }
@@ -339,7 +343,7 @@
                         INNER JOIN HAMROMART.shop s ON p.shop_id=s.shop_id
                         INNER JOIN HAMROMART.users u ON u.user_id=s.user_id
                         INNER JOIN HAMROMART.trader_category t ON t.category_id=u.category_id
-                        WHERE t.category_id=$productCategoryId AND p.product_id<>$productId
+                        WHERE t.category_id=$productCategoryId AND p.product_id<>$productId AND p.stock>0 AND upper(p.disabled)='FALSE'
                     ";
 
                     $recommendationQueryResult = oci_parse($connection, $recommendationQuery);

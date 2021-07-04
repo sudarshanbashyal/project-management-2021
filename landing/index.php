@@ -248,7 +248,7 @@
                     INNER JOIN HAMROMART.users u ON u.user_id=s.user_id
                     INNER JOIN HAMROMART.trader_category t ON t.category_id=u.category_id
                     INNER JOIN HAMROMART.rating r ON r.product_id=p.product_id
-                    WHERE p.stock>0
+                    WHERE p.stock>0 AND upper(p.disabled)='FALSE'
                     GROUP BY p.product_id, p.product_name, p.product_image, p.product_price
                     HAVING AVG(r.rating_star)>3
                 ";

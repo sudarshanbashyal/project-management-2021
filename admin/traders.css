@@ -164,6 +164,12 @@ footer svg {
   margin-top: 100px;
 }
 
+.traders-container .success-message {
+  color: #428035;
+  font-weight: bold;
+  margin: 10px 0px;
+}
+
 .traders-container .traders {
   margin-top: 50px;
   padding: 2rem;

@@ -207,12 +207,6 @@ footer svg {
   font-weight: bold;
 }
 
-.successful_update {
-  color: #54EA23;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
 .login-container .form-container form .submit-btn {
   padding: 0.8rem 0rem;
   background-color: #f7b61b;
