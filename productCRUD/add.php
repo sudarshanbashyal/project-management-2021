@@ -73,7 +73,7 @@ if($connection){
         }
 
         if($_POST['maxOrder']!==null && $_POST['maxOrder']!=""){
-            $discount=htmlentities($_POST['maxOrder']);
+            $maxOrder=htmlentities($_POST['maxOrder']);
         }
         else{
             $maxOrder = 20;
