@@ -26,30 +26,40 @@ if($connection){
             }
 
             if($numberOfShops>=10){
-                echo "yes no more shops";
                 $_SESSION['shopLimitError']="You have reached the maximum limit of 10 shops.";
                 header('Location: ./addShop.php');
             }
             else{
-                $sql="INSERT INTO HAMROMART.shop(shop_name,user_id) VALUES ('$shop_name',$user_id)";
-                $query=oci_parse($connection,$sql);
-                oci_execute($query);
+                $traderEmail='';
+                $traderEmailQuery = "SELECT user_email FROM HAMROMART.users WHERE user_id=$_SESSION[userId]";
+                $traderEmailQueryResult = oci_parse($connection, $traderEmailQuery);
+                oci_execute($traderEmailQueryResult);
 
-                if($query){
-                	$_SESSION['status']="success";
-                	header('location:'.$_SESSION['url']);
-                	unset($_SESSION['url']);
-                	exit();
-                }else{
-                	$_SESSION['status']="fail";
-                	header('location:'.$_SESSION['url']);
-                	unset($_SESSION['url']);
-                	exit();
+                if($traderEmailQueryResult){
+                    while($user = oci_fetch_assoc($traderEmailQueryResult)){
+                        $traderEmail=$user['USER_EMAIL'];
+                    }
+
+                    $sql="INSERT INTO HAMROMART.shop(shop_name,user_id,permissions) VALUES ('$shop_name',$user_id,'$traderEmail')";
+                    $query=oci_parse($connection,$sql);
+                    oci_execute($query);
+
+                    if($query){
+                        $_SESSION['status']="success";
+                        header('location:'.$_SESSION['url']);
+                        unset($_SESSION['url']);
+                        exit();
+                    }else{
+                        $_SESSION['status']="fail";
+                        header('location:'.$_SESSION['url']);
+                        unset($_SESSION['url']);
+                        exit();
+                    }
                 }
+                
             }
         }
 
-		
 	}
 }
 ?>

@@ -25,6 +25,7 @@
                 echo "<li><a href='../traderStats/traderStats.php'>My Stats</a></li>";
                 echo "<li><a href='../productCRUD/addProduct.php'>Add Product</a></li>";
                 echo "<li><a href='../shopCRUD/addShop.php'>Add Shop</a></li>";
+                echo "<li><a href='http://localhost:8080/apex/f?p=102:LOGIN_DESKTOP:6296620210470:::::' target='blank'>Database Reports</a></li>";
                 echo "<li><a href='../login/logout.php'>Log Out</a></li>";
                 echo "</ul>";
 
@@ -37,6 +38,7 @@
                 echo "<ul class='nav-links nav-links-full'>";
                 echo "<li><a href='../admin/traders.php'>Trader Requests</a></li>";
                 echo "<li><a href='../admin/products.php'>All Products</a></li>";
+                echo "<li><a href='http://localhost:8080/apex/f?p=102:LOGIN_DESKTOP:6296620210470:::::' target='blank'>Database Reports</a></li>";
                 echo "<li><a href='../login/logout.php'>Log Out</a></li>";
                 echo "</ul>";
             }

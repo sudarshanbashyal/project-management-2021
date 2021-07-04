@@ -25,7 +25,7 @@
             if($traderEmailQueryResult){
                 while($trader = oci_fetch_assoc($traderEmailQueryResult)){
                     $traderEmail = $trader['USER_EMAIL'];
-                    $traderEmail = $trader['USER_NAME'];
+                    $traderName = $trader['USER_NAME'];
                 }
 
                 // send email to trader
