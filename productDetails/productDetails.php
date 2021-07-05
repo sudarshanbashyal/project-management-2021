@@ -166,8 +166,8 @@
                         $minCartQuantity = $currentProduct['STOCK']<$currentProduct['MIN_ORDER']?$currentProduct['STOCK']:$currentProduct['MIN_ORDER'];
 
                         for($minCartQuantity; $minCartQuantity<=$maxCartQuantity; $minCartQuantity++){
-                            $selectedQuantity = ($i==$currentProduct['MIN_ORDER'])?'selected':'';
-                            echo "<option value='$i' $selectedQuantity>$i</option>";
+                            $selectedQuantity = ($minCartQuantity==$currentProduct['MIN_ORDER'])?'selected':'';
+                            echo "<option value='$minCartQuantity' $selectedQuantity>$minCartQuantity</option>";
                         }
                         echo "</select>";
                         echo "<input type='submit' name='submit' value='Add to Cart'>";
@@ -381,7 +381,7 @@
                                 while($rating=oci_fetch_assoc($ratingQueryResult)){
 
                                     // adding to rating
-                                    $productRating=(int)$rating['RATING_STAR'];
+                                    $productRating+=(int)$rating['RATING_STAR'];
                                     $ratedUsers++;
                                 }
 

@@ -1,6 +1,6 @@
 <?php
     $connection = oci_connect('system', '12345', '//localhost/xe');
-    
+    error_reporting(0);
     session_start();
 
     if(isset($_SESSION['userId'])&&(isset($_SESSION['userRole'])&&$_SESSION['userRole']=='customer')){
