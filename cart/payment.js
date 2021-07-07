@@ -1,4 +1,7 @@
-const value = document.querySelector('.total-price').innerHTML.split(' ')[1];
+const value = +document
+    .querySelector('.product-checkout-sum')
+    .innerHTML.split(' ')[3];
+console.log(value);
 
 paypal
     .Buttons({
@@ -16,12 +19,11 @@ paypal
         onApprove: function (data, actions) {
             return actions.order.capture().then(function (details) {
                 const collectionDay =
-                    document.querySelector('.collection-day').value;
+                    document.querySelector('#collection-day').innerHTML;
                 const collectionTime =
-                    document.querySelector('.collection-time').value;
+                    document.querySelector('#collection-time').innerHTML;
                 const discountCoupon =
-                    document.querySelector('.discount-input').value || '';
-                console.log(collectionTime, collectionDay, discountCoupon);
+                    document.querySelector('#discount-coupon').innerHTML || '';
 
                 window.location.replace(
                     `./orderProducts.php?collection_day=${collectionDay}&collection_time=${collectionTime}&discount_coupon=${discountCoupon}`

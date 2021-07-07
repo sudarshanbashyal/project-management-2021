@@ -217,4 +217,11 @@ footer svg {
 .register-container .form-container form .login-link span {
   font-weight: bold;
 }
+
+.error {
+  background-color: #f7351b;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 7px;
+}
 /*# sourceMappingURL=register.css.map */

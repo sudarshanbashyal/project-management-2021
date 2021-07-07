@@ -1,7 +1,7 @@
 <?php
                 if (count($errors) > 0) :
  ?>
-    <div class= "error">
+    <div class= "error" style="background-color: #e4382f; color: white; padding: 0.5rem 1rem; border-radius: 7px; margin-bottom:10px">
         <?php 
         foreach ($errors as $error) : 
         ?>

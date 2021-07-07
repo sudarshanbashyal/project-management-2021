@@ -99,10 +99,10 @@ if (isset($_POST['signup'])) {
         $headers .= "MIME-Version: 1.0"."\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8"."\r\n";
         if (mail($to, $subject, $message, $headers)) {
-            $_SESSION['emailSent'] = '<h3>An email has been sent out to '.$username.' Please check your email.</h3>';
+            $_SESSION['emailSent'] = "<p style='padding: 0.5rem 1rem; margin-bottom:10px; color:white; background-color:#428035; border-radius:7px'>An email has been sent out to $username Please check your email.</p>";
         }
         else{
-          $_SESSION['emailFail'] = '<h3>Sorry, Error while sending mail</h3>';
+          $_SESSION['emailFail'] = '<p>Sorry, Error while sending mail</p>';
         }
     }
 

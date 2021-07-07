@@ -150,7 +150,7 @@
                 	<input type="number" placeholder="Maximum order" name="maxOrder" max="20">
                 </div>
 
-                <input class="add-button" type="submit" value="Add New Prouct" name="product_submit">           
+                <input class="add-button" type="submit" value="Add New Product" name="product_submit">           
             
             </form>
             <?php

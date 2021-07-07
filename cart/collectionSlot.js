@@ -46,7 +46,7 @@ window.addEventListener('load', () => {
             (collectionDay.value - currentDay == 1 &&
                 currentTime > collectionSlots[2].maxTime)
         ) {
-            dayOption.setAttribute('value', collectionDay.name);
+            dayOption.setAttribute('value', `Following ${collectionDay.name}`);
             dayOption.textContent = collectionDay.name + ' (Next week)';
             collectionDaySelect.appendChild(dayOption);
         } else {
@@ -66,8 +66,13 @@ function setCollectionTimes() {
     collectionTimeSelect.innerHTML = '';
     let selectedDay;
 
+    const selectedDayName =
+        collectionDaySelect.value.length > 5
+            ? collectionDaySelect.value.split(' ')[1]
+            : collectionDaySelect.value;
+
     for (day of collectionDays) {
-        if (day.name === collectionDaySelect.value) {
+        if (day.name === selectedDayName) {
             selectedDay = day.value;
             break;
         }

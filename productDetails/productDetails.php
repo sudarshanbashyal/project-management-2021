@@ -166,7 +166,7 @@
                         $minCartQuantity = $currentProduct['STOCK']<$currentProduct['MIN_ORDER']?$currentProduct['STOCK']:$currentProduct['MIN_ORDER'];
 
                         for($minCartQuantity; $minCartQuantity<=$maxCartQuantity; $minCartQuantity++){
-                            $selectedQuantity = ($minCartQuantity==$currentProduct['MIN_ORDER'])?'selected':'';
+                            // $selectedQuantity = ($minCartQuantity==$currentProduct['MIN_ORDER'])?'selected':'';
                             echo "<option value='$minCartQuantity' $selectedQuantity>$minCartQuantity</option>";
                         }
                         echo "</select>";

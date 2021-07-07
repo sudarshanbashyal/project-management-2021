@@ -60,3 +60,10 @@
         }
     }
 }
+
+.error {
+    background-color: $red-primary;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 7px;
+}

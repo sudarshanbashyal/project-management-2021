@@ -204,6 +204,68 @@
     }
 }
 
+.confirm-checkout {
+    margin: auto;
+    width: 700px;
+    margin-top: 100px !important;
+    min-height: 30vh;
+
+    .products {
+        margin-top: 50px;
+        border: 1px solid $gray-dark;
+        border-radius: 7px;
+        padding: 1rem 2rem;
+
+        .order-collection-details {
+            font-weight: bold;
+        }
+
+        .product {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+
+            span {
+                font-size: 1.1rem;
+                font-weight: bold;
+            }
+        }
+
+        .product-checkout-sum {
+            margin-top: 15px;
+            color: $green-primary;
+        }
+
+        .checkout-options {
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            div,
+            a {
+                flex-basis: 48%;
+            }
+
+            a {
+                font-weight: bold;
+                color: black;
+                text-decoration: none;
+                padding: 0.7rem 0rem;
+                border: 1px solid black;
+                border-radius: 7px;
+                text-align: center;
+            }
+        }
+    }
+
+    hr {
+        border: 1px solid $gray-dark;
+        margin: 20px 0px;
+    }
+}
+
 .empty-container {
     width: 80%;
     margin: auto;

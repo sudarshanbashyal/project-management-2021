@@ -112,12 +112,18 @@
                         ";
 
                         $maxCartQuantity = $product['STOCK']<$product['MAX_ORDER']?$product['STOCK']:$product['MAX_ORDER'];
+                        $minCartQuantity = $product['STOCK']<$product['MIN_ORDER']?$product['STOCK']:$product['MIN_ORDER'];
 
                         echo "<select name='quantities[$product[PRODUCT_ID]][]'>";
-                        for($i=$product['MIN_ORDER']; $i<$maxCartQuantity; $i++){
-                            $selectedQuantity = $i==$product['PRODUCT_QUANTITY']?'selected':'';
-                            echo "<option value='$i' $selectedQuantity>$i</option>";
+                        // for($i=$product['MIN_ORDER']; $i<$maxCartQuantity; $i++){
+                        //     $selectedQuantity = $i==$product['PRODUCT_QUANTITY']?'selected':'';
+                        //     echo "<option value='$i' $selectedQuantity>$i</option>";
+                        // }
+                        for($minCartQuantity; $minCartQuantity<=$maxCartQuantity; $minCartQuantity++){
+                            $selectedQuantity = $minCartQuantity==$product['PRODUCT_QUANTITY']?'selected':'';
+                            echo "<option value='$minCartQuantity' $selectedQuantity>$minCartQuantity</option>";
                         }
+                        
                         echo "</select>";
 
                         echo "
@@ -173,8 +179,9 @@
                 ?>
             
             </div>
-            <form method="POST" action="./orderProducts.php">
+            <form method="POST" action="./verifyOrder.php?<?php echo 'checkout='.$checkoutSum?>">
                 <input class="discount-input" type="text" placeholder="Discount Coupon" name="discount_coupon">
+
                 <label for="">Select a collection day:</label>
                 <select class="collection-day" name="collection_day">
                     <!-- <option value="" selected disabled>Select a Collection Day</option> -->
@@ -188,11 +195,13 @@
 
                     if(isset($_SESSION['orderError'])){
                         echo "<h4 class='order-error'>$_SESSION[orderError]</h4>";
+                        unset($_SESSION['orderError']);
                     }
 
                     if(isset($_SESSION['userId'])){
-                        echo "<div id='paypal-payment-button'>
-                        </div>";
+                        // echo "<div id='paypal-payment-button'>
+                        // </div>";
+                        echo "<input class='checkout-btn' type='submit' name='submit' value='Proceed to Checkout'>";
                     }
                     else{
                         echo "
@@ -217,7 +226,7 @@
     
     ?>
     
-    <script src="https://www.paypal.com/sdk/js?client-id=AQWx7igehoamlx46L2d3sNCRVj8UpaJCHfebe-SwkMhSyK-QyAmLSHZYnd7DdwG_Nn6HDzBSe9ifzijS&disable-funding=credit,card"></script>
+    <!-- <script src="https://www.paypal.com/sdk/js?client-id=AQWx7igehoamlx46L2d3sNCRVj8UpaJCHfebe-SwkMhSyK-QyAmLSHZYnd7DdwG_Nn6HDzBSe9ifzijS&disable-funding=credit,card"></script> -->
     <script src='./payment.js'></script>
 
     <script src="../navbar/navbar.js"></script>
