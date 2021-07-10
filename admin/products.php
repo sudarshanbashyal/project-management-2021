@@ -37,7 +37,7 @@
 
         <div class="products">
             <?php
-
+                $noOfProducts = 0;
                 $productName = isset($_GET['product_search'])?$_GET['product_search']:'';
             
                 $productsQuery = "
@@ -51,6 +51,7 @@
 
                 if($productsQueryResult){
                     while($product = oci_fetch_assoc($productsQueryResult)){
+                        $noOfProducts++;
                         echo "<div class='product'>";
 
                         echo "<span class='product-id'>$product[PRODUCT_ID]</span>";
@@ -81,6 +82,10 @@
                         }
 
                         echo "</div>";
+                    }
+
+                    if($noOfProducts==0){
+                        echo "<h3>No Products Found.</h3>";
                     }
                 }
             

@@ -103,7 +103,7 @@ if($connection){
                 if($productQuery){
 
                     $_SESSION['status']="successfull";
-                    header('location:'.$_SESSION['url']);
+                    // header('location:'.$_SESSION['url']);
                     unset($_SESSION['url']);
                     exit();
                     
