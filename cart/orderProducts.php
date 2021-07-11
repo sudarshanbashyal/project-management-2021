@@ -141,8 +141,36 @@
             oci_execute($deleteCartQueryResult);
 
             if($deleteCartQueryResult){
-                // redirect to order
-                header('Location: ../orderDetails/orderDetails.php');
+                // send email
+                $userEmail='';
+                $userName='';
+                $userEmailQuery = "SELECT user_name, user_email FROM HAMROMART.users WHERE user_id=$_SESSION[userId]";
+                $userEmailQueryResult = oci_parse($connection, $userEmailQuery);
+                oci_execute($userEmailQueryResult);
+
+                if($userEmailQueryResult){
+                    while($user = oci_fetch_assoc($userEmailQueryResult)){
+                        $userEmail = $user['USER_EMAIL'];
+                        $userName = $user['USER_NAME'];
+                    }
+
+                    $to = $userEmail;
+                    $subject = "Order Confirmed";
+                    $message = "Hi $userName, <br>
+                    Your Order for $collectionTime, $collectionDay has been confirmed. <br>
+                    Thank you for shopping with us.<br><br>
+                    Regards: Hamro Mart";
+                    $headers = "From: hloview@gmail.com \r\n";
+                    $headers .= "MIME-Version: 1.0"."\r\n";
+                    $headers .= "Content-type:text/html;charset=UTF-8"."\r\n";
+                    if (mail($to, $subject, $message, $headers)) {
+                        header('Location: ../orderDetails/orderDetails.php');
+                    }
+                    else{
+                        echo "Order Failed";
+                    }
+                }
+
             }
    
         }

@@ -17,7 +17,9 @@ CREATE TABLE users(
 CREATE TABLE shop(
     shop_id INT PRIMARY KEY,
     shop_name VARCHAR(50) NOT NULL,
-    user_id INT REFERENCES users(user_id)
+    user_id INT REFERENCES users(user_id),
+    permissions VARCHAR(100) NOT NULL,
+    aminlook VARCHAR(10) DEFAULT 'admin'
 );
 
 CREATE TABLE product(
@@ -32,7 +34,9 @@ CREATE TABLE product(
     product_image VARCHAR(200) NOT NULL,
     disabled VARCHAR(5) DEFAULT 'FALSE',
     discount FLOAT DEFAULT 0,
-    product_price FLOAT NOT NULL
+    product_price FLOAT NOT NULL,
+    permissions VARCHAR(100) NOT NULL,
+    aminlook VARCHAR(10) DEFAULT 'admin'
 );
 
 ALTER TABLE product ADD CONSTRAINT product_shop_fk FOREIGN KEY (shop_id) REFERENCES shop(shop_id) ON DELETE CASCADE;
@@ -91,7 +95,7 @@ CREATE TABLE order_details(
     product_quantity INT NOT NULL
 );
 
-ALTER TABLE product ADD CONSTRAINT order_product_fk FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE;
+ALTER TABLE order_details ADD CONSTRAINT order_product_fk FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE;
 
 
 -- ALTER TABLE product DROP CONSTRAINT SYS_C0011479;
