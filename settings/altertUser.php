@@ -25,6 +25,9 @@
             if (mail($to, $subject, $message, $headers)) {
                 header('Location: ./settings.php');
             }
+            else{
+                header('Location: ./settings.php');
+            }
         }
 
     }
