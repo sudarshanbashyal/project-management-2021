@@ -171,7 +171,7 @@ if (!empty($phonenumber)) {$_SESSION['phonenumberData'] = $phonenumber;}
                
                 <input class="submit-btn" name="signup" type="submit" value="Request a Trader Account">
 
-                <a href="../login/traderLogin.php" class="login-link">Already have an account? <span>Log In Here</span></a>
+                <a href="../login/customerLogin.php" class="login-link">Already have an account? <span>Log In Here</span></a>
             
             </form>
         

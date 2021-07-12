@@ -228,6 +228,22 @@ footer svg {
   color: white;
 }
 
+@media screen and (max-width: 720px) {
+  .details-container .product {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .details-container .product .image-container,
+  .details-container .product .product-details {
+    width: 100%;
+  }
+  .details-container .product .image-container {
+    margin-bottom: 30px;
+  }
+}
+
 @media screen and (max-width: 1250px) {
   .details-container {
     width: 70%;

@@ -443,8 +443,11 @@ footer svg {
 
 .confirm-checkout .products .checkout-options div,
 .confirm-checkout .products .checkout-options a {
-  -ms-flex-preferred-size: 48%;
-      flex-basis: 48%;
+  width: 48%;
+}
+
+.confirm-checkout .products .checkout-options div {
+  border-radius: 7px;
 }
 
 .confirm-checkout .products .checkout-options a {
@@ -460,6 +463,28 @@ footer svg {
 .confirm-checkout hr {
   border: 1px solid #c9c9c5;
   margin: 20px 0px;
+}
+
+@media screen and (max-width: 1000px) {
+  .confirm-checkout {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .confirm-checkout .products .checkout-options {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .confirm-checkout .products .checkout-options div,
+  .confirm-checkout .products .checkout-options a {
+    width: 100%;
+  }
+  .confirm-checkout .products .checkout-options a {
+    margin-bottom: 20px;
+  }
 }
 
 .empty-container {

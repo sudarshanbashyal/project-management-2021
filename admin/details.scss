@@ -61,6 +61,19 @@
                 color: white;
             }
         }
+
+        @media screen and (max-width: $small) {
+            flex-direction: column;
+
+            .image-container,
+            .product-details {
+                width: 100%;
+            }
+
+            .image-container {
+                margin-bottom: 30px;
+            }
+        }
     }
 
     @media screen and (max-width: $medium-large) {

@@ -218,6 +218,12 @@ footer svg {
   font-weight: bold;
 }
 
+@media screen and (max-width: 1000px) {
+  .register-container .form-container {
+    width: 90%;
+  }
+}
+
 .error {
   background-color: #f7351b;
   color: white;
